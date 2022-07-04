@@ -1,0 +1,33 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+html, body{
+    height: 100%;
+}
+
+body{
+    background-color: midnightblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-board{
+    width: 80vmin;
+    height: 80vmin;
+    display: grid;
+    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+    gap: 1%;   
+}
+
+.cell{
+    background-color: cornflowerblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
