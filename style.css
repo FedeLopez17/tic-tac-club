@@ -31,3 +31,16 @@ body{
     cursor: pointer;
 }
 
+.cell:hover{
+    border: solid 2px white;
+}
+
+@media (orientation: portrait){
+    .game-board{
+        margin-top: 10vmax;
+    }
+    body{
+        align-items: flex-start; 
+    };
+}
+
