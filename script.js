@@ -48,14 +48,12 @@ const gameBoard = (()=>{
     }
 
     function _checkIfThreeInLine(){     
-        const THREE_IN_LINE = {rows: [[0, 1, 2], [3, 4, 5], [6, 7, 8]], columns: [[0, 3, 6], [1, 4, 7], [2, 5, 8]], diagonals: [[0, 4, 8], [2, 4, 6]]};
-        for (let direction in THREE_IN_LINE){
-            for (let set of THREE_IN_LINE[direction]){
-                let firstCellHasAMark = _gameBoard[set[0]] === "X" || _gameBoard[set[0]] === "O";
-                let allCellsHaveTheSameMark = _gameBoard[set[0]] === _gameBoard[set[1]] && _gameBoard[set[0]] === _gameBoard[set[2]];
-                someoneWon = firstCellHasAMark && allCellsHaveTheSameMark;
-                if (someoneWon) return true;
-            }
+        const WINNING_COMBINATIONS = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+        for (let combination of WINNING_COMBINATIONS){
+            let firstCellHasAMark = ["X", "O"].includes(_gameBoard[combination[0]]);
+            let allCellsHaveTheSameMark = _gameBoard[combination[0]] === _gameBoard[combination[1]] && _gameBoard[combination[0]] === _gameBoard[combination[2]];
+            someoneWon = firstCellHasAMark && allCellsHaveTheSameMark;
+            if (someoneWon) return true;  
         }
         return false;
     }
