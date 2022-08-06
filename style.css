@@ -1,6 +1,8 @@
 *{
     margin: 0;
     box-sizing: border-box;
+    outline: solid black 1px;
+    /* color: white; */
 }
 
 
@@ -21,6 +23,8 @@ body{
     display: grid;
     grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
     gap: 1%;   
+    font-family: sans-serif;
+    font-size: 100px;
 }
 
 .cell{
@@ -38,9 +42,250 @@ body{
 @media (orientation: portrait){
     .game-board{
         margin-top: 10vmax;
+        align-self: flex-start;
     }
-    body{
-        align-items: flex-start; 
-    };
 }
 
+.volume-toggle, .music-toggle{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    opacity: 50%;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.music-toggle{
+    right: 70px;
+}
+
+.volume-toggle:hover, .music-toggle:hover{
+    opacity: 100%;
+}
+
+.volume-toggle.fa-volume-high, .music-toggle.music-on{
+    opacity: 100%;
+}
+
+.title{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: red;
+    align-self: flex-start;
+    margin-top: 10vmin;
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+}
+
+
+.initial-settings{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.initial-settings > .top{
+    flex: 1;
+    display: flex;
+}
+
+.top > .left, .top > .right{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    color: white;
+}
+
+.initial-settings > .bottom{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5% 0;
+
+}
+
+.versus{
+    position: absolute;
+    font-size: 4rem;
+}
+
+.versus.v{
+    right: 0;
+}
+
+.versus.s{
+    left: 0;
+}
+
+.category-selector{
+    display: flex;
+    height: 50%;
+    width: 100%;
+    margin-top: 100px; /*TEMPORAL */
+}
+
+.category-selector > *{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category-title{
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.national-teams{
+    background-image: url(./images/cups/world-cup.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.clubs{
+    background-image: url(./images/cups/club-world-cup.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.continent-selector, .national-teams-selector, .leagues-selector{
+    display: grid;
+    width: 50%;
+    height: 50%;
+    margin: auto 0;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    overflow: scroll;
+}
+
+.select-team{
+    width: 50%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto 0;
+}
+
+.continent, .national-team, .league{
+    height: 150px;
+    margin: 5%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/*Coin flip FALTA LA PARTE DE JS NOMAS*/
+/* https://rezabaharvand.dev/blog/coin-flip-javascript */
+
+.coin-flip-screen{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.coin-side-message-head, .coin-side-message-tail{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.coin-side-message-head:after{
+    display: block;
+    content: "";
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("../images/coin/head.png");
+}
+
+.coin-side-message-tail:after{
+    display: block;
+    content: "";
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("../images/coin/tail.png");
+}
+
+.coin-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+  
+#coin {
+    height: 120px;
+    width: 120px;
+    position: relative;
+    margin: 0;
+    transform-style: preserve-3d;
+}
+  
+#coin img {
+    width: 120px;
+}
+  
+.tail {
+    transform: rotateX(180deg);
+}
+
+.head, .tail {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+@keyframes flip-head {
+    0% {transform: rotateX(0) scale(1)}
+    50% {transform: rotateX(540deg) scale(2)}
+    100% {transform: rotateX(1080deg) scale(1)}
+}
+  
+@keyframes flip-tail {
+    0% {transform: rotateX(0) scale(1)}
+    50% {transform: rotateX(630deg) scale(2)}
+    100% {transform: rotateX(1260deg) scale(1)}
+}
+
+.first-turn-message-container{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.winning-combination{
+    background-color: red;
+}
+
+@keyframes fade-in-and-out {
+    0% {opacity: 0}
+    15% {opacity: 1}
+    /* 40% {}
+    60% {} */
+    85% {opacity: 1}
+    100% {opacity: 0}
+}
+
+.song-title-container{
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    padding: 16px;
+    background-color: rgba(0, 0, 0, 0.25);
+}
