@@ -24,6 +24,7 @@ const gameBoard = (()=>{
     function _handleClick(e) {
         if(game.botsTurn()){
             console.log("BOTS TURN");
+            if(game.soundActivated()){sounds.errorOne.play()}
             return;
         };
         const cellNumber = parseInt(e.target.getAttribute('data-cell'));
@@ -100,7 +101,7 @@ const gameBoard = (()=>{
         let full = _checkIfFull(), threeInLine = _checkIfThreeInLine();
         let goalOrFull = full || threeInLine;
         if(threeInLine){if(game.soundActivated()) sounds.goal.play()};
-        if(full){if(game.soundActivated()) sounds.errorOne.play()};
+        if(full){if(game.soundActivated()) sounds.tie.play()};
         if(goalOrFull){setTimeout(reset, 1000)};
         return (threeInLine) ? 2 : (full) ? 1 : false;
     }
@@ -179,7 +180,7 @@ const game = (()=>{
     let currentTimeMinutes = 0;
     let currentTimeSeconds = 0;
     let currentTime;
-    const MAX_TIME = 60;
+    const MAX_TIME = 40;
 
 
     function startTime(){
@@ -247,7 +248,6 @@ const game = (()=>{
     function _addGoal(player){
         (player === _playerOne) ? _playerOne.score += 1 : _playerTwo.score += 1;
         ui.updateScore();
-        ongoingGoalCelebration = true;
     }
 
     function resetScores(){
@@ -276,6 +276,8 @@ const game = (()=>{
     function _botPlayTurnEasy(){
         console.log("BOT PLAYS TURN EASY:");
         const emptyCells = gameBoard.getEmptyCells();
+        console.log("EMPTY CELLS:");
+        console.log(emptyCells);
         const randomlyChosenCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
         playTurn(randomlyChosenCell);
     }
@@ -295,6 +297,8 @@ const game = (()=>{
     function _botPlayTurnUnbeatable(){
         console.log("BOT PLAYS TURN UNBEATABLE:");
         const board = gameBoard.get();
+        console.log("BOARD:");
+        console.log(board);
         for (let cell = 0; cell < 9; cell++){
             if(board[cell] === undefined){
                 board[cell] = "";
@@ -313,6 +317,8 @@ const game = (()=>{
                 }
             }
         }
+        console.log("BEST MOVE:");
+        console.log(bestMove);
         playTurn(bestMove);
 
         function minimax(board, depth, isMaximizing){
@@ -405,7 +411,6 @@ const game = (()=>{
                 break;
             case "UNBEATABLE":
                 _botPlayTurnUnbeatable();
-                break;
         }
     }
 
@@ -428,9 +433,9 @@ const game = (()=>{
             else{
                 console.log(`Goal! ${_currentPlayer.name} scored!`);
                 _addGoal(_currentPlayer);
-                ongoingCelebration = true;
-                setTimeout(()=>{ongoingCelebration = false}, 1000)
             }
+            ongoingCelebration = true;
+            setTimeout(()=>{ongoingCelebration = false}, 1000);
         }
         if(successfulTurn){
             _switchTurns();
@@ -1414,6 +1419,7 @@ const sounds = (()=>{
     const coinToss = new Audio("./audio/coin-toss.mp3");
     const goal = new Audio("./audio/goal.mp3");
     const gameOver = new Audio("./audio/game-over.mp3");
+    const tie = new Audio("./audio/tie.mp3");
     const _playlist = ["Ryan James Carr - Drums Make Me Drool", "John Runefelt - Eu Quero Ver o Oceano", "El Flaco Collective - Kid on the Move", "John Runefelt - Getting Frisky", "Margareta - Stegosaurus"];
     let _currentSong = Math.floor(Math.random() * _playlist.length);
     const music = document.createElement("audio");
@@ -1424,5 +1430,5 @@ const sounds = (()=>{
         music.play();
         displaySong();
     });
-    return {selectionOne, selectionTwo, errorOne, coinToss, goal, gameOver, music, displaySong};
+    return {selectionOne, selectionTwo, errorOne, coinToss, goal, tie, gameOver, music, displaySong};
 })();
