@@ -2,6 +2,7 @@
 // pantalla de carga
 // el boton de randomize son los dados con el texto randomize que sale en hover. en celular esta desde el principio
 // transiciones entre las pantallas con animaciones y sonido capaz algo como un spray de grafiti
+// comentarios si es necesario.
 
 const gameBoard = (()=>{
     const _gameBoard = [];
@@ -424,10 +425,9 @@ const game = (()=>{
             _switchTurns();
         }
     }
-    return {playTurn, botPlayTurn, toggleSound, updateTeam, updateName, getPLayerOne, getPLayerTwo, setFirstTurn, startTime, 
-            resetTime, resetScores, resetTeams, soundActivated, setOpponent, setDifficulty, getDifficulty, botsTurn};
+    return {playTurn, toggleSound, updateTeam, updateName, getPLayerOne, getPLayerTwo, setFirstTurn, startTime, 
+            resetScores, resetTeams, soundActivated, setOpponent, setDifficulty, getDifficulty, botsTurn};
 })();
-
 
 const ui = (()=>{
     const _body = document.querySelector("body");
@@ -514,7 +514,7 @@ const ui = (()=>{
 
     function _addVolumeToggle(parentElement){
         const volumeToggle = document.createElement("i");
-        volumeToggle.classList.add("volume-toggle", "fa-solid", "fa-volume-xmark", "fa-2x");
+        volumeToggle.classList.add("volume-toggle", "fa-solid", "fa-volume-xmark");
         volumeToggle.addEventListener("click", _toggleSound);
         parentElement.appendChild(volumeToggle);
     }
@@ -533,7 +533,7 @@ const ui = (()=>{
 
     function _addMusicToggle(parentElement){
         const musicToggle = document.createElement("i");
-        musicToggle.classList.add("music-toggle", "fa-solid", "fa-music", "fa-2x");
+        musicToggle.classList.add("music-toggle", "fa-solid", "fa-music");
         musicToggle.addEventListener("click", _toggleMusic);
         parentElement.appendChild(musicToggle);
     }
@@ -845,6 +845,8 @@ const ui = (()=>{
     }
 
     function _displayFirstScreen(){
+        let firstScreenContainer = document.createElement("section");
+        firstScreenContainer.classList.add("first-screen");
         const title = document.createElement("h1");
         title.innerText = "Tic Tac Club";
         title.classList.add("title");
@@ -855,7 +857,8 @@ const ui = (()=>{
         playButton.innerText = "PLAY";
         playButton.addEventListener("click", _displayInitialSetup);
         playButton.addEventListener("click", ()=> {if(game.soundActivated()) sounds.selectionOne.play()});
-        usefulFunctions.appendChildren(_body, [title, playButton]);
+        usefulFunctions.appendChildren(firstScreenContainer, [title, playButton]);
+        _body.appendChild(firstScreenContainer);
     }
 
     function _displayInitialSetup(nameOne, nameTwo){
@@ -1251,6 +1254,7 @@ const ui = (()=>{
         if(game.soundActivated()) sounds.gameOver.play();
         usefulFunctions.clearPreviousScreen();
         const resultContainer = document.createElement("section");
+        resultContainer.classList.add("game-result-container");
         const message = document.createElement("p");
         message.innerText = result;
         const selectTeam = document.createElement("i");
@@ -1272,7 +1276,7 @@ const ui = (()=>{
         _body.appendChild(resultContainer);
     }
 
-    return {_displayFirstScreen, _displayInitialSetup, _displayCategorySelector, _flipCoin, _displayScoreBoard, updateScore, updateTime, displayResult, displaySong}
+    return {_displayFirstScreen, updateScore, updateTime, displayResult, displaySong}
 })()
 
 const usefulFunctions = {

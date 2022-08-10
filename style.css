@@ -2,54 +2,26 @@
     margin: 0;
     box-sizing: border-box;
     outline: solid black 1px;
-    /* color: white; */
 }
 
-
 html, body{
-    height: 100%;
+    height: 100vh;
 }
 
 body{
-    background-color: midnightblue;
+    /* background-color: midnightblue;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
+    background-color: blue;
 }
 
-.game-board{
-    width: 80vmin;
-    height: 80vmin;
-    display: grid;
-    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
-    gap: 1%;   
-    font-family: sans-serif;
-    font-size: 100px;
-}
-
-.cell{
-    background-color: cornflowerblue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.cell:hover{
-    border: solid 2px white;
-}
-
-@media (orientation: portrait){
-    .game-board{
-        margin-top: 10vmax;
-        align-self: flex-start;
-    }
-}
-
+/* Toggle buttons */
 .volume-toggle, .music-toggle{
     position: absolute;
     top: 10px;
     right: 10px;
+    font-size: 25px;
     color: white;
     opacity: 50%;
     cursor: pointer;
@@ -57,7 +29,7 @@ body{
 }
 
 .music-toggle{
-    right: 70px;
+    right: 50px;
 }
 
 .volume-toggle:hover, .music-toggle:hover{
@@ -68,20 +40,52 @@ body{
     opacity: 100%;
 }
 
-.title{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    color: red;
-    align-self: flex-start;
-    margin-top: 10vmin;
-    width: 100%;
-    padding: 10px 0;
-    text-align: center;
+/* First screen */
+.first-screen{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    background-color: blue;
 }
 
+.first-screen > .title{
+    margin-top: 90px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: red;
+    font-size: 3rem;
+    margin-top: 140px;
+}
+
+.first-screen > button{
+    justify-self: center;
+    padding: 7.5px 20px;
+}
+
+@media (max-width: 300px){
+    .first-screen > .title{
+        font-size: 2rem;
+    }
+    .first-screen > button{
+        padding: 5.625px 15px;
+    }
+}
+
+@media (min-width: 700px){
+    .first-screen > .title{
+        font-size: 6rem;
+    }
+    .first-screen > button{
+        padding: 15px 40px;
+    }
+}
+
+/* Initial settings */
 
 .initial-settings{
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     display: flex;
     flex-direction: column;
 }
@@ -89,13 +93,15 @@ body{
 .initial-settings > .top{
     flex: 1;
     display: flex;
+    flex-direction: column;
 }
 
 .top > .left, .top > .right{
-    width: 50%;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     position: relative;
     color: white;
 }
@@ -111,21 +117,61 @@ body{
 .versus{
     position: absolute;
     font-size: 4rem;
+    z-index: 1;
+    outline: none;
 }
 
 .versus.v{
-    right: 0;
+    bottom: calc(0px - 2rem);
+    left: calc(50vw - 2rem);
 }
 
 .versus.s{
-    left: 0;
+    top: calc(0px - 2rem);
+    right: calc(50vw - 2rem);
 }
 
-.category-selector{
+/* Initial settings selectors: */
+
+.random-button{
+    font-size: 32px;
+    margin: 20px 5% -32px auto;
+}
+
+.return-button{
+    font-size: 32px;
+    margin: 0 auto 0 5%;
+}
+
+.random-button::before::before{
+    content: "Randomize";
+}
+
+div.select-team, .category-selector{
+    width: calc(100vmin - 5%);
+    height: calc(100vmin - 5%);
     display: flex;
-    height: 50%;
-    width: 100%;
-    margin-top: 100px; /*TEMPORAL */
+    justify-content: center;
+    align-items: center;
+    margin: 50px 0 20px;
+}
+
+.left > div.select-team{
+    margin-bottom: 50px;
+}
+
+.right > select, .left > .versus.v + p{
+    margin-top: 50px;
+}
+
+/* div.select-team button{
+
+} */
+
+
+.category-selector{
+    justify-content: initial;
+    align-items: initial;
 }
 
 .category-selector > *{
@@ -155,31 +201,129 @@ body{
     background-size: contain;
 }
 
-.continent-selector, .national-teams-selector, .leagues-selector{
+.continent-selector, .national-teams-selector, .leagues-selector, .clubs-selector{
     display: grid;
-    width: 50%;
-    height: 50%;
-    margin: auto 0;
+    width: calc(100vmin - 5%);
+    height: calc(100vmin - 5%);
+    margin: 0 0 20px;
     justify-content: center;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     overflow: scroll;
 }
 
-.select-team{
-    width: 50%;
-    height: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto 0;
+.continent-selector{
+    margin-top: 18px;
 }
 
-.continent, .national-team, .league{
+.continent, .national-team, .league, .club{
     height: 150px;
     margin: 5%;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+.club-chosen, .national-team-chosen{
+    width: calc(100vmin - 5%);
+    height: calc(100vmin - 5%);
+    margin: 0 0 20px;
+}
+
+/* .invalid-name{
+
+} */
+
+.invalid-team{
+    margin: 50px 0 -50px;
+}
+
+
+
+/* 
+@media (orientation: landscape) and (min-width: 1000px){
+    body{
+        background-color: red;
+    }
+
+    .initial-settings{
+    }
+    
+    .initial-settings > .top{
+        flex-direction: row;
+        height: 90%;
+    }
+    .difficulty-toggle{
+        margin-bottom: -21px;
+    }
+
+    .top > .left, .top > .right{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        color: white;
+    }
+
+    .versus{
+        position: absolute;
+        font-size: 4rem;
+        z-index: 1;
+        outline: none;
+    }
+    
+    .versus.v{
+        bottom: calc(0px - 2rem);
+        left: calc(50vw - 2rem);
+    }
+    
+    .versus.s{
+        top: calc(0px - 2rem);
+        right: calc(50vw - 2rem);
+    }
+
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.game-board{
+    width: 80vmin;
+    height: 80vmin;
+    display: grid;
+    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+    gap: 1%;   
+    font-family: sans-serif;
+    font-size: 100px;
+}
+
+.cell{
+    background-color: cornflowerblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.cell:hover{
+    border: solid 2px white;
+}
+
+@media (orientation: portrait){
+    .game-board{
+        margin-top: 10vmax;
+        align-self: flex-start;
+    }
 }
 
 /*Coin flip FALTA LA PARTE DE JS NOMAS*/
