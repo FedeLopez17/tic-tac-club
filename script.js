@@ -1181,7 +1181,11 @@ const ui = (()=>{
             if(game.soundActivated()) sounds.coinToss.play();
             const result = ["head", "tail"][Math.floor(Math.random() * 2)];
             coin.style.animation = (result === "head") ? "flip-head 1.3s forwards" : "flip-tail 1.3s forwards";
-            coin.setAttribute("data-state", "already-flipped");
+            coin.addEventListener("animationend", ()=>{
+                const flipWinner = (result === playerOneCoinSide) ? playerOneCoinSideMessage : playerTwoCoinSideMessage;
+                flipWinner.classList.add("flip-winner");
+                coin.setAttribute("data-state", "already-flipped");
+            });
             const winner = (result === playerOneCoinSide) ? playerOne.name : playerTwo.name;
             game.setFirstTurn(winner);
             setTimeout(()=>{
@@ -1193,12 +1197,12 @@ const ui = (()=>{
                 winnerMessageContainer.appendChild(winnerMessage);
                 coinFlipScreen.removeChild(coinContainer);
                 coinFlipScreen.lastChild.before(winnerMessageContainer);
-            }, 1800);
+            }, 3000);
             setTimeout(()=>{
                 usefulFunctions.clearPreviousScreen();
                 gameBoard.set();
                 _displayScoreBoard(_body);
-            }, 3500);
+            }, 2500);
         })
         coinContainer.appendChild(coin);
         coinHead = document.createElement("section");

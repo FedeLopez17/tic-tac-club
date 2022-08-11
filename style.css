@@ -9,10 +9,6 @@ html, body{
 }
 
 body{
-    /* background-color: midnightblue;
-    display: flex;
-    justify-content: center;
-    align-items: center; */
     background-color: blue;
 }
 
@@ -84,8 +80,6 @@ body{
 /* Initial settings */
 
 .initial-settings{
-    width: 100%;
-    /* height: 100%; */
     display: flex;
     flex-direction: column;
 }
@@ -110,8 +104,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 5% 0;
-
+    padding: 7% 0;
 }
 
 .versus{
@@ -143,17 +136,18 @@ body{
     margin: 0 auto 0 5%;
 }
 
-.random-button::before::before{
-    content: "Randomize";
+input[type="text"]{
+    width: min(90%, 200px);
+    text-align: center;
 }
 
 div.select-team, .category-selector{
-    width: calc(100vmin - 5%);
-    height: calc(100vmin - 5%);
+    width: 95vmin;
+    height: 95vmin;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 50px 0 20px;
+    margin: 50px 0 87px;
 }
 
 .left > div.select-team{
@@ -203,8 +197,8 @@ div.select-team, .category-selector{
 
 .continent-selector, .national-teams-selector, .leagues-selector, .clubs-selector{
     display: grid;
-    width: calc(100vmin - 5%);
-    height: calc(100vmin - 5%);
+    width: 95vmin;
+    height: 95vmin;
     margin: 0 0 20px;
     justify-content: center;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -224,33 +218,36 @@ div.select-team, .category-selector{
 }
 
 .club-chosen, .national-team-chosen{
-    width: calc(100vmin - 5%);
-    height: calc(100vmin - 5%);
+    width: 95vmin;
+    height: 95vmin;
     margin: 0 0 20px;
 }
 
-/* .invalid-name{
-
-} */
-
-.invalid-team{
-    margin: 50px 0 -50px;
+.invalid-name{
+    margin-bottom: -18px;
 }
 
+.invalid-team{
+    position: absolute;
+    bottom: 60px;
+}
 
-
-/* 
 @media (orientation: landscape) and (min-width: 1000px){
     body{
         background-color: red;
     }
 
     .initial-settings{
+        height: 100%;
     }
     
     .initial-settings > .top{
         flex-direction: row;
         height: 90%;
+    }
+    .initial-settings > .bottom{
+        padding: 0;
+        height: 15%;
     }
     .difficulty-toggle{
         margin-bottom: -21px;
@@ -258,88 +255,93 @@ div.select-team, .category-selector{
 
     .top > .left, .top > .right{
         width: 50%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-        color: white;
+        height: 100%;
     }
 
-    .versus{
-        position: absolute;
-        font-size: 4rem;
-        z-index: 1;
-        outline: none;
-    }
-    
     .versus.v{
-        bottom: calc(0px - 2rem);
-        left: calc(50vw - 2rem);
+        top: 50px;
+        right: 0;
+        bottom: initial;
+        left: initial;
     }
     
     .versus.s{
-        top: calc(0px - 2rem);
-        right: calc(50vw - 2rem);
+        top: 50px;
+        left: 0;
+        bottom: initial;
+        right: initial;
     }
 
-} */
 
+    div.select-team, .category-selector{
+        width: 90%;
+        height: 100%;
+        margin-bottom: 87px;
+    }
+    
+    .continent-selector, .national-teams-selector, .leagues-selector, .clubs-selector{
+        width: 90%;
+        height: 100%;
+        margin-bottom: 87px;
+    }
 
+    .club-chosen, .national-team-chosen{
+        width: 90%;
+        height: 100%;
+        margin-bottom: 87px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-.game-board{
-    width: 80vmin;
-    height: 80vmin;
-    display: grid;
-    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
-    gap: 1%;   
-    font-family: sans-serif;
-    font-size: 100px;
-}
-
-.cell{
-    background-color: cornflowerblue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-.cell:hover{
-    border: solid 2px white;
-}
-
-@media (orientation: portrait){
-    .game-board{
-        margin-top: 10vmax;
-        align-self: flex-start;
+    .left > div.select-team{
+        margin-bottom: 87px;
     }
 }
+
+
+/* Coin flip screen */
 
 /*Coin flip FALTA LA PARTE DE JS NOMAS*/
 /* https://rezabaharvand.dev/blog/coin-flip-javascript */
 
 .coin-flip-screen{
     height: 100%;
-    width: 100%;
     display: flex;
     flex-direction: column;
 }
 
+.coin-flip-instructions{
+    position: absolute;
+    top: 15%;
+    width: 100%;
+    padding: 2% 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.coin-messages-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4%;
+    height: 10%;
+}
+
+.flip-winner{
+    background-color: green;
+}
+
 .coin-side-message-head, .coin-side-message-tail{
     display: flex;
+    width: 12%;
+    justify-content: center;
     align-items: center;
     gap: 10px;
+    height: fit-content;
+    padding: 0.5% 0;
 }
 
 .coin-side-message-head:after{
@@ -413,6 +415,46 @@ div.select-team, .category-selector{
     align-items: center;
 }
 
+
+
+
+
+
+
+
+
+
+.game-board{
+    width: 80vmin;
+    height: 80vmin;
+    display: grid;
+    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+    gap: 1%;   
+    font-family: sans-serif;
+    font-size: 100px;
+}
+
+.cell{
+    background-color: cornflowerblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.cell:hover{
+    border: solid 2px white;
+}
+
+@media (orientation: portrait){
+    .game-board{
+        margin-top: 10vmax;
+        align-self: flex-start;
+    }
+}
+
+
+
 .winning-combination{
     background-color: red;
 }
@@ -420,8 +462,6 @@ div.select-team, .category-selector{
 @keyframes fade-in-and-out {
     0% {opacity: 0}
     15% {opacity: 1}
-    /* 40% {}
-    60% {} */
     85% {opacity: 1}
     100% {opacity: 0}
 }
