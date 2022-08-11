@@ -1110,7 +1110,7 @@ const ui = (()=>{
         const clubsSelector = document.createElement("div");
         clubsSelector.classList.add("clubs-selector");
         usefulFunctions.setAttributes(clubsSelector, ["data-continent", "data-league"], [continent, league])
-        clubsSelector.addEventListener("mouseleave", ()=>{_updateLabel(LABEL, initialMessage)});
+        clubsSelector.addEventListener("mouseleave", ()=>{_updateLabel(label, initialMessage)});
         for (let currentClub of DATA.getClubs(continent, league)){
             console.log(currentClub);
             const colors = DATA.getClubColors(continent, league, currentClub);
