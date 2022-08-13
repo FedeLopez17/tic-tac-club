@@ -37,9 +37,8 @@ const gameBoard = (()=>{
         game.playTurn(cellNumber);
     }
 
-    function set(){
+    function set(parentElement){
         game.resetScores();
-        const body = document.querySelector("body");
         const container = document.createElement("section");
         container.classList.add("game-board");
         for (let cellNumber = 0; cellNumber < 9; cellNumber++){
@@ -49,7 +48,7 @@ const gameBoard = (()=>{
             cell.addEventListener("click", _handleClick);
             container.appendChild(cell);
         }
-        body.appendChild(container);
+        parentElement.appendChild(container);
     }
 
     function reset(){
@@ -125,12 +124,10 @@ const gameBoard = (()=>{
 })();
 
 const Player = (mark)=>{
-    let team = null;
     let name = null;
-    let imagePath = null;
-    let colors = null;
+    let team = {name: null, abbreviation: null, colors: null, imagePath: null};
     let score = 0;
-    return {mark, name, team, imagePath, colors, score};
+    return {mark, name, team, score};
 }
 
 const game = (()=>{
@@ -152,33 +149,40 @@ const game = (()=>{
         return _sound;
     }
 
-    function updateTeam(container, team, imagePath, colors){
+    function updateTeam(container, team, abbreviation, imagePath, colors){
+        console.log("NEW TEAM UPDATED:");//
         let playerOne = container.getAttribute("class") === "left";
         if(playerOne){
-            _playerOne.team = team;
-            _playerOne.imagePath = imagePath;
-            _playerOne.colors = colors;
+            _playerOne.team.name = team;
+            _playerOne.team.abbreviation = abbreviation;
+            _playerOne.team.imagePath = imagePath;
+            _playerOne.team.colors = colors;
+            console.log(_playerOne.team);//
         }
         else{
-            _playerTwo.team = team;
-            _playerTwo.imagePath = imagePath;
-            _playerTwo.colors = colors;
+            _playerTwo.team.name = team;
+            _playerTwo.team.abbreviation = abbreviation;
+            _playerTwo.team.imagePath = imagePath;
+            _playerTwo.team.colors = colors;
+            console.log(_playerTwo.team);//
         }      
     }
 
     function resetTeams(){
-        _playerOne.team = null;
-        _playerOne.imagePath = null;
-        _playerOne.colors = null;
-        _playerTwo.team = null;
-        _playerTwo.imagePath = null;
-        _playerTwo.colors = null;
+        _playerOne.team.name = null;
+        _playerOne.team.abbreviation = null;
+        _playerOne.team.imagePath = null;
+        _playerOne.team.colors = null;
+        _playerTwo.team.name = null;
+        _playerTwo.team.abbreviation = abbreviation;
+        _playerTwo.team.imagePath = null;
+        _playerTwo.team.colors = null;
     }
 
     let currentTimeMinutes = 0;
     let currentTimeSeconds = 0;
     let currentTime;
-    const MAX_TIME = 40;
+    const MAX_TIME = 90;
 
 
     function startTime(){
@@ -228,10 +232,14 @@ const game = (()=>{
     }
 
     function setFirstTurn(playerName){
-        _currentPlayer = (playerName === _playerOne.name) ? _playerOne : _playerTwo;
-        if(_currentPlayer === _playerTwo && _opponent === "AI"){
-            setTimeout(()=>{botPlayTurn()}, 4000);
+        if(playerName === _playerOne.name){
+            _currentPlayer = _playerOne;
+            setTimeout(()=>{ui.updateCurrentPlayer(1)}, 5500); 
+            return;
         }
+        _currentPlayer = _playerTwo;
+        setTimeout(()=>{ui.updateCurrentPlayer(2)}, 5500); 
+        if(_opponent === "AI"){setTimeout(()=>{botPlayTurn()}, 6000)};
     }
 
     function updateName(container, name){
@@ -258,13 +266,18 @@ const game = (()=>{
     }
 
     function _switchTurns(){
-        _currentPlayer = (_currentPlayer === _playerOne) ? _playerTwo : _playerOne;
-        console.log(`${_currentPlayer.name}'s turn!`)
-        if(_currentPlayer === _playerTwo && _opponent === "AI"){
-            //This is just to make it look like the bot is thinking
-            const botThinkingTime = usefulFunctions.randomIntFromRangeInclusive(400, 800);
-            setTimeout(()=>{botPlayTurn()}, botThinkingTime);
+        if(_currentPlayer === _playerOne){
+            _currentPlayer = _playerTwo;
+            ui.updateCurrentPlayer(2);
+            if(_opponent === "AI"){
+                //This is just to make it look like the bot is thinking
+                const botThinkingTime = usefulFunctions.randomIntFromRangeInclusive(400, 800);
+                setTimeout(()=>{botPlayTurn()}, botThinkingTime);
+            }
+            return;
         }
+        _currentPlayer = _playerOne;
+        ui.updateCurrentPlayer(1);
     }
 
     function _botPlayTurnEasy(){
@@ -491,7 +504,7 @@ const ui = (()=>{
             _addBotsName();
             _addDifficultyToggle();
         }
-        game.updateTeam(opponentContainer, null, null, null);
+        game.updateTeam(opponentContainer, null, null, null, null);
         _displaySelectTeamScreen(opponentContainer);
     }
 
@@ -650,19 +663,21 @@ const ui = (()=>{
     }
 
     function _chooseRandomNationalTeam(CONTAINER, continent){
+        console.log("RANDOM NATIONAL TEAM");
         if(!continent){continent = _chooseRandomContinent()};
         console.log(continent);
         const countries = DATA.getCountries(continent);
         const country = countries[Math.floor(Math.random() * countries.length)];
         console.log(country);
-        const colors = DATA.getCountryColors(continent, country);
+        const countryInfo = DATA.getCountryInfo(continent, country);
         const kebabCaseContinent = usefulFunctions.toKebabCase(continent);
         const kebabCaseCountry = usefulFunctions.toKebabCase(country);
         const imagePath = `./images/countries/${kebabCaseContinent}/${kebabCaseCountry}.svg`
-        _displayNationalTeamChosen(CONTAINER, country, imagePath, continent, colors);
+        _displayNationalTeamChosen(CONTAINER, country, countryInfo.abbreviation, imagePath, continent, countryInfo.colors);
     }
 
     function _chooseRandomClub(container, continent, league){
+        console.log("RANDOM CLUB");
         if(!continent){continent = _chooseRandomContinent()};
         console.log("RANDOMIZE");
         console.log(continent);
@@ -672,12 +687,12 @@ const ui = (()=>{
         const club = clubs[Math.floor(Math.random() * clubs.length)];
         console.log(clubs);
         console.log(club);
-        const colors = DATA.getClubColors(continent, league, club);
+        const clubInfo = DATA.getClubInfo(continent, league, club);
         const kebabCaseContinent = usefulFunctions.toKebabCase(continent);
         const kebabCaseLeague = usefulFunctions.toKebabCase(league);
         const kebabCaseClub = usefulFunctions.toKebabCase(club);
         const imagePath = `./images/clubs/${kebabCaseContinent}/${kebabCaseLeague}/${kebabCaseClub}.svg`;
-        _displayClubChosen(container, club, imagePath, continent, league, colors);
+        _displayClubChosen(container, club, clubInfo.abbreviation, imagePath, continent, league, clubInfo.colors);
     }
 
     function _chooseRandomNationalTeamOrClub(container){
@@ -764,7 +779,7 @@ const ui = (()=>{
         const opponentName = opponentInput.value;
         const playerOne = game.getPLayerOne();
         const playerTwo = game.getPLayerTwo();
-        if(playerOne.team === null){
+        if(playerOne.team.name === null){
             const invalidMessage = document.querySelector(".initial-settings .left > .invalid-team");
             if(!invalidMessage){
                 const selector = document.querySelector(".initial-settings .left > [class*='select']");
@@ -780,7 +795,7 @@ const ui = (()=>{
             }
         }
 
-        if(playerTwo.team === null){
+        if(playerTwo.team.name === null){
             const invalidMessage = document.querySelector(".initial-settings .right > .invalid-team");
             if(!invalidMessage){
                 const selector = document.querySelector(".initial-settings .right > [class*='select']");
@@ -1026,7 +1041,7 @@ const ui = (()=>{
         for (let currentCountry of DATA.getCountries(continent)){
             console.log(currentCountry);
             console.log(continent);
-            const colors = DATA.getCountryColors(continent, currentCountry);
+            const countryInfo = DATA.getCountryInfo(continent, currentCountry);
             const country = document.createElement("section");
             country.classList.add("national-team");
             country.setAttribute("data-country", currentCountry);
@@ -1035,7 +1050,7 @@ const ui = (()=>{
             const kebabCaseCountry = usefulFunctions.toKebabCase(currentCountry);
             const imagePath = `./images/countries/${kebabCaseContinent}/${kebabCaseCountry}.svg`
             usefulFunctions.setAttributes(countryBadge, ["src", "alt"], [imagePath, currentCountry]);
-            country.addEventListener("click", ()=>{_displayNationalTeamChosen(container, currentCountry, imagePath, continent, colors)});
+            country.addEventListener("click", ()=>{_displayNationalTeamChosen(container, currentCountry, countryInfo.abbreviation, imagePath, continent, countryInfo.colors)});
             country.addEventListener("mouseenter", ()=>{_updateLabel(label, currentCountry.toUpperCase())});
             country.addEventListener("click", ()=>{if(game.soundActivated()) sounds.selectionOne.play()});
             country.appendChild(countryBadge);
@@ -1044,11 +1059,11 @@ const ui = (()=>{
         usefulFunctions.appendChildren(container, [labelContainer, nationalTeamsSelector])
     }
 
-    function _displayNationalTeamChosen(container, country, imagePath, continent, colors){
+    function _displayNationalTeamChosen(container, country, abbreviation, imagePath, continent, colors){
         _removePreviousSelector(container);
         _removePreviousLabel(container);
         _removePreviousTeamChosenScreen(container);
-        game.updateTeam(container, country, imagePath, colors);
+        game.updateTeam(container, country, abbreviation, imagePath, colors);
         let thereIsNoReturnButton = !document.querySelector(`.initial-settings .${container.getAttribute("class")} > .return-button`);
         if(thereIsNoReturnButton){_addReturnButton(container)};
         const labelContainer = _addLabel();
@@ -1113,7 +1128,7 @@ const ui = (()=>{
         clubsSelector.addEventListener("mouseleave", ()=>{_updateLabel(label, initialMessage)});
         for (let currentClub of DATA.getClubs(continent, league)){
             console.log(currentClub);
-            const colors = DATA.getClubColors(continent, league, currentClub);
+            const clubInfo = DATA.getClubInfo(continent, league, currentClub);
             const club = document.createElement("section");
             club.classList.add("club");
             club.setAttribute("data-club", currentClub);
@@ -1123,7 +1138,7 @@ const ui = (()=>{
             const kebabCaseClub = usefulFunctions.toKebabCase(currentClub);
             const imagePath = `./images/clubs/${kebabCaseContinent}/${kebabCaseLeague}/${kebabCaseClub}.svg`
             usefulFunctions.setAttributes(clubBadge, ["src", "alt"], [imagePath, currentClub]);
-            club.addEventListener("click", ()=>{ _displayClubChosen(container, currentClub, imagePath, continent, league, colors)});
+            club.addEventListener("click", ()=>{ _displayClubChosen(container, currentClub, clubInfo.abbreviation, imagePath, continent, league, clubInfo.colors)});
             club.addEventListener("mouseenter", ()=>{_updateLabel(label, currentClub.toUpperCase())});
             club.addEventListener("click", ()=>{if(game.soundActivated()) sounds.selectionOne.play()})
             club.appendChild(clubBadge);
@@ -1132,11 +1147,11 @@ const ui = (()=>{
         usefulFunctions.appendChildren(container, [labelContainer, clubsSelector])
     }
 
-    function _displayClubChosen(container, club, imagePath, continent, league, colors){
+    function _displayClubChosen(container, club, abbreviation, imagePath, continent, league, colors){
         _removePreviousSelector(container);
         _removePreviousLabel(container);
         _removePreviousTeamChosenScreen(container);
-        game.updateTeam(container, club, imagePath, colors);
+        game.updateTeam(container, club, abbreviation, imagePath, colors);
         let thereIsNoReturnButton = !document.querySelector(`.initial-settings .${container.getAttribute("class")} > .return-button`);
         if(thereIsNoReturnButton){_addReturnButton(container)};
         const labelContainer = _addLabel();
@@ -1195,14 +1210,10 @@ const ui = (()=>{
                 winnerMessage.classList.add("first-turn-message");
                 winnerMessage.innerText = `${winner.toUpperCase()} STARTS!`;
                 winnerMessageContainer.appendChild(winnerMessage);
-                coinFlipScreen.removeChild(coinContainer);
-                coinFlipScreen.lastChild.before(winnerMessageContainer);
-            }, 3000);
-            setTimeout(()=>{
                 usefulFunctions.clearPreviousScreen();
-                gameBoard.set();
-                _displayScoreBoard(_body);
+                _body.appendChild(winnerMessageContainer);
             }, 2500);
+            setTimeout(_displayGameBoardScreen, 4000);
         })
         coinContainer.appendChild(coin);
         coinHead = document.createElement("section");
@@ -1220,38 +1231,87 @@ const ui = (()=>{
         _body.appendChild(coinFlipScreen);
     }
 
+    function _displayGameBoardScreen(){
+        const gameScreen = document.createElement("section");
+        gameScreen.classList.add("game-screen");
+        const playerOneSide = document.createElement("section");
+        playerOneSide.classList.add("player-one-side");
+        const localTeamBadge = document.createElement("img");
+        localTeamBadge.classList.add("local-team-badge");
+        const localTeam = game.getPLayerOne().team;
+        usefulFunctions.setAttributes(localTeamBadge, ["src", "alt"], [localTeam.imagePath, localTeam.name]);
+        playerOneSide.appendChild(localTeamBadge);
+        const playerTwoSide = document.createElement("section");
+        playerTwoSide.classList.add("player-two-side");
+        const visitorTeamBadge = document.createElement("img");
+        visitorTeamBadge.classList.add("visitor-team-badge");
+        const visitorTeam = game.getPLayerTwo().team;
+        usefulFunctions.setAttributes(visitorTeamBadge, ["src", "alt"], [visitorTeam.imagePath, visitorTeam.name]);
+        playerTwoSide.appendChild(visitorTeamBadge);
+        usefulFunctions.appendChildren(gameScreen, [playerOneSide, playerTwoSide]);
+        usefulFunctions.clearPreviousScreen();
+        _displayScoreBoard(gameScreen);
+        gameBoard.set(gameScreen);
+        _body.appendChild(gameScreen);
+    }
+
     function _displayScoreBoard(parentElement){
         const scoreboard = document.createElement("div");
         scoreboard.classList.add("scoreboard");
         const scoreContainer = document.createElement("section");
-        scoreContainer.classList.add("score-container")
-        localScore = document.createElement("p");
+        scoreContainer.classList.add("score-container");
+        const local = document.createElement("section");
+        local.classList.add("local");
+        const localAbbreviation = document.createElement("p");
+        localAbbreviation.classList.add("local-abbreviation");
+        localAbbreviation.innerText = game.getPLayerOne().team.abbreviation;
+        const localScore = document.createElement("p");
         localScore.classList.add("local-score");
         localScore.innerText = "0";
-        visitorScore = document.createElement("p");
+        usefulFunctions.appendChildren(local, [localAbbreviation, localScore]);
+        const visitor = document.createElement("section");
+        visitor.classList.add("visitor");
+        const visitorAbbreviation = document.createElement("p");
+        visitorAbbreviation.classList.add("visitor-abbreviation");
+        visitorAbbreviation.innerText = game.getPLayerTwo().team.abbreviation;
+        const visitorScore = document.createElement("p");
         visitorScore.classList.add("visitor-score");
         visitorScore.innerText = "0";
-        usefulFunctions.appendChildren(scoreContainer, [localScore, visitorScore]);
+        usefulFunctions.appendChildren(visitor, [visitorScore, visitorAbbreviation]);
+        usefulFunctions.appendChildren(scoreContainer, [local, visitor]);
         const timeContainer = document.createElement("section");
         timeContainer.classList.add("time-container");
         const time = document.createElement("p");
         time.classList.add("time");
         timeContainer.appendChild(time);
-        usefulFunctions.appendChildren(scoreboard, [scoreContainer, timeContainer])
+        usefulFunctions.appendChildren(scoreboard, [timeContainer, scoreContainer])
         parentElement.appendChild(scoreboard);
         game.startTime();
     }
 
     function updateScore(){
-        const localScore = document.querySelector(".local-score");
-        const visitorScore = document.querySelector(".visitor-score");
+        const localScore = document.querySelector(".scoreboard .local-score");
+        const visitorScore = document.querySelector(".scoreboard .visitor-score");
         localScore.innerText = game.getPLayerOne().score;
         visitorScore.innerText = game.getPLayerTwo().score;
     }
 
     function updateTime(currentTime){
-        let time = document.querySelector(".time");
+        let time = document.querySelector(".scoreboard .time");
         time.innerText = currentTime;
+    }
+
+    function updateCurrentPlayer(player){
+        const isPlayerOne = (player === 1);
+        const localTeamBadge = document.querySelector(".game-screen .local-team-badge");
+        const visitorTeamBadge = document.querySelector(".game-screen .visitor-team-badge");
+        if(isPlayerOne){
+            localTeamBadge.classList.toggle("current-player");
+            if(visitorTeamBadge.classList.contains("current-player")){visitorTeamBadge.classList.toggle("current-player")};
+            return;
+        }
+        visitorTeamBadge.classList.toggle("current-player");
+        if(localTeamBadge.classList.contains("current-player")){localTeamBadge.classList.toggle("current-player")};
     }
 
     function displayResult(result){
@@ -1280,7 +1340,7 @@ const ui = (()=>{
         _body.appendChild(resultContainer);
     }
 
-    return {_displayFirstScreen, updateScore, updateTime, displayResult, displaySong}
+    return {_displayFirstScreen, updateScore, updateTime, updateCurrentPlayer, displayResult, displaySong}
 })()
 
 const usefulFunctions = {
@@ -1317,30 +1377,30 @@ const usefulFunctions = {
 DATA = (()=>{
     const _CONTINENTS = { 	
         Africa: {
-            Algeria: {colors: ["green", "white", "red"]},
-            Angola: {colors: ["red", "black", "yellow"]},
-            Benin: {color: ["green", "yellow", "red"]}
+            Algeria: {colors: ["green", "white", "red"], abbreviation: "ALG"},
+            Angola: {colors: ["red", "black", "yellow"], abbreviation: "ANG"},
+            Benin: {colors: ["green", "yellow", "red"], abbreviation: "BEN"}
         },
         Asia: {
-            Afghanistan: {colors: ["black", "red", "green"]},
-            Bahrain: {colors: ["white", "red", "red"]}
+            Afghanistan: {colors: ["black", "red", "green"], abbreviation: "AFG"},
+            Bahrain: {colors: ["white", "red", "red"], abbreviation: "BAR"}
         },
         Europe: {
-            Albania: {colors: ["red", "red", "black"]},
-            Andorra: {colors: ["blue", "yellow", "red"]},
-            Armenia: {colors: ["red", "blue", "yellow"]},
+            Albania: {colors: ["red", "red", "black"], abbreviation: "ALB"},
+            Andorra: {colors: ["blue", "yellow", "red"], abbreviation: "AND"},
+            Armenia: {colors: ["red", "blue", "yellow"], abbreviation: "ARM"},
             // ...
-            England: {colors: ["white", "red", "blue"]}
+            England: {colors: ["white", "red", "blue"], abbreviation: "ENG"}
         }
     }
       
     const _LEAGUES = {
         Europe: {
-            "Bundesliga": {"Bayern": {colors:["red", "white", "blue"]}, "Borussia Dortmund": {colors: ["yellow", "yellow", "black"]}},
-            "English Premier League": {"Arsenal": {colors: ["red", "red", "white"]} ,"Aston Villa FC": {colors: ["purple", "purple", "skyblue"]}, "Brentford": {colors:["red", "red", "white"]},"Brighton & Hove Albion":{colors:["blue", "blue", "white"]}, "Burnley FC":{colors:["purple", "purple", "skyblue"]}, "Chelsea":{colors:["blue", "blue", "white"]}, "Crystal Palace":{colors:["blue", "blue", "red"]}},
+            "Bundesliga": {"Bayern": {colors:["red", "white", "blue"], abbreviation: "FCB"}, "Borussia Dortmund": {colors: ["yellow", "yellow", "black"], abbreviation: "BVB"}},
+            "English Premier League": {"Arsenal": {colors: ["red", "red", "white"], abbreviation: "ARS"} ,"Aston Villa FC": {colors: ["purple", "purple", "skyblue"], abbreviation: "AVL"}, "Brentford": {colors:["red", "red", "white"], abbreviation: "BFD"},"Brighton & Hove Albion":{colors:["blue", "blue", "white"], abbreviation: "BRI"}, "Burnley FC":{colors:["purple", "purple", "skyblue"], abbreviation: "BLY"}, "Chelsea":{colors:["blue", "blue", "white"], abbreviation: "CHE"}, "Crystal Palace":{colors:["blue", "blue", "red"], abbreviation: "CPL"}},
             // "Eredivise": "",
             // "Greek Super League": "",
-            "La Liga": {"Real Madrid": {colors:["white", "white", "black"]}, "Barcelona": {colors: ["red", "blue", "golden"]}},
+            "La Liga": {"Real Madrid": {colors:["white", "white", "black"], abbreviation: "RMD"}, "Barcelona": {colors: ["red", "blue", "golden"], abbreviation: "FCB"}},
             // "Ligue 1": "",
             // "Primeria Liga": "",
             // "Russian Premier League": "",
@@ -1349,10 +1409,10 @@ DATA = (()=>{
             // "Ukranian Premier League": ""
         },
         Africa: {
-            "Egyptian Premier League": {"Al Ahly": {colors:["red", "white", "black"]}, "Pyramids FC": {colors: ["blue", "skyblue", "white"]}}
+            "Egyptian Premier League": {"Al Ahly": {colors:["red", "white", "black"], abbreviation: "AHL"}, "Pyramids FC": {colors: ["blue", "skyblue", "white"], abbreviation: "PYR"}}
         },
         Asia: {
-            "J1 League": {"Cerezo Osaka": {colors:["pink", "pink", "purple"]}, "FC Tokyo": {colors: ["blue", "blue", "red"]}},
+            "J1 League": {"Cerezo Osaka": {colors:["pink", "pink", "purple"], abbreviation: "CZO"}, "FC Tokyo": {colors: ["blue", "blue", "red"], abbreviation: "TKY"}},
         }
     }
       
@@ -1366,6 +1426,11 @@ DATA = (()=>{
     function getCountryColors(continent, country){
     	return _CONTINENTS[continent][country]["colors"];
     }
+    function getCountryInfo(continent, country){
+        const abbreviation = _CONTINENTS[continent][country]["abbreviation"];
+        const colors = _CONTINENTS[continent][country]["colors"];
+        return {abbreviation, colors};
+    }
     function getLeagues(continent){
         return Object.keys(_LEAGUES[continent]);
     }
@@ -1375,7 +1440,12 @@ DATA = (()=>{
     function getClubColors(continent, league, club){
     	return _LEAGUES[continent][league][club]["colors"];
     }
-    return {getContinents, getCountries, getCountryColors, getLeagues, getClubs, getClubColors, _CONTINENTS, _LEAGUES};
+    function getClubInfo(continent, league, club){
+        const abbreviation = _LEAGUES[continent][league][club]["abbreviation"];
+        const colors = _LEAGUES[continent][league][club]["colors"];
+        return {abbreviation, colors};
+    }
+    return {getContinents, getCountries, getCountryColors, getCountryInfo, getLeagues, getClubs, getClubColors, _CONTINENTS, _LEAGUES, getClubInfo};
 })();
 
 const sounds = (()=>{

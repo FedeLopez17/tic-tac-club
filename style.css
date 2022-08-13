@@ -303,9 +303,6 @@ div.select-team, .category-selector{
 
 /* Coin flip screen */
 
-/*Coin flip FALTA LA PARTE DE JS NOMAS*/
-/* https://rezabaharvand.dev/blog/coin-flip-javascript */
-
 .coin-flip-screen{
     height: 100%;
     display: flex;
@@ -372,7 +369,8 @@ div.select-team, .category-selector{
     align-items: center;
     gap: 20px;
 }
-  
+
+/* This tutorial was extremely useful when making the coin: https://rezabaharvand.dev/blog/coin-flip-javascript */
 #coin {
     height: 120px;
     width: 120px;
@@ -409,22 +407,73 @@ div.select-team, .category-selector{
 }
 
 .first-turn-message-container{
-    flex: 1;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 
+/* game screen */
 
+.game-screen{
+    display: flex;
+    height:100%;
+}
 
+.player-one-side, .player-two-side{
+    flex: 1;
+}
 
+.player-one-side{
+    background-color: yellow;
+}
 
+.scoreboard{
+    position: absolute;
+    background-color: white;
+    z-index: 1;
+    top: -95%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    gap: 20px;
+}
 
+/* .scoreboard > .time-container{
+} */
 
+.scoreboard > .score-container{
+    flex: 1;
+    display: flex;
+    gap: 20px;
+}
 
+.scoreboard .local, .scoreboard .visitor{
+    display: flex;
+    gap: 10px;
+}
+
+.current-player{
+    border: solid 20px pink;
+}
+
+@media (orientation: portrait) and (max-width: 900px){
+    .scoreboard{
+        top: -80%;
+    }
+}
+
+/* Hacer el scoreboard con las abreviaciones de los clubes(añadir a DATA) y añadir los escudos y colores. */
 
 .game-board{
+    position: absolute;
+    top: calc(50% - 40vmin);
+    left: calc(50% - 40vmin);
     width: 80vmin;
     height: 80vmin;
     display: grid;
@@ -448,16 +497,18 @@ div.select-team, .category-selector{
 
 @media (orientation: portrait){
     .game-board{
-        margin-top: 10vmax;
-        align-self: flex-start;
+        top: calc(45% - 40vmin);
     }
 }
-
-
 
 .winning-combination{
     background-color: red;
 }
+
+
+
+
+/* miscellaneous */
 
 @keyframes fade-in-and-out {
     0% {opacity: 0}
