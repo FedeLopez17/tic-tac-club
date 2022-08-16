@@ -1355,10 +1355,10 @@ const ui = (()=>{
         mid.classList.add("game-result-mid");
         const playerOneTeam = game.getPLayerOne().team;
         const playerOneTeamBadge = document.createElement("img");
-        usefulFunctions.setAttributes(playerOneTeamBadge, ["src", "alt", "class"], [playerOneTeam.imagePath, playerOneTeam.imagePath, "player-one-team-badge"]);
+        usefulFunctions.setAttributes(playerOneTeamBadge, ["src", "alt", "class"], [playerOneTeam.imagePath, playerOneTeam.name, "player-one-team-badge"]);
         const playerTwoTeam = game.getPLayerTwo().team;
         const playerTwoTeamBadge = document.createElement("img");
-        usefulFunctions.setAttributes(playerTwoTeamBadge, ["src", "alt", "class"], [playerTwoTeam.imagePath, playerTwoTeam.imagePath, "player-two-team-badge"]);
+        usefulFunctions.setAttributes(playerTwoTeamBadge, ["src", "alt", "class"], [playerTwoTeam.imagePath, playerTwoTeam.name, "player-two-team-badge"]);
         const finalScoreContainer = document.createElement("section");
         finalScoreContainer.classList.add("final-score-container");
         const finalScore = document.createElement("p");
