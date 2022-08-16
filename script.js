@@ -3,6 +3,9 @@
 // el boton de randomize son los dados con el texto randomize que sale en hover. en celular esta desde el principio
 // transiciones entre las pantallas con animaciones y sonido capaz algo como un spray de grafiti
 // comentarios si es necesario.
+// Error cuando venis de jugar una partida con un humano y le das a elegir equipo de nuevo.
+// Que cuando randomize no eliga el mismo equipo
+// Limpiar la pantalla anterior no deberia eliminar el popup de la musica
 
 const gameBoard = (()=>{
     const _gameBoard = [];
@@ -488,6 +491,7 @@ const ui = (()=>{
     }
 
     function _removeDifficultyToggle(){
+        console.log("REMOVE DIFFICULTY TOGGLE");
         const difficultyToggle = document.querySelector("button.difficulty-toggle");
         difficultyToggle.parentElement.removeChild(difficultyToggle);
     }
@@ -924,18 +928,19 @@ const ui = (()=>{
         const BOT_NAMES = ["Botaldo", "Botaldinho", "Botssi", "Botzema", "Botandowski", "Botistuta", "Botti", "Bottenbauer"];
         let botsName = BOT_NAMES[Math.floor(Math.random() * BOT_NAMES.length)];
         usefulFunctions.setAttributes(opponentNameInput, ["id", "type","value"], ["bot-name", "text", botsName]);
-        if(nameTwo && typeof nameTwo === "string"){
-            if(!BOT_NAMES.includes(nameTwo)){
-                opponentSelector.value = "PLAYER TWO";
-                opponentNameInput.disabled = false;
-            }
-            opponentNameInput.value = nameTwo
-        }
         const difficultyToggle = document.createElement("button");
         usefulFunctions.setAttributes(difficultyToggle, ["type", "class",], ["button", "difficulty-toggle"]);
         difficultyToggle.innerText = game.getDifficulty();
         difficultyToggle.addEventListener("click", _toggleDifficulty);
         usefulFunctions.appendChildren(right, [versusS, opponentSelector, opponentNameInput, difficultyToggle]);
+        if(nameTwo && typeof nameTwo === "string"){
+            if(!BOT_NAMES.includes(nameTwo)){
+                opponentSelector.value = "PLAYER TWO";
+                opponentNameInput.disabled = false;
+                right.removeChild(difficultyToggle);
+            }
+            opponentNameInput.value = nameTwo;
+        }
         const bottom = document.createElement("section");
         bottom.classList.add("bottom");
         const button = document.createElement("button");
