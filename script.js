@@ -174,7 +174,7 @@ const game = (()=>{
         _playerOne.team.imagePath = null;
         _playerOne.team.colors = null;
         _playerTwo.team.name = null;
-        _playerTwo.team.abbreviation = abbreviation;
+        _playerTwo.team.abbreviation = null;
         _playerTwo.team.imagePath = null;
         _playerTwo.team.colors = null;
     }
@@ -182,7 +182,7 @@ const game = (()=>{
     let currentTimeMinutes = 0;
     let currentTimeSeconds = 0;
     let currentTime;
-    const MAX_TIME = 90;
+    const MAX_TIME = 10;
 
 
     function startTime(){
@@ -234,11 +234,11 @@ const game = (()=>{
     function setFirstTurn(playerName){
         if(playerName === _playerOne.name){
             _currentPlayer = _playerOne;
-            setTimeout(()=>{ui.updateCurrentPlayer(1)}, 5500); 
+            setTimeout(()=>{ui.updateCurrentPlayer(1)}, 4500); 
             return;
         }
         _currentPlayer = _playerTwo;
-        setTimeout(()=>{ui.updateCurrentPlayer(2)}, 5500); 
+        setTimeout(()=>{ui.updateCurrentPlayer(2)}, 4500); 
         if(_opponent === "AI"){setTimeout(()=>{botPlayTurn()}, 6000)};
     }
 
