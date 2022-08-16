@@ -1370,7 +1370,7 @@ const usefulFunctions = {
     },
     clearPreviousScreen: ()=>{
         const body = document.querySelector("body");
-        const previousScreen = document.querySelectorAll("body > :not(script):not(.volume-toggle):not(.music-toggle)");
+        const previousScreen = document.querySelectorAll("body > :not(script):not(.volume-toggle):not(.music-toggle):not(.song-title-container)");
         for (let element of previousScreen){
             body.removeChild(element);
         }
