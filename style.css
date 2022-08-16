@@ -4,6 +4,16 @@
     outline: solid black 1px;
 }
 
+:root{
+    --playerOneColor0: white;
+    --playerOneColor1: white;
+    --playerOneColor2: white;
+    
+    --playerTwoColor0: white;
+    --playerTwoColor1: white;
+    --playerTwoColor2: white;
+}
+
 html, body{
     height: 100vh;
 }
@@ -504,8 +514,6 @@ div.select-team, .category-selector{
 .winning-combination{
     background-color: red;
 }
-
-
 
 
 /* miscellaneous */

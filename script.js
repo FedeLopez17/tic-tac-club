@@ -131,14 +131,12 @@ const Player = (mark)=>{
 }
 
 const game = (()=>{
-    let _sound = false;
+    let _difficulty = "EASY", _sound = false, over = false, ongoingCelebration = false;
+    let _opponent = null, _currentPlayer = null;
+    let currentTimeMinutes = 0, currentTimeSeconds = 0, currentTime;
+    const MAX_TIME = 10;
     const _playerOne = Player("X");
     const _playerTwo = Player("O");
-    let _currentPlayer = null;
-    let _opponent = null;
-    let _difficulty = "EASY";
-    let ongoingCelebration = false;
-    let over = false;
 
     function toggleSound(){
         _sound = !_sound;
@@ -149,6 +147,21 @@ const game = (()=>{
         return _sound;
     }
 
+    function _updateTeamColorsCssVariables(player){
+        const root = document.querySelector(":root");
+        const isPlayerOne = player == 1;
+        if(isPlayerOne){
+            for(let colorNumber in _playerOne.team.colors){
+                root.style.setProperty(`--playerOneColor${colorNumber}`, _playerOne.team.colors[colorNumber]);
+            }
+        }
+        else{
+            for(let colorNumber in _playerTwo.team.colors){
+                root.style.setProperty(`--playerTwoColor${colorNumber}`, _playerTwo.team.colors[colorNumber]);
+            }
+        }
+    }
+
     function updateTeam(container, team, abbreviation, imagePath, colors){
         console.log("NEW TEAM UPDATED:");//
         let playerOne = container.getAttribute("class") === "left";
@@ -157,6 +170,7 @@ const game = (()=>{
             _playerOne.team.abbreviation = abbreviation;
             _playerOne.team.imagePath = imagePath;
             _playerOne.team.colors = colors;
+            _updateTeamColorsCssVariables(1);
             console.log(_playerOne.team);//
         }
         else{
@@ -164,6 +178,7 @@ const game = (()=>{
             _playerTwo.team.abbreviation = abbreviation;
             _playerTwo.team.imagePath = imagePath;
             _playerTwo.team.colors = colors;
+            _updateTeamColorsCssVariables(2);
             console.log(_playerTwo.team);//
         }      
     }
@@ -178,12 +193,6 @@ const game = (()=>{
         _playerTwo.team.imagePath = null;
         _playerTwo.team.colors = null;
     }
-
-    let currentTimeMinutes = 0;
-    let currentTimeSeconds = 0;
-    let currentTime;
-    const MAX_TIME = 10;
-
 
     function startTime(){
         over = false;
@@ -239,7 +248,7 @@ const game = (()=>{
         }
         _currentPlayer = _playerTwo;
         setTimeout(()=>{ui.updateCurrentPlayer(2)}, 4500); 
-        if(_opponent === "AI"){setTimeout(()=>{botPlayTurn()}, 6000)};
+        if(_opponent === "AI"){setTimeout(()=>{botPlayTurn()}, 5000)};
     }
 
     function updateName(container, name){
