@@ -675,21 +675,28 @@ const ui = (()=>{
         return league;
     }
 
-    function _chooseRandomNationalTeam(CONTAINER, continent){
+    function _chooseRandomNationalTeam(container, continent){
+        const player = (container.getAttribute("class") === "left") ? "one" : "two";
+        const currentTeams = {"one": game.getPLayerOne().team.name, "two": game.getPLayerTwo().team.name};
         console.log("RANDOM NATIONAL TEAM");
         if(!continent){continent = _chooseRandomContinent()};
         console.log(continent);
         const countries = DATA.getCountries(continent);
-        const country = countries[Math.floor(Math.random() * countries.length)];
-        console.log(country);
+        let country;
+        do{
+            country = countries[Math.floor(Math.random() * countries.length)];
+            console.log(country);
+        } while(country === currentTeams[player]);
         const countryInfo = DATA.getCountryInfo(continent, country);
         const kebabCaseContinent = usefulFunctions.toKebabCase(continent);
         const kebabCaseCountry = usefulFunctions.toKebabCase(country);
         const imagePath = `./images/countries/${kebabCaseContinent}/${kebabCaseCountry}.svg`
-        _displayNationalTeamChosen(CONTAINER, country, countryInfo.abbreviation, imagePath, continent, countryInfo.colors);
+        _displayNationalTeamChosen(container, country, countryInfo.abbreviation, imagePath, continent, countryInfo.colors);
     }
 
     function _chooseRandomClub(container, continent, league){
+        const player = (container.getAttribute("class") === "left") ? "one" : "two";
+        const currentTeams = {"one": game.getPLayerOne().team.name, "two": game.getPLayerTwo().team.name};
         console.log("RANDOM CLUB");
         if(!continent){continent = _chooseRandomContinent()};
         console.log("RANDOMIZE");
@@ -697,9 +704,11 @@ const ui = (()=>{
         if(!league){league = _chooseRandomLeague(continent)}
         console.log(league)
         const clubs = DATA.getClubs(continent, league);
-        const club = clubs[Math.floor(Math.random() * clubs.length)];
-        console.log(clubs);
-        console.log(club);
+        let club;
+        do{
+            club = clubs[Math.floor(Math.random() * clubs.length)];
+            console.log(club);
+        } while(club === currentTeams[player]);
         const clubInfo = DATA.getClubInfo(continent, league, club);
         const kebabCaseContinent = usefulFunctions.toKebabCase(continent);
         const kebabCaseLeague = usefulFunctions.toKebabCase(league);
