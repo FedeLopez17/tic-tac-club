@@ -6,6 +6,7 @@
 // Error cuando venis de jugar una partida con un humano y le das a elegir equipo de nuevo.
 // Que cuando randomize no eliga el mismo equipo
 // Limpiar la pantalla anterior no deberia eliminar el popup de la musica
+// Hacer algo lindo con el cursor, capaz esconderlo y poner una pelota. Poner el simbolo de prohibido cuando es el turno del bot
 
 const gameBoard = (()=>{
     const _gameBoard = [];
@@ -1340,10 +1341,33 @@ const ui = (()=>{
     function displayResult(result){
         if(game.soundActivated()) sounds.gameOver.play();
         usefulFunctions.clearPreviousScreen();
+        const resultOuterContainer = document.createElement("section");
+        resultOuterContainer.classList.add("game-result-container");
         const resultContainer = document.createElement("section");
-        resultContainer.classList.add("game-result-container");
-        const message = document.createElement("p");
-        message.innerText = result;
+        resultContainer.classList.add("game-result");
+        resultOuterContainer.appendChild(resultContainer);
+        const top = document.createElement("section");
+        top.classList.add("game-result-top");
+        const outcome = document.createElement("p");
+        outcome.innerText = result;
+        top.appendChild(outcome);
+        const mid = document.createElement("section");
+        mid.classList.add("game-result-mid");
+        const playerOneTeam = game.getPLayerOne().team;
+        const playerOneTeamBadge = document.createElement("img");
+        usefulFunctions.setAttributes(playerOneTeamBadge, ["src", "alt", "class"], [playerOneTeam.imagePath, playerOneTeam.imagePath, "player-one-team-badge"]);
+        const playerTwoTeam = game.getPLayerTwo().team;
+        const playerTwoTeamBadge = document.createElement("img");
+        usefulFunctions.setAttributes(playerTwoTeamBadge, ["src", "alt", "class"], [playerTwoTeam.imagePath, playerTwoTeam.imagePath, "player-two-team-badge"]);
+        const finalScoreContainer = document.createElement("section");
+        finalScoreContainer.classList.add("final-score-container");
+        const finalScore = document.createElement("p");
+        finalScore.classList.add("final-score");
+        finalScore.innerText = `${game.getPLayerOne().score} - ${game.getPLayerTwo().score}`;
+        finalScoreContainer.appendChild(finalScore);
+        usefulFunctions.appendChildren(mid, [playerOneTeamBadge, finalScoreContainer, playerTwoTeamBadge]);
+        const bottom = document.createElement("section");
+        bottom.classList.add("game-result-bottom");
         const selectTeam = document.createElement("i");
         selectTeam.classList.add("fa-solid", "fa-shirt");
         selectTeam.addEventListener("click", ()=> {
@@ -1359,8 +1383,9 @@ const ui = (()=>{
             if(game.soundActivated()) sounds.selectionOne.play();
             _flipCoin();
         });
-        usefulFunctions.appendChildren(resultContainer, [message, selectTeam, playAgain]);
-        _body.appendChild(resultContainer);
+        usefulFunctions.appendChildren(bottom, [selectTeam, playAgain]);
+        usefulFunctions.appendChildren(resultContainer, [top, mid, bottom]);
+        _body.appendChild(resultOuterContainer);
     }
 
     return {_displayFirstScreen, updateScore, updateTime, updateCurrentPlayer, displayResult, displaySong}
