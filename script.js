@@ -812,7 +812,7 @@ const ui = (()=>{
             const invalidMessage = document.querySelector(".initial-settings .left > .invalid-team");
             if(!invalidMessage){
                 const selector = document.querySelector(".initial-settings .left > [class*='select']");
-                const message = _makeInvalidMessage("Please select a team");
+                const message = _makeInvalidMessage("Please select a team!");
                 message.classList.add("invalid-team");
                 selector.before(message);
             }
@@ -828,7 +828,7 @@ const ui = (()=>{
             const invalidMessage = document.querySelector(".initial-settings .right > .invalid-team");
             if(!invalidMessage){
                 const selector = document.querySelector(".initial-settings .right > [class*='select']");
-                const message = _makeInvalidMessage("Please select a team");
+                const message = _makeInvalidMessage("Please select a team!");
                 message.classList.add("invalid-team");
                 selector.before(message);
             }
