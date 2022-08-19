@@ -17,8 +17,9 @@
     --playerTwoColor1: white;
     --playerTwoColor2: white;
 
-    --color-100: yellowgreen;
-    --color-200: white;
+    --color-primary: darkolivegreen;
+    --color-secondary: white;
+    --color-warning: red;
 }
 
 html, body{
@@ -73,17 +74,17 @@ body{
 .title-container{
     display: flex;
     text-align: center;
-    color: var(--color-200);
+    color: var(--color-secondary);
     font-size: 3rem;
     margin-top: 140px;
 }
 
 .title-container > .title-left{
-    color: var(--color-100);
+    color: var(--color-primary);
 }
 
 .title-left span{
-    color: var(--color-200);
+    color: var(--color-secondary);
 }
 
 .title-container .badges{
@@ -93,9 +94,9 @@ body{
 .first-screen > .play-button{
     justify-self: center;
     padding: 7.5px 20px;
-    background-color: var(--color-100);
-    color: var(--color-200);
-    border: solid 4px var(--color-200);
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    border: solid 4px var(--color-secondary);
     font-weight: 900;
 }
 
@@ -148,11 +149,11 @@ body{
         font-size: 4rem;
         font-family: sans-serif;
         font-weight: 900;
-        color: var(--color-200);
+        color: var(--color-secondary);
     }
 
     .first-screen > .play-button:hover{
-        color: var(--color-100);
+        color: var(--color-primary);
         transform: scale(1.01);
     }
     
@@ -228,6 +229,9 @@ body{
     font-size: 4rem;
     z-index: 1;
     outline: none;
+    color: var(--color-secondary);
+    font-weight: 900;
+    text-shadow: -3px 3px var(--color-primary);
 }
 
 .versus.v{
@@ -242,10 +246,34 @@ body{
 
 select{
     cursor: pointer;
+    background-color: transparent;
+    font-size: 1rem;
+    color: white;
+    border: none;
+    text-align: center;
+}
+
+select option{
+    background-color: black;
 }
 
 .difficulty-toggle{
     cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: -10px;
+    font-weight: 900;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    box-shadow: 0 0 0 2px;
+    outline: none;
+    transition: 0.3s;
+    padding: 0 2%;
+    border-radius: 10px;
+}
+
+.difficulty-toggle:hover{
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
 }
 
 /* Initial settings selectors: */
@@ -269,6 +297,10 @@ input[type="text"]{
     text-align: center;
 }
 
+input[type="text"]:focus{
+    outline: solid 2px var(--color-primary);
+}
+
 div.select-team, .category-selector{
     width: 95vmin;
     height: 95vmin;
@@ -290,9 +322,9 @@ div.select-team, .category-selector{
 
 div.select-team button{
     padding: 7.5px 20px;
-    background-color: var(--color-100);
-    color: var(--color-200);
-    border: solid 4px var(--color-200);
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    border: solid 4px var(--color-secondary);
     font-weight: 900;
     border-radius: 20px;
     transition-duration: 0.3s;
@@ -300,11 +332,11 @@ div.select-team button{
 
 div.select-team button:hover{
     cursor: pointer;
-    background-color: var(--color-200);
-    color: var(--color-100);
-    border-color: var(--color-100);
-    box-shadow: 0 0 0 5px var(--color-200);
-    transform: scale(1.1);
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 5px var(--color-secondary);
+    transform: scale(1.05);
 }
 
 .category-selector{
@@ -391,6 +423,14 @@ div.select-team button:hover{
     margin: 0 0 20px;
 }
 
+.invalid-message{
+    color: var(--color-warning);
+    background-color: rgba(10, 10, 10, 70%);
+    border-radius: 10px;
+    padding: 0 5%;
+    text-shadow: 0px 0px 1px white;
+}
+
 .invalid-name{
     margin-bottom: -18px;
 }
@@ -402,9 +442,9 @@ div.select-team button:hover{
 
 .bottom > button{
     padding: 15px 40px;
-    background-color: var(--color-200);
-    color: var(--color-100);
-    border: solid 4px var(--color-100);
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+    border: solid 4px var(--color-primary);
     font-size: 1rem;
     font-weight: 900;
     border-radius: 40px;
@@ -413,10 +453,10 @@ div.select-team button:hover{
 
 .bottom > button:hover{
     cursor: pointer;
-    background-color: var(--color-100);
-    color: var(--color-200);
-    border-color: var(--color-200);
-    box-shadow: 0 0 0 5px var(--color-100);
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 5px var(--color-primary);
     transform: scale(1.05);
 }
 
@@ -438,7 +478,8 @@ div.select-team button:hover{
         height: 15%;
     }
     .difficulty-toggle{
-        margin-bottom: -21px;
+        margin-top: 10px;
+        margin-bottom: -29px;
     }
 
     .top > .left, .top > .right{
