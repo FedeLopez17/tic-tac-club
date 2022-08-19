@@ -461,6 +461,7 @@ const ui = (()=>{
     function _addNameInput(){
         const nameInput = document.createElement("input");
         usefulFunctions.setAttributes(nameInput, ["id", "type","placeholder"], ["player-two-name", "text", "What's your name?"]);
+        nameInput.autocomplete = "off";
         const opponentSelector = document.querySelector(".initial-settings .right > select");
         opponentSelector.nextElementSibling.before(nameInput);
     }
@@ -542,6 +543,7 @@ const ui = (()=>{
     function _addVolumeToggle(parentElement){
         const volumeToggle = document.createElement("i");
         volumeToggle.classList.add("volume-toggle", "fa-solid", "fa-volume-xmark");
+        volumeToggle.setAttribute("title", "Toggle volume");
         volumeToggle.addEventListener("click", _toggleSound);
         parentElement.appendChild(volumeToggle);
     }
@@ -562,6 +564,7 @@ const ui = (()=>{
         const musicToggle = document.createElement("i");
         musicToggle.classList.add("music-toggle", "fa-solid", "fa-music");
         musicToggle.addEventListener("click", _toggleMusic);
+        musicToggle.setAttribute("title", "Toggle music");
         parentElement.appendChild(musicToggle);
     }
 
@@ -580,6 +583,7 @@ const ui = (()=>{
     function _addReturnButton(container){
         const returnButton = document.createElement("i");
         returnButton.classList.add("return-button", "fa-solid", "fa-caret-left");
+        returnButton.setAttribute("title", "Return");
         returnButton.addEventListener("click", ()=>{_goBack(container)});
         returnButton.addEventListener("click", ()=>{if(game.soundActivated()) sounds.selectionTwo.play()});
         container.appendChild(returnButton);
@@ -644,8 +648,8 @@ const ui = (()=>{
     function _addRandomButton(container){
         console.log("MAKE RANDOM BUTTON");
         const randomButton = document.createElement("i");
-        randomButton.classList.add("fa-solid", "fa-dice", "fa-2x");
-        randomButton.classList.add("random-button");
+        randomButton.classList.add("random-button", "fa-solid", "fa-dice", "fa-2x");
+        randomButton.setAttribute("title", "Random selection");
         randomButton.addEventListener("click", ()=>_randomize(container));
         randomButton.addEventListener("click", ()=>{if(game.soundActivated()) sounds.selectionOne.play()});
         container.appendChild(randomButton);
@@ -803,6 +807,8 @@ const ui = (()=>{
         const playerOne = game.getPLayerOne();
         const playerTwo = game.getPLayerTwo();
         if(playerOne.team.name === null){
+            window.scrollTo(0, 0);
+            alreadyScrolled = true;
             const invalidMessage = document.querySelector(".initial-settings .left > .invalid-team");
             if(!invalidMessage){
                 const selector = document.querySelector(".initial-settings .left > [class*='select']");
@@ -835,6 +841,7 @@ const ui = (()=>{
         }
 
         if(!name || name[0]===" "){
+            window.scrollTo(0, 0);
             const invalidMessage = document.querySelector(".initial-settings .left > .invalid-name");
             if(!invalidMessage){
                 nameInput.classList.toggle("invalid");
@@ -882,20 +889,54 @@ const ui = (()=>{
         if(game.soundActivated()) sounds.errorOne.play();
     }
 
+    function _addBallCursor(container){
+        const ball = document.createElement("section");
+        ball.classList.add("ball-cursor");
+        const root = document.documentElement;
+        root.addEventListener("mousemove", e => {
+            if(ball.style.display !== "initial"){ball.style.display = "initial"};
+            ball.style.left = `${e.clientX - 32}px`;
+            ball.style.top = `${e.clientY - 32}px`;
+        });
+        container.appendChild(ball);
+    }
+
     function _displayFirstScreen(){
         let firstScreenContainer = document.createElement("section");
         firstScreenContainer.classList.add("first-screen");
-        const title = document.createElement("h1");
-        title.innerText = "Tic Tac Club";
-        title.classList.add("title");
+        const titleContainer = document.createElement("section");
+        titleContainer.classList.add("title-container");
+        const titleLeftContainer = document.createElement("section");
+        titleLeftContainer.classList.add("title-left");
+        const titleLeft = document.createElement("h1");
+        titleLeft.innerText = "Tic Tac ";
+        const titleLeftSpan = document.createElement("span");
+        titleLeftSpan.innerText = "Cl";
+        titleLeft.appendChild(titleLeftSpan);
+        titleLeftContainer.appendChild(titleLeft);
+        const titleMidContainer = document.createElement("section");
+        titleMidContainer.classList.add("title-mid");
+        const titleMid = document.createElement("h1");
+        titleMid.classList.add("letter-u");
+        titleMid.innerText = "u";
+        const badges = document.createElement("section");
+        usefulFunctions.setAttributes(badges, ["class", "alt"], ["badges", "Badges of important clubs"]);
+        usefulFunctions.appendChildren(titleMidContainer, [titleMid, badges]);
+        const titleRightContainer = document.createElement("section");
+        titleRightContainer.classList.add("title-right");
+        const titleRight = document.createElement("h1");
+        titleRight.innerText = "b";
+        titleRightContainer.appendChild(titleRight);
+        usefulFunctions.appendChildren(titleContainer, [titleLeftContainer, titleMidContainer, titleRightContainer]);
         _addVolumeToggle(_body);
         _addMusicToggle(_body);
-        const playButton = document.createElement("button");
-        playButton.setAttribute("type", "button");
+        const playButton = document.createElement("section");
+        playButton.classList.add("play-button");
         playButton.innerText = "PLAY";
         playButton.addEventListener("click", _displayInitialSetup);
         playButton.addEventListener("click", ()=> {if(game.soundActivated()) sounds.selectionOne.play()});
-        usefulFunctions.appendChildren(firstScreenContainer, [title, playButton]);
+        usefulFunctions.appendChildren(firstScreenContainer, [titleContainer, playButton]);
+        _addBallCursor(firstScreenContainer);
         _body.appendChild(firstScreenContainer);
     }
 
@@ -918,6 +959,7 @@ const ui = (()=>{
         playerOneLabel.innerText = "PLAYER ONE";
         playerOneLabelContainer.appendChild(playerOneLabel);
         const nameInput = document.createElement("input");
+        nameInput.autocomplete = "off";
         if(nameOne && typeof nameOne === "string"){nameInput.value = nameOne};
         usefulFunctions.setAttributes(nameInput, ["id", "type","placeholder"], ["player-one-name", "text", "What's your name?"]);
         usefulFunctions.appendChildren(left, [versusV, playerOneLabel, nameInput]);
