@@ -1,8 +1,18 @@
 *{
     margin: 0;
     box-sizing: border-box;
-    outline: solid black 1px;
+    /* outline: solid black 1px; */
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+body{
+    height: 100vh;
+}
+
+@media (orientation: portrait), (max-width: 1000px){
+    body.mobile-scroll{
+        height: initial;
+    }
 }
 
 :root{
@@ -17,17 +27,17 @@
     --playerTwoColor1: white;
     --playerTwoColor2: white;
 
-    --color-primary: darkolivegreen;
+    --color-primary: rgb(85, 107, 47); /*darkolivegreen*/
+    --color-primary-darker-low-opacity: rgba(65, 87, 27, 70%);
     --color-secondary: white;
     --color-warning: red;
 }
 
-html, body{
-    height: 100vh;
-}
-
 body{
-    background-color: blue;
+    background-image: url("./images/misc/field.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
 }
 
 /* Toggle buttons */
@@ -61,10 +71,6 @@ body{
     flex-direction: column;
     align-items: center;
     gap: 50px;
-    background-image: url("./images/misc/field.png"), url("./images/misc/field-blurred.png");
-    background-repeat: no-repeat, repeat;
-    background-size: cover;
-    background-position: bottom;
 }
 
 .ball-cursor{
@@ -155,6 +161,7 @@ body{
     .first-screen > .play-button:hover{
         color: var(--color-primary);
         transform: scale(1.01);
+        -webkit-text-stroke: 1px var(--color-secondary);
     }
     
     .first-screen > .ball-cursor{
@@ -193,12 +200,13 @@ body{
 
 /* Initial settings */
 
+body.scroll{
+    height: initial;
+}
+
 .initial-settings{
     display: flex;
     flex-direction: column;
-    background-image: url("./images/misc/field.png");
-    background-size: cover;
-    background-position: bottom;
     color: #ffffff;
 }
 
@@ -410,6 +418,7 @@ div.select-team button:hover{
 .continent > p{
     background-color: rgba(10, 10, 10, 80%);
     font-weight: 900;
+    pointer-events: none;
 }
 
 .national-team, .league, .club{
@@ -418,9 +427,17 @@ div.select-team button:hover{
 }
 
 .club-chosen, .national-team-chosen{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: hidden;
     width: 95vmin;
     height: 95vmin;
     margin: 0 0 20px;
+}
+
+.club-chosen > img, .national-team-chosen > img{
+    width: 80%;
 }
 
 .invalid-message{
@@ -461,9 +478,6 @@ div.select-team button:hover{
 }
 
 @media (orientation: landscape) and (min-width: 1000px){
-    body{
-        background-color: red;
-    }
 
     .initial-settings{
         height: 100%;
@@ -539,10 +553,6 @@ div.select-team button:hover{
         width: 90%;
         height: 100%;
         margin-bottom: 87px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
     }
 
     .left > div.select-team{
@@ -557,6 +567,8 @@ div.select-team button:hover{
     height: 100%;
     display: flex;
     flex-direction: column;
+    color: white;
+    font-weight: 900;
 }
 
 .coin-flip-instructions{
@@ -573,22 +585,25 @@ div.select-team button:hover{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 4%;
-    height: 10%;
+    gap: 10%;
+    height: 20%;
 }
 
 .flip-winner{
-    background-color: green;
+    background-color: var(--color-primary) !important;
+    outline: solid var(--color-secondary);
 }
 
 .coin-side-message-head, .coin-side-message-tail{
     display: flex;
-    width: 12%;
+    width: 40%;
     justify-content: center;
     align-items: center;
     gap: 10px;
     height: fit-content;
-    padding: 0.5% 0;
+    padding: 1% 0;
+    background-color: rgba(10, 10, 10, 70%);
+    border-radius: 10px;
 }
 
 .coin-side-message-head:after{
@@ -622,15 +637,21 @@ div.select-team button:hover{
 
 /* This tutorial was extremely useful when making the coin: https://rezabaharvand.dev/blog/coin-flip-javascript */
 #coin {
-    height: 120px;
-    width: 120px;
+    height: 140px;
+    width: 140px;
     position: relative;
     margin: 0;
     transform-style: preserve-3d;
+    cursor: pointer;
+    margin-bottom: -5%;
+}
+
+#coin:hover{
+    filter: drop-shadow(0px 0px 10px #daa520); /*goldenrod*/
 }
   
 #coin img {
-    width: 120px;
+    width: 140px;
 }
   
 .tail {
@@ -661,8 +682,32 @@ div.select-team button:hover{
     display: flex;
     justify-content: center;
     align-items: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 900;
 }
 
+.first-turn-message-container > p{
+    margin-top: -10%;
+}
+
+@media (orientation: landscape) and (min-width: 1000px){
+    .coin-flip-instructions{
+        font-size: 1.5rem;
+    }
+    .coin-side-message-head, .coin-side-message-tail{
+        font-size: 1.2rem;
+        width:20%;
+        padding: 0.5% 0;
+    }
+    .coin-side-message-head:after, .coin-side-message-tail:after{
+        height: 60px;
+        width: 60px;
+    }
+    .first-turn-message-container{
+        font-size: 3rem;
+    }
+}
 
 /* game screen */
 
@@ -779,5 +824,7 @@ div.select-team button:hover{
     bottom: 16px;
     right: 16px;
     padding: 16px;
-    background-color: rgba(0, 0, 0, 0.25);
+    color: white;
+    background-color: var(--color-primary-darker-low-opacity);
+    border-radius: 10px;
 }

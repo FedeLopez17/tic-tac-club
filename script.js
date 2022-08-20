@@ -941,6 +941,7 @@ const ui = (()=>{
     }
 
     function _displayInitialSetup(nameOne, nameTwo){
+        _body.classList.add("mobile-scroll");
         usefulFunctions.clearPreviousScreen();
         const container = document.createElement("div");
         container.classList.add("initial-settings");
@@ -1234,6 +1235,7 @@ const ui = (()=>{
 
     function _flipCoin(){
         usefulFunctions.clearPreviousScreen();
+        _body.classList.remove("mobile-scroll");
         const coinFlipScreen = document.createElement("div");
         coinFlipScreen.classList.add("coin-flip-screen");
         const instructions = document.createElement("p");
@@ -1561,3 +1563,5 @@ const sounds = (()=>{
     });
     return {selectionOne, selectionTwo, errorOne, coinToss, goal, tie, gameOver, music, displaySong};
 })();
+
+ui._displayFirstScreen();
