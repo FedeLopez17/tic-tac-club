@@ -627,12 +627,12 @@ div.select-team button:hover{
 }
 
 .coin-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
+    width: fit-content;
+    margin: auto;
+}
+
+.coin-container:hover{
+    filter: drop-shadow(0px 0px 10px #daa520); /*goldenrod*/
 }
 
 /* This tutorial was extremely useful when making the coin: https://rezabaharvand.dev/blog/coin-flip-javascript */
@@ -644,10 +644,6 @@ div.select-team button:hover{
     transform-style: preserve-3d;
     cursor: pointer;
     margin-bottom: -5%;
-}
-
-#coin:hover{
-    filter: drop-shadow(0px 0px 10px #daa520); /*goldenrod*/
 }
   
 #coin img {
