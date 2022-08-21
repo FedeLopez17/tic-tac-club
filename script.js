@@ -141,7 +141,7 @@ const game = (()=>{
     let _difficulty = "EASY", _sound = false, over = false, ongoingCelebration = false;
     let _opponent = null, _currentPlayer = null;
     let currentTimeMinutes = 0, currentTimeSeconds = 0, currentTime;
-    const MAX_TIME = 2;
+    const MAX_TIME = 200000;
     const _playerOne = Player("X");
     const _playerTwo = Player("O");
 
@@ -1305,6 +1305,9 @@ const ui = (()=>{
     }
 
     function _displayGameBoardScreen(){
+        usefulFunctions.clearPreviousScreen();
+        const toggles = $$("i[class*='toggle']");
+        toggles.forEach(toggle => toggle.classList.add("bottom-left"));
         const gameScreen = document.createElement("section");
         gameScreen.classList.add("game-screen");
         const playerOneSide = document.createElement("section");
@@ -1322,7 +1325,6 @@ const ui = (()=>{
         usefulFunctions.setAttributes(visitorTeamBadge, ["src", "alt"], [visitorTeam.imagePath, visitorTeam.name]);
         playerTwoSide.appendChild(visitorTeamBadge);
         usefulFunctions.appendChildren(gameScreen, [playerOneSide, playerTwoSide]);
-        usefulFunctions.clearPreviousScreen();
         _displayScoreBoard(gameScreen);
         gameBoard.set(gameScreen);
         _body.appendChild(gameScreen);
@@ -1390,6 +1392,8 @@ const ui = (()=>{
     function displayResult(result){
         if(game.soundActivated()) sounds.gameOver.play();
         usefulFunctions.clearPreviousScreen();
+        const toggles = $$("i[class*='toggle']");
+        toggles.forEach(toggle => {if(toggle.classList.contains("bottom-left"))toggle.classList.remove("bottom-left")});
         const resultOuterContainer = document.createElement("section");
         resultOuterContainer.classList.add("game-result-container");
         const resultContainer = document.createElement("section");

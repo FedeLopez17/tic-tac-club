@@ -28,9 +28,11 @@ body{
     --playerTwoColor2: white;
 
     --color-primary: rgb(85, 107, 47); /*darkolivegreen*/
-    --color-primary-darker-low-opacity: rgba(65, 87, 27, 70%);
     --color-secondary: white;
     --color-warning: red;
+
+    --coin-size: 140px;
+    --half-flip: 180deg;
 }
 
 body{
@@ -515,7 +517,6 @@ div.select-team button:hover{
         right: initial;
     }
 
-
     div.select-team, .category-selector{
         width: 90%;
         height: 100%;
@@ -565,8 +566,6 @@ div.select-team button:hover{
 
 .coin-flip-screen{
     height: 100%;
-    display: flex;
-    flex-direction: column;
     color: white;
     font-weight: 900;
 }
@@ -582,6 +581,9 @@ div.select-team button:hover{
 }
 
 .coin-messages-container{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -627,8 +629,9 @@ div.select-team button:hover{
 }
 
 .coin-container {
-    width: fit-content;
-    margin: auto;
+    position: absolute;
+    top: calc(50% - (var(--coin-size) * 0.5));
+    left: calc(50% - (var(--coin-size) * 0.5));
 }
 
 .coin-container:hover{
@@ -637,8 +640,8 @@ div.select-team button:hover{
 
 /* This tutorial was extremely useful when making the coin: https://rezabaharvand.dev/blog/coin-flip-javascript */
 #coin {
-    height: 140px;
-    width: 140px;
+    height: var(--coin-size);
+    width: var(--coin-size);
     position: relative;
     margin: 0;
     transform-style: preserve-3d;
@@ -647,7 +650,7 @@ div.select-team button:hover{
 }
   
 #coin img {
-    width: 140px;
+    width: var(--coin-size);
 }
   
 .tail {
@@ -714,10 +717,21 @@ div.select-team button:hover{
 
 .player-one-side, .player-two-side{
     flex: 1;
+    position: relative;
 }
 
-.player-one-side{
-    background-color: yellow;
+.local-team-badge{
+    position: absolute;
+    width: 20%;
+    top: 0;
+    left: 0;
+}
+
+.visitor-team-badge{
+    position: absolute;
+    width: 20%;
+    top: 0;
+    right: 0;
 }
 
 .scoreboard{
@@ -771,7 +785,7 @@ div.select-team button:hover{
     grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
     gap: 1%;   
     font-family: sans-serif;
-    font-size: 100px;
+    font-size: 100%;
 }
 
 .cell{
@@ -821,6 +835,23 @@ div.select-team button:hover{
     right: 16px;
     padding: 16px;
     color: white;
-    background-color: var(--color-primary-darker-low-opacity);
+    background-color: rgba(10, 10, 10, 80%);
     border-radius: 10px;
+}
+
+.bottom-left{
+    top: initial;
+    right: initial;
+    bottom: 10px;
+    left: 10px;
+    opacity: 0.8;
+}
+
+.bottom-left:hover{
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.music-toggle.bottom-left{
+    left: 50px;
 }
