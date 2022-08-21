@@ -8,6 +8,9 @@
 // Limpiar la pantalla anterior no deberia eliminar el popup de la musica
 // Hacer algo lindo con el cursor, capaz esconderlo y poner una pelota. Poner el simbolo de prohibido cuando es el turno del bot
 
+const $ = document.querySelector.bind(document);
+const $$ = document.querySelectorAll.bind(document);
+
 const gameBoard = (()=>{
     const _gameBoard = [];
 
@@ -18,7 +21,7 @@ const gameBoard = (()=>{
     }
 
     function _getCells(){
-        const cells = document.querySelectorAll(".cell");
+        const cells = $$(".cell");
         return cells;
     }
 
@@ -138,7 +141,7 @@ const game = (()=>{
     let _difficulty = "EASY", _sound = false, over = false, ongoingCelebration = false;
     let _opponent = null, _currentPlayer = null;
     let currentTimeMinutes = 0, currentTimeSeconds = 0, currentTime;
-    const MAX_TIME = 10;
+    const MAX_TIME = 2;
     const _playerOne = Player("X");
     const _playerTwo = Player("O");
 
@@ -152,7 +155,7 @@ const game = (()=>{
     }
 
     function _updateTeamColorsCssVariables(player){
-        const root = document.querySelector(":root");
+        const root = $(":root");
         const isPlayerOne = player == 1;
         if(isPlayerOne){
             for(let colorNumber in _playerOne.team.colors){
@@ -456,7 +459,7 @@ const game = (()=>{
 })();
 
 const ui = (()=>{
-    const _body = document.querySelector("body");
+    const _body = $("body");
 
     function _addNameInput(){
         const nameInput = document.createElement("input");
@@ -479,7 +482,7 @@ const ui = (()=>{
         const botName = BOT_NAMES[Math.floor(Math.random() * BOT_NAMES.length)];
         usefulFunctions.setAttributes(nameInput, ["id", "type","value"], ["bot-name", "text", botName]);
         nameInput.disabled = true;
-        const opponentSelector = document.querySelector(".initial-settings .right > select");
+        const opponentSelector = $(".initial-settings .right > select");
         opponentSelector.nextElementSibling.before(nameInput);
     }
 
@@ -488,27 +491,27 @@ const ui = (()=>{
         usefulFunctions.setAttributes(difficultyToggle, ["type", "class",], ["button", "difficulty-toggle"]);
         difficultyToggle.innerText = game.getDifficulty();
         difficultyToggle.addEventListener("click", _toggleDifficulty);
-        const previousInput = document.querySelector(".initial-settings .right > input");
+        const previousInput = $(".initial-settings .right > input");
         previousInput.nextElementSibling.before(difficultyToggle);
     }
 
     function _removeDifficultyToggle(){
         console.log("REMOVE DIFFICULTY TOGGLE");
-        const difficultyToggle = document.querySelector("button.difficulty-toggle");
+        const difficultyToggle = $("button.difficulty-toggle");
         difficultyToggle.parentElement.removeChild(difficultyToggle);
     }
 
     function _toggleDifficulty(){
         if(game.soundActivated()) sounds.selectionOne.play();
-        const difficultyToggle = document.querySelector("button.difficulty-toggle");
+        const difficultyToggle = $("button.difficulty-toggle");
         const currentDifficulty = difficultyToggle.innerText;
         game.setDifficulty((currentDifficulty === "EASY") ?  "NORMAL" : (currentDifficulty === "NORMAL") ? "HARD" : (currentDifficulty === "HARD") ? "UNBEATABLE" : "EASY");
         difficultyToggle.innerText = game.getDifficulty();
     }
 
     function _changeOpponent(e){
-        const opponentContainer = document.querySelector(".initial-settings .right");
-        const previousInput = document.querySelector(".initial-settings .right > input");
+        const opponentContainer = $(".initial-settings .right");
+        const previousInput = $(".initial-settings .right > input");
         opponentContainer.removeChild(previousInput);
         let isHumanPlayer = (e.target.value === "PLAYER TWO");
         if (isHumanPlayer) {
@@ -524,12 +527,12 @@ const ui = (()=>{
     }
 
     function _removePreviousSelector(container){
-        let previousSelector = document.querySelector(`.initial-settings .${container.getAttribute("class")} > [class*="selector"]`);
+        let previousSelector = $(`.initial-settings .${container.getAttribute("class")} > [class*="selector"]`);
         if (previousSelector) {container.removeChild(previousSelector)};
     }
 
     function _removePreviousTeamChosenScreen(container){
-        let previousTeamChosenScreen = document.querySelector(`.initial-settings .${container.getAttribute("class")} > [class*="chosen"]`);
+        let previousTeamChosenScreen = $(`.initial-settings .${container.getAttribute("class")} > [class*="chosen"]`);
         if (previousTeamChosenScreen) {container.removeChild(previousTeamChosenScreen)};
     }
 
@@ -592,15 +595,15 @@ const ui = (()=>{
     function _goBack(container){
         _removeLastRandom(container);
         console.log("GO BACK")
-        let isContinentSelector = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .continent-selector`);
-        let isNationalTeamsSelector = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .national-teams-selector`);
-        let isNationalTeamChosen = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .national-team-chosen`);
-        let isLeaguesSelector = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .leagues-selector`);
-        let isClubsSelector = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .clubs-selector`);
-        let isClubChosen = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .club-chosen`);
+        let isContinentSelector = $(`.initial-settings .${container.getAttribute("class")} > .continent-selector`);
+        let isNationalTeamsSelector = $(`.initial-settings .${container.getAttribute("class")} > .national-teams-selector`);
+        let isNationalTeamChosen = $(`.initial-settings .${container.getAttribute("class")} > .national-team-chosen`);
+        let isLeaguesSelector = $(`.initial-settings .${container.getAttribute("class")} > .leagues-selector`);
+        let isClubsSelector = $(`.initial-settings .${container.getAttribute("class")} > .clubs-selector`);
+        let isClubChosen = $(`.initial-settings .${container.getAttribute("class")} > .club-chosen`);
         if(isContinentSelector){
             _displayCategorySelector(container);
-            const returnButton = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .return-button`);
+            const returnButton = $(`.initial-settings .${container.getAttribute("class")} > .return-button`);
             container.removeChild(returnButton);
         }
         if(isNationalTeamsSelector){
@@ -639,7 +642,7 @@ const ui = (()=>{
 
     function _removePreviousLabel(container){
         console.log("REMOVE PREVIOUS LABEL");
-        const labelContainer = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .label-container`);
+        const labelContainer = $(`.initial-settings .${container.getAttribute("class")} > .label-container`);
         if(labelContainer){
             container.removeChild(labelContainer);
         }
@@ -731,13 +734,13 @@ const ui = (()=>{
     }
 
     function _randomize(container){
-        let isCategorySelector = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .category-selector`);
-        let isContinentSelector = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .continent-selector`);
-        let isNationalTeamsSelector = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .national-teams-selector`);
-        let isNationalTeamChosen = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .national-team-chosen`);
-        let isLeaguesSelector = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .leagues-selector`);
-        let isClubsSelector = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .clubs-selector`);
-        let isClubChosen = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .club-chosen`);
+        let isCategorySelector = $(`.initial-settings .${container.getAttribute("class")} > .category-selector`);
+        let isContinentSelector = $(`.initial-settings .${container.getAttribute("class")} > .continent-selector`);
+        let isNationalTeamsSelector = $(`.initial-settings .${container.getAttribute("class")} > .national-teams-selector`);
+        let isNationalTeamChosen = $(`.initial-settings .${container.getAttribute("class")} > .national-team-chosen`);
+        let isLeaguesSelector = $(`.initial-settings .${container.getAttribute("class")} > .leagues-selector`);
+        let isClubsSelector = $(`.initial-settings .${container.getAttribute("class")} > .clubs-selector`);
+        let isClubChosen = $(`.initial-settings .${container.getAttribute("class")} > .club-chosen`);
 
         if(isCategorySelector){
             _chooseRandomNationalTeamOrClub(container);
@@ -797,44 +800,44 @@ const ui = (()=>{
     }
 
     function _validate(){
-        const left = document.querySelector(".initial-settings .left");
-        const right = document.querySelector(".initial-settings .right");
-        const nameInput = document.querySelector(".initial-settings .left > input");
+        const left = $(".initial-settings .left");
+        const right = $(".initial-settings .right");
+        const nameInput = $(".initial-settings .left > input");
         const name = nameInput.value;
-        const opponentType = document.querySelector(".initial-settings .right > select").value;
-        const opponentInput = document.querySelector(".right input");
+        const opponentType = $(".initial-settings .right > select").value;
+        const opponentInput = $(".right input");
         const opponentName = opponentInput.value;
         const playerOne = game.getPLayerOne();
         const playerTwo = game.getPLayerTwo();
         if(playerOne.team.name === null){
             window.scrollTo(0, 0);
             alreadyScrolled = true;
-            const invalidMessage = document.querySelector(".initial-settings .left > .invalid-team");
+            const invalidMessage = $(".initial-settings .left > .invalid-team");
             if(!invalidMessage){
-                const selector = document.querySelector(".initial-settings .left > [class*='select']");
+                const selector = $(".initial-settings .left > [class*='select']");
                 const message = _makeInvalidMessage("Please select a team!");
                 message.classList.add("invalid-team");
                 selector.before(message);
             }
         }
         else{
-            const invalidMessage = document.querySelector(".initial-settings .left > .invalid-team");
+            const invalidMessage = $(".initial-settings .left > .invalid-team");
             if(invalidMessage){
                 left.removeChild(invalidMessage);
             }
         }
 
         if(playerTwo.team.name === null){
-            const invalidMessage = document.querySelector(".initial-settings .right > .invalid-team");
+            const invalidMessage = $(".initial-settings .right > .invalid-team");
             if(!invalidMessage){
-                const selector = document.querySelector(".initial-settings .right > [class*='select']");
+                const selector = $(".initial-settings .right > [class*='select']");
                 const message = _makeInvalidMessage("Please select a team!");
                 message.classList.add("invalid-team");
                 selector.before(message);
             }
         }
         else{
-            const invalidMessage = document.querySelector(".initial-settings .right > .invalid-team");
+            const invalidMessage = $(".initial-settings .right > .invalid-team");
             if(invalidMessage){
                 right.removeChild(invalidMessage);
             }
@@ -842,7 +845,7 @@ const ui = (()=>{
 
         if(!name || name[0]===" "){
             window.scrollTo(0, 0);
-            const invalidMessage = document.querySelector(".initial-settings .left > .invalid-name");
+            const invalidMessage = $(".initial-settings .left > .invalid-name");
             if(!invalidMessage){
                 nameInput.classList.toggle("invalid");
                 const message = _makeInvalidMessage("Required field!");
@@ -852,12 +855,12 @@ const ui = (()=>{
         }
         else{
             if(nameInput.classList.contains("invalid")){nameInput.classList.toggle("invalid")};
-            const invalidMessage = document.querySelector(".initial-settings .left > .invalid-name");
+            const invalidMessage = $(".initial-settings .left > .invalid-name");
             if(invalidMessage){left.removeChild(invalidMessage)};
         }
         if(opponentType === "PLAYER TWO"){
             if(!opponentName || opponentName[0]===" "){
-                const invalidMessage = document.querySelector(".initial-settings .right > .invalid-name");
+                const invalidMessage = $(".initial-settings .right > .invalid-name");
                 if(!invalidMessage){
                     opponentInput.classList.toggle("invalid");
                     const message = _makeInvalidMessage("Required field!");
@@ -867,15 +870,15 @@ const ui = (()=>{
             }
             else{
                 if(opponentInput.classList.contains("invalid")){opponentInput.classList.toggle("invalid")};
-                const invalidMessage = document.querySelector(".initial-settings .right > .invalid-name");
+                const invalidMessage = $(".initial-settings .right > .invalid-name");
                 if(invalidMessage){right.removeChild(invalidMessage)};
             }
         }
         else{
-            const invalidMessage = document.querySelector(".initial-settings .right > .invalid-name");
+            const invalidMessage = $(".initial-settings .right > .invalid-name");
             if(invalidMessage){right.removeChild(invalidMessage)};
         }
-        const valid = !document.querySelector(".invalid-message");
+        const valid = !$(".invalid-message");
         if(valid){
             if(game.soundActivated()) sounds.selectionTwo.play();
             game.updateName(left, name);
@@ -920,7 +923,8 @@ const ui = (()=>{
         titleMid.classList.add("letter-u");
         titleMid.innerText = "u";
         const badges = document.createElement("section");
-        usefulFunctions.setAttributes(badges, ["class", "alt"], ["badges", "Badges of important clubs"]);
+        badges.classList.add("badges");
+        badges.setAttribute("alt", "Badges of important clubs");
         usefulFunctions.appendChildren(titleMidContainer, [titleMid, badges]);
         const titleRightContainer = document.createElement("section");
         titleRightContainer.classList.add("title-right");
@@ -939,6 +943,7 @@ const ui = (()=>{
         _addBallCursor(firstScreenContainer);
         _body.appendChild(firstScreenContainer);
     }
+    window.addEventListener("load", _displayFirstScreen);
 
     function _displayInitialSetup(nameOne, nameTwo){
         _body.classList.add("mobile-scroll");
@@ -1008,14 +1013,14 @@ const ui = (()=>{
     }
 
     function _displaySelectTeamScreen(container){
-        let alreadyASelecTeamScreen = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .select-team`);
+        let alreadyASelecTeamScreen = $(`.initial-settings .${container.getAttribute("class")} > .select-team`);
         if(alreadyASelecTeamScreen) return;
         _removePreviousLabel(container);
         _removePreviousSelector(container);
         _removePreviousTeamChosenScreen(container);
-        let randomButton = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .random-button`);
+        let randomButton = $(`.initial-settings .${container.getAttribute("class")} > .random-button`);
         if(randomButton){container.removeChild(randomButton)};
-        let returnButton = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .return-button`);
+        let returnButton = $(`.initial-settings .${container.getAttribute("class")} > .return-button`);
         if(returnButton){container.removeChild(returnButton)};
         const selectTeamScreen = document.createElement("div");
         selectTeamScreen.classList.add("select-team");
@@ -1030,9 +1035,9 @@ const ui = (()=>{
 
     function _displayCategorySelector(container){
         _removePreviousSelector(container);
-        let selecTeamScreen = document.querySelector(`.initial-settings .${container.getAttribute("class")} > .select-team`);
+        let selecTeamScreen = $(`.initial-settings .${container.getAttribute("class")} > .select-team`);
         if(selecTeamScreen){container.removeChild(selecTeamScreen)};
-        let noRandomButton = !document.querySelector(`.initial-settings .${container.getAttribute("class")} > .random-button`);
+        let noRandomButton = !$(`.initial-settings .${container.getAttribute("class")} > .random-button`);
         if(noRandomButton){_addRandomButton(container)}
         const categorySelector = document.createElement("div");
         categorySelector.classList.add("category-selector");
@@ -1060,7 +1065,7 @@ const ui = (()=>{
         console.log("continent-selector");
         _removePreviousSelector(container);
         _removePreviousLabel(container);
-        let thereIsNoReturnButton = !document.querySelector(`.initial-settings .${container.getAttribute("class")} > .return-button`);
+        let thereIsNoReturnButton = !$(`.initial-settings .${container.getAttribute("class")} > .return-button`);
         if(thereIsNoReturnButton){_addReturnButton(container)};
         const isNationalTeams = (typeof event === "string") ? (event === "national-teams") : (event.target.getAttribute("class").includes("national-teams"));
         const isClubs = !isNationalTeams;
@@ -1131,7 +1136,7 @@ const ui = (()=>{
         _removePreviousLabel(container);
         _removePreviousTeamChosenScreen(container);
         game.updateTeam(container, country, abbreviation, imagePath, colors);
-        let thereIsNoReturnButton = !document.querySelector(`.initial-settings .${container.getAttribute("class")} > .return-button`);
+        let thereIsNoReturnButton = !$(`.initial-settings .${container.getAttribute("class")} > .return-button`);
         if(thereIsNoReturnButton){_addReturnButton(container)};
         const labelContainer = _addLabel();
         const label = labelContainer.firstChild;
@@ -1219,7 +1224,7 @@ const ui = (()=>{
         _removePreviousLabel(container);
         _removePreviousTeamChosenScreen(container);
         game.updateTeam(container, club, abbreviation, imagePath, colors);
-        let thereIsNoReturnButton = !document.querySelector(`.initial-settings .${container.getAttribute("class")} > .return-button`);
+        let thereIsNoReturnButton = !$(`.initial-settings .${container.getAttribute("class")} > .return-button`);
         if(thereIsNoReturnButton){_addReturnButton(container)};
         const labelContainer = _addLabel();
         const label = labelContainer.firstChild;
@@ -1358,21 +1363,21 @@ const ui = (()=>{
     }
 
     function updateScore(){
-        const localScore = document.querySelector(".scoreboard .local-score");
-        const visitorScore = document.querySelector(".scoreboard .visitor-score");
+        const localScore = $(".scoreboard .local-score");
+        const visitorScore = $(".scoreboard .visitor-score");
         localScore.innerText = game.getPLayerOne().score;
         visitorScore.innerText = game.getPLayerTwo().score;
     }
 
     function updateTime(currentTime){
-        let time = document.querySelector(".scoreboard .time");
+        let time = $(".scoreboard .time");
         time.innerText = currentTime;
     }
 
     function updateCurrentPlayer(player){
         const isPlayerOne = (player === 1);
-        const localTeamBadge = document.querySelector(".game-screen .local-team-badge");
-        const visitorTeamBadge = document.querySelector(".game-screen .visitor-team-badge");
+        const localTeamBadge = $(".game-screen .local-team-badge");
+        const visitorTeamBadge = $(".game-screen .visitor-team-badge");
         if(isPlayerOne){
             localTeamBadge.classList.toggle("current-player");
             if(visitorTeamBadge.classList.contains("current-player")){visitorTeamBadge.classList.toggle("current-player")};
@@ -1432,7 +1437,7 @@ const ui = (()=>{
         _body.appendChild(resultOuterContainer);
     }
 
-    return {_displayFirstScreen, updateScore, updateTime, updateCurrentPlayer, displayResult, displaySong}
+    return {updateScore, updateTime, updateCurrentPlayer, displayResult, displaySong}
 })()
 
 const usefulFunctions = {
@@ -1447,8 +1452,8 @@ const usefulFunctions = {
         }
     },
     clearPreviousScreen: ()=>{
-        const body = document.querySelector("body");
-        const previousScreen = document.querySelectorAll("body > :not(script):not(.volume-toggle):not(.music-toggle):not(.song-title-container)");
+        const body = $("body");
+        const previousScreen = $$("body > :not(script):not(.volume-toggle):not(.music-toggle):not(.song-title-container)");
         for (let element of previousScreen){
             body.removeChild(element);
         }
@@ -1563,5 +1568,3 @@ const sounds = (()=>{
     });
     return {selectionOne, selectionTwo, errorOne, coinToss, goal, tie, gameOver, music, displaySong};
 })();
-
-ui._displayFirstScreen();
