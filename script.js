@@ -1,13 +1,3 @@
-// crear el boton de invertir alfabeticamente capaz con css o DOM manipulation
-// pantalla de carga
-// el boton de randomize son los dados con el texto randomize que sale en hover. en celular esta desde el principio
-// transiciones entre las pantallas con animaciones y sonido capaz algo como un spray de grafiti
-// comentarios si es necesario.
-// Error cuando venis de jugar una partida con un humano y le das a elegir equipo de nuevo.
-// Que cuando randomize no eliga el mismo equipo
-// Limpiar la pantalla anterior no deberia eliminar el popup de la musica
-// Hacer algo lindo con el cursor, capaz esconderlo y poner una pelota. Poner el simbolo de prohibido cuando es el turno del bot
-
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
@@ -65,11 +55,13 @@ const gameBoard = (()=>{
         const cells = _getCells();
         for(let cell of cells){
             cell.innerText = "";
+            cell.setAttribute("data-mark", "");
         }
     }
 
     function _populateScreen(cellNumber){
         const cells = _getCells();
+        cells[cellNumber].setAttribute("data-mark", _gameBoard[cellNumber]);
         cells[cellNumber].innerText = _gameBoard[cellNumber];
     }
 
@@ -107,19 +99,28 @@ const gameBoard = (()=>{
         return occupiedCells.length === 9;
     }
 
-    function checkIfGoal(){
-        let full = _checkIfFull(), threeInLine = _checkIfThreeInLine();
-        let goalOrFull = full || threeInLine;
-        if(threeInLine){if(game.soundActivated()) sounds.goal.play()};
-        if(full){if(game.soundActivated()) sounds.tie.play()};
+    function checkIfOver(){
+        const full = _checkIfFull(), threeInLine = _checkIfThreeInLine();
+        const goalOrFull = full || threeInLine;
         if(goalOrFull){setTimeout(reset, 1000)};
-        return (threeInLine) ? 2 : (full) ? 1 : false;
+        if(threeInLine){
+            if(game.soundActivated()) sounds.goal.play();
+            return 2;
+        }
+        else if(full){
+            if(game.soundActivated()) sounds.tie.play();
+            ui.toggleTieAnimation();
+            return 1;
+        }
+        else{
+            return false;
+        }
     }
 
     function addMark(mark, cellNumber){
         let cellAlreadyTaken = _gameBoard[cellNumber] === "X" || _gameBoard[cellNumber] === "O";
         if(cellAlreadyTaken){
-            sounds.errorOne.play();
+            if(game.soundActivated()) sounds.errorOne.play();
             return false
         }
         _gameBoard[cellNumber] = mark;
@@ -127,7 +128,7 @@ const gameBoard = (()=>{
         if(game.soundActivated()) new Audio("./audio/pop.mp3").play();
         return true;
     }
-    return {addMark, checkIfGoal, set, reset, get, getEmptyCells};
+    return {addMark, checkIfOver, set, reset, get, getEmptyCells};
 })();
 
 const Player = (mark)=>{
@@ -138,10 +139,10 @@ const Player = (mark)=>{
 }
 
 const game = (()=>{
-    let _difficulty = "EASY", _sound = false, over = false, ongoingCelebration = false;
+    let _difficulty = "EASY", _sound = false, over = false, timeOut = false;
     let _opponent = null, _currentPlayer = null;
     let currentTimeMinutes = 0, currentTimeSeconds = 0, currentTime;
-    const MAX_TIME = 200000;
+    const MAX_TIME = 2;
     const _playerOne = Player("X");
     const _playerTwo = Player("O");
 
@@ -159,13 +160,27 @@ const game = (()=>{
         const isPlayerOne = player == 1;
         if(isPlayerOne){
             for(let colorNumber in _playerOne.team.colors){
-                root.style.setProperty(`--playerOneColor${colorNumber}`, _playerOne.team.colors[colorNumber]);
+                root.style.setProperty(`--player-one-color${colorNumber}`, `rgb(${_playerOne.team.colors[colorNumber]})`);
             }
         }
         else{
             for(let colorNumber in _playerTwo.team.colors){
-                root.style.setProperty(`--playerTwoColor${colorNumber}`, _playerTwo.team.colors[colorNumber]);
+                root.style.setProperty(`--player-two-color${colorNumber}`, `rgb(${_playerTwo.team.colors[colorNumber]})`);
             }
+        }
+    }
+
+    function _updateCurrentPlayerColors(player){
+        const root = $(":root");
+        const isPlayerOne = player == 1;
+        if(isPlayerOne){
+            for(let colorNumber in _playerOne.team.colors){
+                root.style.setProperty(`--current-player-color${colorNumber}-low-opacity`, `rgba(${_playerOne.team.colors[colorNumber]}, 50%)`);
+            }
+            return;
+        }
+        for(let colorNumber in _playerTwo.team.colors){
+            root.style.setProperty(`--current-player-color${colorNumber}-low-opacity`, `rgba(${_playerTwo.team.colors[colorNumber]}, 50%)`);
         }
     }
 
@@ -282,9 +297,11 @@ const game = (()=>{
     }
 
     function _switchTurns(){
+        const root = $(":root");
         if(_currentPlayer === _playerOne){
             _currentPlayer = _playerTwo;
             ui.updateCurrentPlayer(2);
+            _updateCurrentPlayerColors(2);
             if(_opponent === "AI"){
                 //This is just to make it look like the bot is thinking
                 const botThinkingTime = usefulFunctions.randomIntFromRangeInclusive(400, 800);
@@ -294,6 +311,7 @@ const game = (()=>{
         }
         _currentPlayer = _playerOne;
         ui.updateCurrentPlayer(1);
+        _updateCurrentPlayerColors(1);
     }
 
     function _botPlayTurnEasy(){
@@ -406,8 +424,8 @@ const game = (()=>{
     function botPlayTurn(){
         console.log("BOT PLAYS TURN");
         if(over) return;
-        if(ongoingCelebration){
-            console.log("ONGOING CELEBRATION");
+        if(timeOut){
+            console.log("TIME OUT");
             setTimeout(botPlayTurn, 1000);
             return;
         }
@@ -432,28 +450,23 @@ const game = (()=>{
     }
 
     function playTurn(cellNumber){
-        console.log("play");
-        if(ongoingCelebration){
-            console.log("ONGOING CELEBRATION");
-            return;
-        }
-        let successfulTurn = gameBoard.addMark(_currentPlayer.mark, cellNumber);
-        let goal = gameBoard.checkIfGoal();
-        if(goal) {
-            if(goal === 1){
-                console.log("It's a tie!");
-            }
-            else{
-                console.log(`Goal! ${_currentPlayer.name} scored!`);
-                _addGoal(_currentPlayer);
-            }
-            ongoingCelebration = true;
-            setTimeout(()=>{ongoingCelebration = false}, 1000);
-        }
+        if(timeOut){return;}
+        const successfulTurn = gameBoard.addMark(_currentPlayer.mark, cellNumber);
         if(successfulTurn){
+            const gameOver = gameBoard.checkIfOver();
+            if(gameOver) {
+                timeOut = true;
+                setTimeout(()=>{timeOut = false}, 1000);
+                if(gameOver === 2){
+                    _addGoal(_currentPlayer);
+                    setTimeout(_switchTurns, 1000);
+                    return;
+                }
+            }
             _switchTurns();
         }
     }
+
     return {playTurn, toggleSound, updateTeam, updateName, getPLayerOne, getPLayerTwo, setFirstTurn, startTime, 
             resetScores, resetTeams, soundActivated, setOpponent, setDifficulty, getDifficulty, botsTurn};
 })();
@@ -1310,21 +1323,15 @@ const ui = (()=>{
         toggles.forEach(toggle => toggle.classList.add("bottom-left"));
         const gameScreen = document.createElement("section");
         gameScreen.classList.add("game-screen");
-        const playerOneSide = document.createElement("section");
-        playerOneSide.classList.add("player-one-side");
         const localTeamBadge = document.createElement("img");
         localTeamBadge.classList.add("local-team-badge");
         const localTeam = game.getPLayerOne().team;
         usefulFunctions.setAttributes(localTeamBadge, ["src", "alt"], [localTeam.imagePath, localTeam.name]);
-        playerOneSide.appendChild(localTeamBadge);
-        const playerTwoSide = document.createElement("section");
-        playerTwoSide.classList.add("player-two-side");
         const visitorTeamBadge = document.createElement("img");
         visitorTeamBadge.classList.add("visitor-team-badge");
         const visitorTeam = game.getPLayerTwo().team;
         usefulFunctions.setAttributes(visitorTeamBadge, ["src", "alt"], [visitorTeam.imagePath, visitorTeam.name]);
-        playerTwoSide.appendChild(visitorTeamBadge);
-        usefulFunctions.appendChildren(gameScreen, [playerOneSide, playerTwoSide]);
+        usefulFunctions.appendChildren(gameScreen, [localTeamBadge, visitorTeamBadge]);
         _displayScoreBoard(gameScreen);
         gameBoard.set(gameScreen);
         _body.appendChild(gameScreen);
@@ -1337,22 +1344,42 @@ const ui = (()=>{
         scoreContainer.classList.add("score-container");
         const local = document.createElement("section");
         local.classList.add("local");
+        const localAbbreviationAndColors = document.createElement("section");
+        localAbbreviationAndColors.classList.add("local-abbreviation-and-colors");
         const localAbbreviation = document.createElement("p");
         localAbbreviation.classList.add("local-abbreviation");
         localAbbreviation.innerText = game.getPLayerOne().team.abbreviation;
+        const localColors = document.createElement("section");
+        localColors.classList.add("local-colors");
+        for(const colorNumber in game.getPLayerOne().team.colors){
+            const color = document.createElement("section");
+            color.classList.add(`local-color${colorNumber}`);
+            localColors.appendChild(color);
+        }
+        usefulFunctions.appendChildren(localAbbreviationAndColors, [localAbbreviation, localColors]);
         const localScore = document.createElement("p");
         localScore.classList.add("local-score");
         localScore.innerText = "0";
-        usefulFunctions.appendChildren(local, [localAbbreviation, localScore]);
+        usefulFunctions.appendChildren(local, [localAbbreviationAndColors, localScore]);
         const visitor = document.createElement("section");
         visitor.classList.add("visitor");
+        const visitorAbbreviationAndColors = document.createElement("section");
+        visitorAbbreviationAndColors.classList.add("visitor-abbreviation-and-colors");
         const visitorAbbreviation = document.createElement("p");
         visitorAbbreviation.classList.add("visitor-abbreviation");
         visitorAbbreviation.innerText = game.getPLayerTwo().team.abbreviation;
+        const visitorColors = document.createElement("section");
+        visitorColors.classList.add("visitor-colors");
+        for(const colorNumber in game.getPLayerTwo().team.colors){
+            const color = document.createElement("section");
+            color.classList.add(`visitor-color${colorNumber}`);
+            visitorColors.appendChild(color);
+        }
+        usefulFunctions.appendChildren(visitorAbbreviationAndColors, [visitorAbbreviation, visitorColors]);
         const visitorScore = document.createElement("p");
         visitorScore.classList.add("visitor-score");
         visitorScore.innerText = "0";
-        usefulFunctions.appendChildren(visitor, [visitorScore, visitorAbbreviation]);
+        usefulFunctions.appendChildren(visitor, [visitorScore, visitorAbbreviationAndColors]);
         usefulFunctions.appendChildren(scoreContainer, [local, visitor]);
         const timeContainer = document.createElement("section");
         timeContainer.classList.add("time-container");
@@ -1389,6 +1416,12 @@ const ui = (()=>{
         if(localTeamBadge.classList.contains("current-player")){localTeamBadge.classList.toggle("current-player")};
     }
 
+    function toggleTieAnimation(){
+        const gameboard = $(".game-board");
+        gameboard.classList.toggle("tie");
+        setTimeout(()=>{gameboard.classList.toggle("tie")}, 1000);
+    }
+
     function displayResult(result){
         if(game.soundActivated()) sounds.gameOver.play();
         usefulFunctions.clearPreviousScreen();
@@ -1408,10 +1441,10 @@ const ui = (()=>{
         mid.classList.add("game-result-mid");
         const playerOneTeam = game.getPLayerOne().team;
         const playerOneTeamBadge = document.createElement("img");
-        usefulFunctions.setAttributes(playerOneTeamBadge, ["src", "alt", "class"], [playerOneTeam.imagePath, playerOneTeam.name, "player-one-team-badge"]);
+        usefulFunctions.setAttributes(playerOneTeamBadge, ["src", "alt", "class"], [playerOneTeam.imagePath, `Flag of ${playerOneTeam.name}`, "player-one-team-badge"]);
         const playerTwoTeam = game.getPLayerTwo().team;
         const playerTwoTeamBadge = document.createElement("img");
-        usefulFunctions.setAttributes(playerTwoTeamBadge, ["src", "alt", "class"], [playerTwoTeam.imagePath, playerTwoTeam.name, "player-two-team-badge"]);
+        usefulFunctions.setAttributes(playerTwoTeamBadge, ["src", "alt", "class"], [playerTwoTeam.imagePath, `Flag of ${playerTwoTeam.name}`, "player-two-team-badge"]);
         const finalScoreContainer = document.createElement("section");
         finalScoreContainer.classList.add("final-score-container");
         const finalScore = document.createElement("p");
@@ -1423,6 +1456,7 @@ const ui = (()=>{
         bottom.classList.add("game-result-bottom");
         const selectTeam = document.createElement("i");
         selectTeam.classList.add("fa-solid", "fa-shirt");
+        selectTeam.setAttribute("title", "SELECT TEAM");
         selectTeam.addEventListener("click", ()=> {
             if(game.soundActivated()) sounds.selectionOne.play();
             const nameOne = game.getPLayerOne().name;
@@ -1432,6 +1466,7 @@ const ui = (()=>{
         });
         const playAgain = document.createElement("i");
         playAgain.classList.add("fa-solid", "fa-arrow-rotate-left");
+        playAgain.setAttribute("title", "PLAY AGAIN");
         playAgain.addEventListener("click", ()=>{
             if(game.soundActivated()) sounds.selectionOne.play();
             _flipCoin();
@@ -1441,7 +1476,7 @@ const ui = (()=>{
         _body.appendChild(resultOuterContainer);
     }
 
-    return {updateScore, updateTime, updateCurrentPlayer, displayResult, displaySong}
+    return {updateScore, updateTime, updateCurrentPlayer, displayResult, displaySong, toggleTieAnimation}
 })()
 
 const usefulFunctions = {
@@ -1510,10 +1545,10 @@ DATA = (()=>{
             // "Ukranian Premier League": ""
         },
         Africa: {
-            "Egyptian Premier League": {"Al Ahly": {colors:["red", "white", "black"], abbreviation: "AHL"}, "Pyramids FC": {colors: ["blue", "skyblue", "white"], abbreviation: "PYR"}}
+            "Egyptian Premier League": {"Al Ahly": {colors:["255, 0, 0", "255, 255, 255", "0, 0, 0"], abbreviation: "AHL"}, "Pyramids FC": {colors: ["0, 0, 255", "100, 100, 255", "255, 255, 255"], abbreviation: "PYR"}}
         },
         Asia: {
-            "J1 League": {"Cerezo Osaka": {colors:["pink", "pink", "purple"], abbreviation: "CZO"}, "FC Tokyo": {colors: ["blue", "blue", "red"], abbreviation: "TKY"}},
+            "J1 League": {"Cerezo Osaka": {colors:["pink", "pink", "purple"], abbreviation: "CZO"}, "FC Tokyo": {colors: ["0, 0, 255", "0, 0, 255", "255, 0, 0"], abbreviation: "TKY"}},
         }
     }
       
