@@ -1576,9 +1576,6 @@ DATA = (()=>{
             console.log(continent);
             return Object.keys(_CONTINENTS[continent])
     }
-    function getCountryColors(continent, country){
-    	return _CONTINENTS[continent][country]["colors"];
-    }
     function getCountryInfo(continent, country){
         const abbreviation = _CONTINENTS[continent][country]["abbreviation"];
         const colors = _CONTINENTS[continent][country]["colors"];
@@ -1590,15 +1587,12 @@ DATA = (()=>{
     function getClubs(continent, league){
         return Object.keys(_LEAGUES[continent][league]);
     }
-    function getClubColors(continent, league, club){
-    	return _LEAGUES[continent][league][club]["colors"];
-    }
     function getClubInfo(continent, league, club){
         const abbreviation = _LEAGUES[continent][league][club]["abbreviation"];
         const colors = _LEAGUES[continent][league][club]["colors"];
         return {abbreviation, colors};
     }
-    return {getContinents, getCountries, getCountryColors, getCountryInfo, getLeagues, getClubs, getClubColors, _CONTINENTS, _LEAGUES, getClubInfo};
+    return {getContinents, getCountries, getCountryInfo, getLeagues, getClubs, getClubInfo};
 })();
 
 const sounds = (()=>{
