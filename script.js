@@ -6,7 +6,7 @@ const gameBoard = (()=>{
 
     // returns a copy of the gameBoard array.
     function get(){
-        let board = _gameBoard.slice(0);
+        const board = _gameBoard.slice(0);
         return board;
     }
 
@@ -76,12 +76,12 @@ const gameBoard = (()=>{
     function _checkIfThreeInLine(){     
         const WINNING_COMBINATIONS = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
         const cells = _getCells();
-        for (let combination of WINNING_COMBINATIONS){
-            let firstCellHasAMark = ["X", "O"].includes(_gameBoard[combination[0]]);
-            let allCellsHaveTheSameMark = _gameBoard[combination[0]] === _gameBoard[combination[1]] && _gameBoard[combination[0]] === _gameBoard[combination[2]];
-            someoneWon = firstCellHasAMark && allCellsHaveTheSameMark;
+        for (const combination of WINNING_COMBINATIONS){
+            const firstCellHasAMark = ["X", "O"].includes(_gameBoard[combination[0]]);
+            const allCellsHaveTheSameMark = _gameBoard[combination[0]] === _gameBoard[combination[1]] && _gameBoard[combination[0]] === _gameBoard[combination[2]];
+            const someoneWon = firstCellHasAMark && allCellsHaveTheSameMark;
             if(someoneWon){
-                for(let cell of cells){
+                for(const cell of cells){
                     const cellNumber = parseInt(cell.getAttribute("data-cell"));
                     if(combination.includes(cellNumber)){
                         cell.classList.add("winning-combination");
@@ -95,7 +95,7 @@ const gameBoard = (()=>{
     }
 
     function _checkIfFull(){
-        let occupiedCells = _gameBoard.filter(cell => cell === "X" || cell === "O");
+        const occupiedCells = _gameBoard.filter(cell => cell === "X" || cell === "O");
         return occupiedCells.length === 9;
     }
 
@@ -118,7 +118,7 @@ const gameBoard = (()=>{
     }
 
     function addMark(mark, cellNumber){
-        let cellAlreadyTaken = _gameBoard[cellNumber] === "X" || _gameBoard[cellNumber] === "O";
+        const cellAlreadyTaken = _gameBoard[cellNumber] === "X" || _gameBoard[cellNumber] === "O";
         if(cellAlreadyTaken){
             if(game.soundActivated()) sounds.errorOne.play();
             return false
@@ -324,13 +324,13 @@ const game = (()=>{
 
     function _botPlayTurnNormal(){
         console.log("BOT PLAYS TURN NORMAL");
-        let randomDifficulty = Math.floor(Math.random() * 2);
+        const randomDifficulty = Math.floor(Math.random() * 2);
         (randomDifficulty === 0) ? _botPlayTurnEasy() : _botPlayTurnUnbeatable();
     }
 
     function _botPlayTurnHard(){
         console.log("BOT PLAYS TURN HARD:");
-        let randomDifficulty = Math.floor(Math.random() * 4);
+        const randomDifficulty = Math.floor(Math.random() * 4);
         ([0, 1, 2].includes(randomDifficulty)) ? _botPlayTurnUnbeatable() : _botPlayTurnEasy();
     }
 
@@ -541,12 +541,12 @@ const ui = (()=>{
     }
 
     function _removePreviousSelector(container){
-        let previousSelector = $(`.initial-settings .${container.getAttribute("class")} > [class*="selector"]`);
+        const previousSelector = $(`.initial-settings .${container.getAttribute("class")} > [class*="selector"]`);
         if (previousSelector) {container.removeChild(previousSelector)};
     }
 
     function _removePreviousTeamChosenScreen(container){
-        let previousTeamChosenScreen = $(`.initial-settings .${container.getAttribute("class")} > [class*="chosen"]`);
+        const previousTeamChosenScreen = $(`.initial-settings .${container.getAttribute("class")} > [class*="chosen"]`);
         if (previousTeamChosenScreen) {container.removeChild(previousTeamChosenScreen)};
     }
 
@@ -609,12 +609,12 @@ const ui = (()=>{
     function _goBack(container){
         _removeLastRandom(container);
         console.log("GO BACK")
-        let isContinentSelector = $(`.initial-settings .${container.getAttribute("class")} > .continent-selector`);
-        let isNationalTeamsSelector = $(`.initial-settings .${container.getAttribute("class")} > .national-teams-selector`);
-        let isNationalTeamChosen = $(`.initial-settings .${container.getAttribute("class")} > .national-team-chosen`);
-        let isLeaguesSelector = $(`.initial-settings .${container.getAttribute("class")} > .leagues-selector`);
-        let isClubsSelector = $(`.initial-settings .${container.getAttribute("class")} > .clubs-selector`);
-        let isClubChosen = $(`.initial-settings .${container.getAttribute("class")} > .club-chosen`);
+        const isContinentSelector = $(`.initial-settings .${container.getAttribute("class")} > .continent-selector`);
+        const isNationalTeamsSelector = $(`.initial-settings .${container.getAttribute("class")} > .national-teams-selector`);
+        const isNationalTeamChosen = $(`.initial-settings .${container.getAttribute("class")} > .national-team-chosen`);
+        const isLeaguesSelector = $(`.initial-settings .${container.getAttribute("class")} > .leagues-selector`);
+        const isClubsSelector = $(`.initial-settings .${container.getAttribute("class")} > .clubs-selector`);
+        const isClubChosen = $(`.initial-settings .${container.getAttribute("class")} > .club-chosen`);
         if(isContinentSelector){
             _displayCategorySelector(container);
             const returnButton = $(`.initial-settings .${container.getAttribute("class")} > .return-button`);
@@ -748,13 +748,13 @@ const ui = (()=>{
     }
 
     function _randomize(container){
-        let isCategorySelector = $(`.initial-settings .${container.getAttribute("class")} > .category-selector`);
-        let isContinentSelector = $(`.initial-settings .${container.getAttribute("class")} > .continent-selector`);
-        let isNationalTeamsSelector = $(`.initial-settings .${container.getAttribute("class")} > .national-teams-selector`);
-        let isNationalTeamChosen = $(`.initial-settings .${container.getAttribute("class")} > .national-team-chosen`);
-        let isLeaguesSelector = $(`.initial-settings .${container.getAttribute("class")} > .leagues-selector`);
-        let isClubsSelector = $(`.initial-settings .${container.getAttribute("class")} > .clubs-selector`);
-        let isClubChosen = $(`.initial-settings .${container.getAttribute("class")} > .club-chosen`);
+        const isCategorySelector = $(`.initial-settings .${container.getAttribute("class")} > .category-selector`);
+        const isContinentSelector = $(`.initial-settings .${container.getAttribute("class")} > .continent-selector`);
+        const isNationalTeamsSelector = $(`.initial-settings .${container.getAttribute("class")} > .national-teams-selector`);
+        const isNationalTeamChosen = $(`.initial-settings .${container.getAttribute("class")} > .national-team-chosen`);
+        const isLeaguesSelector = $(`.initial-settings .${container.getAttribute("class")} > .leagues-selector`);
+        const isClubsSelector = $(`.initial-settings .${container.getAttribute("class")} > .clubs-selector`);
+        const isClubChosen = $(`.initial-settings .${container.getAttribute("class")} > .club-chosen`);
 
         if(isCategorySelector){
             _chooseRandomNationalTeamOrClub(container);
@@ -998,7 +998,7 @@ const ui = (()=>{
         const opponentNameInput = document.createElement("input");
         opponentNameInput.disabled = true;
         const BOT_NAMES = ["Botaldo", "Botaldinho", "Botssi", "Botzema", "Botandowski", "Botistuta", "Botti", "Bottenbauer"];
-        let botsName = BOT_NAMES[Math.floor(Math.random() * BOT_NAMES.length)];
+        const botsName = BOT_NAMES[Math.floor(Math.random() * BOT_NAMES.length)];
         usefulFunctions.setAttributes(opponentNameInput, ["id", "type","value"], ["bot-name", "text", botsName]);
         const difficultyToggle = document.createElement("button");
         usefulFunctions.setAttributes(difficultyToggle, ["type", "class",], ["button", "difficulty-toggle"]);
@@ -1027,14 +1027,14 @@ const ui = (()=>{
     }
 
     function _displaySelectTeamScreen(container){
-        let alreadyASelecTeamScreen = $(`.initial-settings .${container.getAttribute("class")} > .select-team`);
+        const alreadyASelecTeamScreen = $(`.initial-settings .${container.getAttribute("class")} > .select-team`);
         if(alreadyASelecTeamScreen) return;
         _removePreviousLabel(container);
         _removePreviousSelector(container);
         _removePreviousTeamChosenScreen(container);
-        let randomButton = $(`.initial-settings .${container.getAttribute("class")} > .random-button`);
+        const randomButton = $(`.initial-settings .${container.getAttribute("class")} > .random-button`);
         if(randomButton){container.removeChild(randomButton)};
-        let returnButton = $(`.initial-settings .${container.getAttribute("class")} > .return-button`);
+        const returnButton = $(`.initial-settings .${container.getAttribute("class")} > .return-button`);
         if(returnButton){container.removeChild(returnButton)};
         const selectTeamScreen = document.createElement("div");
         selectTeamScreen.classList.add("select-team");
@@ -1049,9 +1049,9 @@ const ui = (()=>{
 
     function _displayCategorySelector(container){
         _removePreviousSelector(container);
-        let selecTeamScreen = $(`.initial-settings .${container.getAttribute("class")} > .select-team`);
+        const selecTeamScreen = $(`.initial-settings .${container.getAttribute("class")} > .select-team`);
         if(selecTeamScreen){container.removeChild(selecTeamScreen)};
-        let noRandomButton = !$(`.initial-settings .${container.getAttribute("class")} > .random-button`);
+        const noRandomButton = !$(`.initial-settings .${container.getAttribute("class")} > .random-button`);
         if(noRandomButton){_addRandomButton(container)}
         const categorySelector = document.createElement("div");
         categorySelector.classList.add("category-selector");
@@ -1150,7 +1150,7 @@ const ui = (()=>{
         _removePreviousLabel(container);
         _removePreviousTeamChosenScreen(container);
         game.updateTeam(container, country, abbreviation, imagePath, colors);
-        let thereIsNoReturnButton = !$(`.initial-settings .${container.getAttribute("class")} > .return-button`);
+        const thereIsNoReturnButton = !$(`.initial-settings .${container.getAttribute("class")} > .return-button`);
         if(thereIsNoReturnButton){_addReturnButton(container)};
         const labelContainer = _addLabel();
         const label = labelContainer.firstChild;
@@ -1400,7 +1400,7 @@ const ui = (()=>{
     }
 
     function updateTime(currentTime){
-        let time = $(".scoreboard .time");
+        const time = $(".scoreboard .time");
         time.innerText = currentTime;
     }
 
@@ -1498,8 +1498,8 @@ const ui = (()=>{
 
 const usefulFunctions = {
     setAttributes: (element, attributes, values)=>{
-        for (let iterator in attributes){
-            element.setAttribute(attributes[iterator], values[iterator])
+        for (let index in attributes){
+            element.setAttribute(attributes[index], values[index])
         }
     },
     appendChildren: (parent, children)=>{
