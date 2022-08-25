@@ -923,10 +923,26 @@ section[class*='abbreviation-and-colors']{
     justify-content: center;
     align-items: center;
     gap: 8%;
+    text-shadow: -4px 2px var(--color-primary);
 }
 
-.game-result-mid img{
+.player-one-badge-container, .player-two-badge-container{
     width: 20%;
+    display: flex;
+    position: relative;
+}
+
+.game-result-mid .winner-award{
+    width: 40%;
+    position: absolute;
+    right: -10%;
+    bottom: -10%;
+    transform: rotateZ(20deg);
+    filter: drop-shadow(2px 4px 6px black);
+}
+
+.game-result-bottom{
+    text-shadow: none;
 }
 
 .game-result-bottom > i{
@@ -937,6 +953,20 @@ section[class*='abbreviation-and-colors']{
 .game-result-bottom > i:hover{
     opacity: 1;
     transform: scale(1.1);
+}
+
+@media (orientation: portrait), (max-width: 1000px){
+    .game-result{
+        font-size: 1.5rem;
+    }
+
+    .game-result-top{
+        align-items: flex-end;
+    }
+
+    .game-result-bottom{
+        align-items: flex-start;
+    }
 }
 
 /* miscellaneous */

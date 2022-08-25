@@ -142,7 +142,7 @@ const game = (()=>{
     let _difficulty = "EASY", _sound = false, over = false, timeOut = false;
     let _opponent = null, _currentPlayer = null;
     let currentTimeMinutes = 0, currentTimeSeconds = 0, currentTime;
-    const MAX_TIME = 90;
+    const MAX_TIME = 10;
     const _playerOne = Player("X");
     const _playerTwo = Player("O");
 
@@ -231,7 +231,7 @@ const game = (()=>{
                 ui.updateTime(currentTime);
                 resetTime();
                 gameBoard.reset();
-                const result = (_playerOne.score === _playerTwo.score) ? "IT'S A TIE!" : (_playerOne.score > _playerTwo.score) ? `${_playerOne.name.toUpperCase()} WON!` : `${_playerTwo.name.toUpperCase()} WON!`;
+                const result = (_playerOne.score === _playerTwo.score) ? 0 : (_playerOne.score > _playerTwo.score) ? 1 : 2;
                 ui.displayResult(result); 
                 return;
             };
@@ -288,15 +288,16 @@ const game = (()=>{
         _playerTwo.score = 0;
     }
 
-    function getPLayerOne(){
+    function getPlayerOne(){
         return _playerOne;
     }
 
-    function getPLayerTwo(){
+    function getPlayerTwo(){
         return _playerTwo;
     }
 
     function _switchTurns(){
+        if(over) return;
         const root = $(":root");
         if(_currentPlayer === _playerOne){
             _currentPlayer = _playerTwo;
@@ -467,7 +468,7 @@ const game = (()=>{
         }
     }
 
-    return {playTurn, toggleSound, updateTeam, updateName, getPLayerOne, getPLayerTwo, setFirstTurn, startTime, 
+    return {playTurn, toggleSound, updateTeam, updateName, getPlayerOne, getPlayerTwo, setFirstTurn, startTime, 
             resetScores, resetTeams, soundActivated, setOpponent, setDifficulty, getDifficulty, botsTurn};
 })();
 
@@ -698,7 +699,7 @@ const ui = (()=>{
 
     function _chooseRandomNationalTeam(container, continent){
         const player = (container.getAttribute("class") === "left") ? "one" : "two";
-        const currentTeams = {"one": game.getPLayerOne().team.name, "two": game.getPLayerTwo().team.name};
+        const currentTeams = {"one": game.getPlayerOne().team.name, "two": game.getPlayerTwo().team.name};
         console.log("RANDOM NATIONAL TEAM");
         if(!continent){continent = _chooseRandomContinent()};
         console.log(continent);
@@ -717,7 +718,7 @@ const ui = (()=>{
 
     function _chooseRandomClub(container, continent, league){
         const player = (container.getAttribute("class") === "left") ? "one" : "two";
-        const currentTeams = {"one": game.getPLayerOne().team.name, "two": game.getPLayerTwo().team.name};
+        const currentTeams = {"one": game.getPlayerOne().team.name, "two": game.getPlayerTwo().team.name};
         console.log("RANDOM CLUB");
         if(!continent){continent = _chooseRandomContinent()};
         console.log("RANDOMIZE");
@@ -820,8 +821,8 @@ const ui = (()=>{
         const opponentType = $(".initial-settings .right > select").value;
         const opponentInput = $(".right input");
         const opponentName = opponentInput.value;
-        const playerOne = game.getPLayerOne();
-        const playerTwo = game.getPLayerTwo();
+        const playerOne = game.getPlayerOne();
+        const playerTwo = game.getPlayerTwo();
         if(playerOne.team.name === null){
             window.scrollTo(0, 0);
             alreadyScrolled = true;
@@ -1259,8 +1260,8 @@ const ui = (()=>{
         const instructions = document.createElement("p");
         instructions.classList.add("coin-flip-instructions");
         instructions.innerText = "FLIP THE COIN TO SEE WHO STARTS";
-        const playerOne = game.getPLayerOne();
-        const playerTwo = game.getPLayerTwo();
+        const playerOne = game.getPlayerOne();
+        const playerTwo = game.getPlayerTwo();
         const playerOneCoinSide = ["head", "tail"][Math.floor(Math.random() * 2)];
         const playerTwoCoinSide = (playerOneCoinSide === "head") ? "tail" : "head";
         const playerOneCoinSideMessage = document.createElement("p");
@@ -1325,11 +1326,11 @@ const ui = (()=>{
         gameScreen.classList.add("game-screen");
         const localTeamBadge = document.createElement("img");
         localTeamBadge.classList.add("local-team-badge");
-        const localTeam = game.getPLayerOne().team;
+        const localTeam = game.getPlayerOne().team;
         usefulFunctions.setAttributes(localTeamBadge, ["src", "alt"], [localTeam.imagePath, localTeam.name]);
         const visitorTeamBadge = document.createElement("img");
         visitorTeamBadge.classList.add("visitor-team-badge");
-        const visitorTeam = game.getPLayerTwo().team;
+        const visitorTeam = game.getPlayerTwo().team;
         usefulFunctions.setAttributes(visitorTeamBadge, ["src", "alt"], [visitorTeam.imagePath, visitorTeam.name]);
         usefulFunctions.appendChildren(gameScreen, [localTeamBadge, visitorTeamBadge]);
         _displayScoreBoard(gameScreen);
@@ -1348,10 +1349,10 @@ const ui = (()=>{
         localAbbreviationAndColors.classList.add("local-abbreviation-and-colors");
         const localAbbreviation = document.createElement("p");
         localAbbreviation.classList.add("local-abbreviation");
-        localAbbreviation.innerText = game.getPLayerOne().team.abbreviation;
+        localAbbreviation.innerText = game.getPlayerOne().team.abbreviation;
         const localColors = document.createElement("section");
         localColors.classList.add("local-colors");
-        for(const colorNumber in game.getPLayerOne().team.colors){
+        for(const colorNumber in game.getPlayerOne().team.colors){
             const color = document.createElement("section");
             color.classList.add(`local-color${colorNumber}`);
             localColors.appendChild(color);
@@ -1367,10 +1368,10 @@ const ui = (()=>{
         visitorAbbreviationAndColors.classList.add("visitor-abbreviation-and-colors");
         const visitorAbbreviation = document.createElement("p");
         visitorAbbreviation.classList.add("visitor-abbreviation");
-        visitorAbbreviation.innerText = game.getPLayerTwo().team.abbreviation;
+        visitorAbbreviation.innerText = game.getPlayerTwo().team.abbreviation;
         const visitorColors = document.createElement("section");
         visitorColors.classList.add("visitor-colors");
-        for(const colorNumber in game.getPLayerTwo().team.colors){
+        for(const colorNumber in game.getPlayerTwo().team.colors){
             const color = document.createElement("section");
             color.classList.add(`visitor-color${colorNumber}`);
             visitorColors.appendChild(color);
@@ -1394,8 +1395,8 @@ const ui = (()=>{
     function updateScore(){
         const localScore = $(".scoreboard .local-score");
         const visitorScore = $(".scoreboard .visitor-score");
-        localScore.innerText = game.getPLayerOne().score;
-        visitorScore.innerText = game.getPLayerTwo().score;
+        localScore.innerText = game.getPlayerOne().score;
+        visitorScore.innerText = game.getPlayerTwo().score;
     }
 
     function updateTime(currentTime){
@@ -1423,10 +1424,14 @@ const ui = (()=>{
     }
 
     function displayResult(result){
+        console.log("RESULT");
+        console.log(result);
         if(game.soundActivated()) sounds.gameOver.play();
         usefulFunctions.clearPreviousScreen();
         const toggles = $$("i[class*='toggle']");
         toggles.forEach(toggle => {if(toggle.classList.contains("bottom-left"))toggle.classList.remove("bottom-left")});
+        const playerOne = game.getPlayerOne();
+        const playerTwo = game.getPlayerTwo();
         const resultOuterContainer = document.createElement("section");
         resultOuterContainer.classList.add("game-result-container");
         const resultContainer = document.createElement("section");
@@ -1435,23 +1440,35 @@ const ui = (()=>{
         const top = document.createElement("section");
         top.classList.add("game-result-top");
         const outcome = document.createElement("p");
-        outcome.innerText = result;
+        const RESULT_MESSAGES = ["IT'S A TIE!", `${playerOne.name.toUpperCase()} WON!`, `${playerTwo.name.toUpperCase()} WON!`];
+        outcome.innerText = RESULT_MESSAGES[result];
         top.appendChild(outcome);
         const mid = document.createElement("section");
         mid.classList.add("game-result-mid");
-        const playerOneTeam = game.getPLayerOne().team;
-        const playerOneTeamBadge = document.createElement("img");
-        usefulFunctions.setAttributes(playerOneTeamBadge, ["src", "alt", "class"], [playerOneTeam.imagePath, `Flag of ${playerOneTeam.name}`, "player-one-team-badge"]);
-        const playerTwoTeam = game.getPLayerTwo().team;
-        const playerTwoTeamBadge = document.createElement("img");
-        usefulFunctions.setAttributes(playerTwoTeamBadge, ["src", "alt", "class"], [playerTwoTeam.imagePath, `Flag of ${playerTwoTeam.name}`, "player-two-team-badge"]);
+        const playerOneTeam = playerOne.team;
+        const playerOneBadgeContainer = document.createElement("section");
+        playerOneBadgeContainer.classList.add("player-one-badge-container");
+        const playerOneBadge = document.createElement("img");
+        usefulFunctions.setAttributes(playerOneBadge, ["src", "alt", "class"], [playerOneTeam.imagePath, `Flag of ${playerOneTeam.name}`, "player-one-team-badge"]);
+        playerOneBadgeContainer.appendChild(playerOneBadge);
+        const playerTwoTeam = playerTwo.team;
+        const playerTwoBadgeContainer = document.createElement("section");
+        playerTwoBadgeContainer.classList.add("player-two-badge-container");
+        const playerTwoBadge = document.createElement("img");
+        usefulFunctions.setAttributes(playerTwoBadge, ["src", "alt", "class"], [playerTwoTeam.imagePath, `Flag of ${playerTwoTeam.name}`, "player-two-team-badge"]);
+        playerTwoBadgeContainer.appendChild(playerTwoBadge);
+        if(result){
+            const winnerAward = document.createElement("img");
+            usefulFunctions.setAttributes(winnerAward, ["src", "alt", "class"], ["./images/cups/winner-award.svg", "Winner award", "winner-award"]);
+            (result == 1) ? playerOneBadgeContainer.appendChild(winnerAward) : playerTwoBadgeContainer.appendChild(winnerAward);
+        }
         const finalScoreContainer = document.createElement("section");
         finalScoreContainer.classList.add("final-score-container");
         const finalScore = document.createElement("p");
         finalScore.classList.add("final-score");
-        finalScore.innerText = `${game.getPLayerOne().score} - ${game.getPLayerTwo().score}`;
+        finalScore.innerText = `${playerOne.score} - ${playerTwo.score}`;
         finalScoreContainer.appendChild(finalScore);
-        usefulFunctions.appendChildren(mid, [playerOneTeamBadge, finalScoreContainer, playerTwoTeamBadge]);
+        usefulFunctions.appendChildren(mid, [playerOneBadgeContainer, finalScoreContainer, playerTwoBadgeContainer]);
         const bottom = document.createElement("section");
         bottom.classList.add("game-result-bottom");
         const selectTeam = document.createElement("i");
@@ -1459,8 +1476,8 @@ const ui = (()=>{
         selectTeam.setAttribute("title", "SELECT TEAM");
         selectTeam.addEventListener("click", ()=> {
             if(game.soundActivated()) sounds.selectionOne.play();
-            const nameOne = game.getPLayerOne().name;
-            const nameTwo = game.getPLayerTwo().name;
+            const nameOne = playerOne.name;
+            const nameTwo = playerTwo.name;
             game.resetTeams();
             _displayInitialSetup(nameOne, nameTwo);
         });
