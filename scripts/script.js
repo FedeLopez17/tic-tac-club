@@ -715,7 +715,7 @@ const ui = (()=>{
         const countryInfo = DATA.getCountryInfo(continent, country);
         const kebabCaseContinent = helperFunctions.toKebabCase(continent);
         const kebabCaseCountry = helperFunctions.toKebabCase(country);
-        const imagePath = `./images/countries/${kebabCaseContinent}/${kebabCaseCountry}.svg`
+        const imagePath = `./images/continents/${kebabCaseContinent}/national-teams/${kebabCaseCountry}.svg`;
         _displayNationalTeamChosen(container, country, countryInfo.abbreviation, imagePath, continent, countryInfo.colors);
     }
 
@@ -738,7 +738,7 @@ const ui = (()=>{
         const kebabCaseContinent = helperFunctions.toKebabCase(continent);
         const kebabCaseLeague = helperFunctions.toKebabCase(league);
         const kebabCaseClub = helperFunctions.toKebabCase(club);
-        const imagePath = `./images/clubs/${kebabCaseContinent}/${kebabCaseLeague}/${kebabCaseClub}.svg`;
+        const imagePath = `./images/continents/${kebabCaseContinent}/leagues/${kebabCaseLeague}/clubs/${kebabCaseClub}.svg`;
         _displayClubChosen(container, club, clubInfo.abbreviation, imagePath, continent, league, clubInfo.colors);
     }
 
@@ -1096,7 +1096,8 @@ const ui = (()=>{
             continentTitle = document.createElement("p");
             continentTitle.innerText = currentContinent;
             continent.appendChild(continentTitle);
-            const BACKGROUND_IMAGE_PATH = `./images/continents/${helperFunctions.toKebabCase(currentContinent)}.svg`;
+            const kebabCaseContinent = helperFunctions.toKebabCase(currentContinent);
+            const BACKGROUND_IMAGE_PATH = `./images/continents/${kebabCaseContinent}/${kebabCaseContinent}.svg`;
             continent.setAttribute("style", `background-image: url(${BACKGROUND_IMAGE_PATH})`);
             continent.setAttribute("data-continent", currentContinent);
             if (isNationalTeams){
@@ -1137,7 +1138,7 @@ const ui = (()=>{
             const countryBadge = document.createElement("img");
             const kebabCaseContinent = helperFunctions.toKebabCase(continent);
             const kebabCaseCountry = helperFunctions.toKebabCase(currentCountry);
-            const imagePath = `./images/countries/${kebabCaseContinent}/${kebabCaseCountry}.svg`
+            const imagePath = `./images/continents/${kebabCaseContinent}/national-teams/${kebabCaseCountry}.svg`
             helperFunctions.setAttributes(countryBadge, ["src", "alt"], [imagePath, currentCountry]);
             country.addEventListener("click", ()=>{_displayNationalTeamChosen(container, currentCountry, countryInfo.abbreviation, imagePath, continent, countryInfo.colors)});
             country.addEventListener("mouseenter", ()=>{_updateLabel(label, currentCountry.toUpperCase())});
@@ -1191,7 +1192,7 @@ const ui = (()=>{
             leagueLogo.setAttribute("data-league", currentLeague);
             const kebabCaseContinent = helperFunctions.toKebabCase(continent);
             const kebabCaseLeague = helperFunctions.toKebabCase(currentLeague);
-            const imagePath = `./images/leagues/${kebabCaseContinent}/${kebabCaseLeague}.svg`
+            const imagePath = `./images/continents/${kebabCaseContinent}/leagues/${kebabCaseLeague}/${kebabCaseLeague}.svg`
             helperFunctions.setAttributes(leagueLogo, ["src", "alt"], [imagePath, currentLeague]);
             league.appendChild(leagueLogo);
             league.addEventListener("click", (event)=>{_displayClubsSelector(container, continent, event)});
@@ -1225,7 +1226,7 @@ const ui = (()=>{
             const kebabCaseContinent = helperFunctions.toKebabCase(continent);
             const kebabCaseLeague = helperFunctions.toKebabCase(league);
             const kebabCaseClub = helperFunctions.toKebabCase(currentClub);
-            const imagePath = `./images/clubs/${kebabCaseContinent}/${kebabCaseLeague}/${kebabCaseClub}.svg`
+            const imagePath = `./images/continents/${kebabCaseContinent}/leagues/${kebabCaseLeague}/clubs/${kebabCaseClub}.svg`
             helperFunctions.setAttributes(clubBadge, ["src", "alt"], [imagePath, currentClub]);
             club.addEventListener("click", ()=>{ _displayClubChosen(container, currentClub, clubInfo.abbreviation, imagePath, continent, league, clubInfo.colors)});
             club.addEventListener("mouseenter", ()=>{_updateLabel(label, currentClub.toUpperCase())});
@@ -1309,12 +1310,12 @@ const ui = (()=>{
         coinHead = document.createElement("section");
         coinHead.classList.add("head");
         const headImage = document.createElement("img");
-        helperFunctions.setAttributes(headImage, ["src", "alt"], ["./images/coin/head.png", "Coin's head"]);
+        helperFunctions.setAttributes(headImage, ["src", "alt"], ["./images/misc/coin/head.png", "Coin's head"]);
         coinHead.appendChild(headImage);
         coinTail = document.createElement("section");
         coinTail.classList.add("tail");
         const tailImage = document.createElement("img");
-        helperFunctions.setAttributes(tailImage, ["src", "alt"], ["./images/coin/tail.png", "Coin's tail"]);
+        helperFunctions.setAttributes(tailImage, ["src", "alt"], ["./images/misc/coin/tail.png", "Coin's tail"]);
         coinTail.appendChild(tailImage);
         helperFunctions.appendChildren(coin, [coinHead, coinTail]);
         helperFunctions.appendChildren(coinFlipScreen, [instructions, coinContainer, coinMessagesContainer]);
@@ -1462,7 +1463,7 @@ const ui = (()=>{
         playerTwoBadgeContainer.appendChild(playerTwoBadge);
         if(result){
             const winnerAward = document.createElement("img");
-            helperFunctions.setAttributes(winnerAward, ["src", "alt", "class"], ["./images/cups/winner-award.svg", "Winner award", "winner-award"]);
+            helperFunctions.setAttributes(winnerAward, ["src", "alt", "class"], ["./images/misc/cups/winner-award.svg", "Winner award", "winner-award"]);
             (result == 1) ? playerOneBadgeContainer.appendChild(winnerAward) : playerTwoBadgeContainer.appendChild(winnerAward);
         }
         const finalScoreContainer = document.createElement("section");

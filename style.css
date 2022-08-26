@@ -377,7 +377,7 @@ div.select-team button:hover{
 }
 
 .national-teams{
-    background-image: url(./images/cups/world-cup.svg);
+    background-image: url(./images/misc/cups/world-cup.svg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -385,7 +385,7 @@ div.select-team button:hover{
 }
 
 .clubs{
-    background-image: url(./images/cups/club-world-cup.svg);
+    background-image: url(./images/misc/cups/club-world-cup.svg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -622,7 +622,7 @@ div.select-team button:hover{
     height: 50px;
     background-size: cover;
     background-repeat: no-repeat;
-    background-image: url("../images/coin/head.png");
+    background-image: url("./images/misc/coin/head.png");
 }
 
 .coin-side-message-tail:after{
@@ -632,7 +632,7 @@ div.select-team button:hover{
     height: 50px;
     background-size: cover;
     background-repeat: no-repeat;
-    background-image: url("../images/coin/tail.png");
+    background-image: url("./images/misc/coin/tail.png");
 }
 
 .coin-container {
