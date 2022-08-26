@@ -26,7 +26,7 @@ DATA = (()=>{
             // "Greek Super League": "",
             "La Liga": {"Real Madrid": {colors:["white", "white", "black"], abbreviation: "RMD"}, "Barcelona": {colors: ["red", "blue", "golden"], abbreviation: "FCB"}},
             // "Ligue 1": "",
-            // "Primeria Liga": "",
+            // "Primeira Liga": "",
             // "Russian Premier League": "",
             // "Serie A": "",
             // "Turkish Super League": "",
