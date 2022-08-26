@@ -536,6 +536,8 @@ const ui = (()=>{
         else{
             _addBotsName();
             _addDifficultyToggle();
+            const previousInvalidMessage = $(".right .invalid-name");
+            if(previousInvalidMessage) previousInvalidMessage.parentElement.removeChild(previousInvalidMessage);
         }
         game.updateTeam(opponentContainer, null, null, null, null);
         _displaySelectTeamScreen(opponentContainer);
