@@ -16,6 +16,7 @@ const sounds = (()=>{
     music.addEventListener("ended", ()=>{
         (_currentSong === _playlist.length - 1) ? _currentSong = 0 : _currentSong++;
         music.src = `./audio/music/${_currentSong}.mp3`;
+        music.volume = 0.3;
         music.play();
         displaySong();
     });
