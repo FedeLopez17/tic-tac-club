@@ -1,7 +1,6 @@
 *{
     margin: 0;
     box-sizing: border-box;
-    /* outline: solid black 1px; */
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
@@ -447,6 +446,7 @@ div.select-team button:hover{
 
 .club-chosen > img, .national-team-chosen > img{
     width: 80%;
+    max-width: 300px;
 }
 
 .invalid-message{
@@ -813,7 +813,6 @@ section[class*='abbreviation-and-colors']{
 }
 
 .current-player{
-    outline: solid 1px #d5e0ff;
     filter: drop-shadow(0px 0px 4px #d5e0ff);
     transform: scale(1.15);
     transition: 0.2s
@@ -930,6 +929,10 @@ section[class*='abbreviation-and-colors']{
     width: 20%;
     display: flex;
     position: relative;
+}
+
+.player-one-team-badge, .player-two-team-badge{
+    max-width: 300px;
 }
 
 .game-result-mid .winner-award{
