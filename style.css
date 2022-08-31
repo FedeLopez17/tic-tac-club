@@ -101,6 +101,11 @@ body{
     color: var(--color-secondary);
 }
 
+.title-container > .title-mid{
+    display: flex;
+    align-items: center;
+}
+
 .title-container .badges{
     display: none;
 }
