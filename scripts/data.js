@@ -226,31 +226,404 @@ DATA = (()=>{
             Colombia: {colors: ["255, 205, 0"], abbreviation: "COL"},
             Ecuador: {colors: ["255, 222, 0", "0, 77, 163"], abbreviation: "ECU"},
             Paraguay: {colors: ["214, 39, 24", "255, 255, 255"], abbreviation: "PAR"},
-            Peru: {colors: ["255, 255, 255", "218, 7, 30"], abbreviation: "PER"},
+            "Perú": {colors: ["255, 255, 255", "218, 7, 30"], abbreviation: "PER"},
             Uruguay: {colors: ["108, 170, 225"], abbreviation: "URU"},
             Venezuela: {colors: ["100, 16, 35"], abbreviation: "VZL"}
         }
     }
       
     const _LEAGUES = {
-        Europe: {
-            "Bundesliga": {"Bayern": {colors:["red", "white", "blue"], abbreviation: "FCB"}, "Borussia Dortmund": {colors: ["yellow", "yellow", "black"], abbreviation: "BVB"}},
-            "English Premier League": {"Arsenal": {colors: ["red", "red", "white"], abbreviation: "ARS"} ,"Aston Villa FC": {colors: ["purple", "purple", "skyblue"], abbreviation: "AVL"}, "Brentford": {colors:["red", "red", "white"], abbreviation: "BFD"},"Brighton & Hove Albion":{colors:["blue", "blue", "white"], abbreviation: "BRI"}, "Burnley FC":{colors:["purple", "purple", "skyblue"], abbreviation: "BLY"}, "Chelsea":{colors:["blue", "blue", "white"], abbreviation: "CHE"}, "Crystal Palace":{colors:["blue", "blue", "red"], abbreviation: "CPL"}},
-            // "Eredivise": "",
-            // "Greek Super League": "",
-            "La Liga": {"Real Madrid": {colors:["white", "white", "black"], abbreviation: "RMD"}, "Barcelona": {colors: ["red", "blue", "golden"], abbreviation: "FCB"}},
-            // "Ligue 1": "",
-            // "Primeira Liga": "",
-            // "Russian Premier League": "",
-            // "Serie A": "",
-            // "Turkish Super League": "",
-            // "Ukranian Premier League": ""
-        },
         Africa: {
-            "Egyptian Premier League": {"Al Ahly": {colors:["255, 0, 0", "255, 255, 255", "0, 0, 0"], abbreviation: "AHL"}, "Pyramids FC": {colors: ["0, 0, 255", "100, 100, 255", "255, 255, 255"], abbreviation: "PYR"}}
+            // "Botola Pro 1": {
+
+            // },
+            // "DStv Premiership": {
+
+            // },
+            "Egyptian Premier League": {
+                "Bank El Ahly": {colors: ["233, 115, 54"], abbreviation: "BNK"},
+                "Cleopatra FC": {colors: ["83, 14, 17", "234, 171, 29"], abbreviation: "CLE"},
+                "Eastern Company": {colors: ["88, 183, 80"], abbreviation: "ECO"},
+                "El Ahly": {colors: ["229, 31, 39"], abbreviation: "AHL"},
+                "El Gouna": {colors: ["244, 203, 31"], abbreviation: "GOU"},
+                "El Mahalla": {colors: ["79, 157, 184"], abbreviation: "MAH"},
+                "El Makasa": {colors: ["0, 127, 61", "36, 57, 128"], abbreviation: "MAK"},
+                "El Masry": {colors: ["255, 255, 255", "8, 96, 2"], abbreviation: "MAS"},
+                "El Mokawloon": {colors: ["242, 220, 32", "0, 0, 0"], abbreviation: "MOK"},
+                "Enppi SC": {colors: ["47, 59, 114"], abbreviation: "ENP"},
+                "Future FC": {colors: ["188, 29, 47", "0, 0, 0"], abbreviation: "FUT"},
+                Gaish: {colors: ["251, 31, 36", "0, 0, 0"], abbreviation: "GAI"},
+                Ismaily: {colors: ["247, 209, 0", "13, 142, 203"], abbreviation: "ISM"},
+                "Ittihad Alexandria": {colors: ["0, 101, 0"], abbreviation: "ALX"},
+                "Pharco FC": {colors: ["245, 99, 26"], abbreviation: "PHA"},
+                "Pyramids FC": {colors: ["28, 138, 203", "255, 255, 255"], abbreviation: "PYR"},
+                Smouha: {colors: ["40, 47, 118"], abbreviation: "SMO"},
+                Zamalek: {colors: ["255, 255, 255", "218, 0, 0"], abbreviation: "ZAM"}
+            },
+            // "Nigeria Professional Football League": {
+
+            // }
         },
         Asia: {
-            "J1 League": {"Cerezo Osaka": {colors:["pink", "pink", "purple"], abbreviation: "CZO"}, "FC Tokyo": {colors: ["0, 0, 255", "0, 0, 255", "255, 0, 0"], abbreviation: "TKY"}},
+            // "Chinese Super League": {
+
+            // },
+            "J1 League": {
+                "Avispa Fukuoka": {colors: [""], abbreviation: "AVI"},
+                "Cerezo Osaka": {colors: [""], abbreviation: "CZO"},
+                "Consadole Sapporo": {colors: [""], abbreviation: "CON"},
+                "FC Tokyo": {colors: [""], abbreviation: "TKY"},
+                "Gamba Osaka": {colors: [""], abbreviation: "OSA"},
+                "Jubilo Iwata": {colors: [""], abbreviation: "JIW"},
+                "Kashima Antlers": {colors: [""], abbreviation: "KAN"},
+                "Kashiwa Reysol": {colors: [""], abbreviation: "REY"},
+                "Kawasaki Frontale": {colors: [""], abbreviation: "KAW"},
+                "Kyoto Sanga FC": {colors: [""], abbreviation: "KYO"},
+                "Nagoya Grampus": {colors: [""], abbreviation: "NAG"},
+                "Sagan Tosu": {colors: [""], abbreviation: "SAG"},
+                "Sanfrecce Hiroshima": {colors: [""], abbreviation: "SAN"},
+                Shimizu: {colors: [""], abbreviation: "SHI"},
+                "Shonan Bellmare": {colors: [""], abbreviation: "SHO"},
+                "Urawa Reds": {colors: [""], abbreviation: "URA"},
+                "Vissel Kobe": {colors: [""], abbreviation: "VIS"},
+                Yokohama: {colors: [""], abbreviation: "YOK"}
+            },
+            // "K League 1": {
+
+            // },
+            // "Persian Gulf Pro League": {
+
+            // },
+            // "Qatar Stars League": {
+
+            // },
+            // "Saudi Professional League": {
+
+            // },
+            // "UAE Pro League": {
+
+            // }
+        },
+        Europe: {
+            "Bundesliga": {
+                Augsburg: {colors: ["244, 74, 84", "255, 255, 255", "11, 154, 72"], abbreviation: "AUG"},
+                "Bayer Leverkusen": {colors: ["239, 63, 47", "0, 0, 0"], abbreviation: "LVK"},
+                "Bayern München": {colors: ["204, 13, 32"], abbreviation: "FCB"},
+                "Bochum-1848": {colors: ["1, 38, 76", "255, 255, 255"], abbreviation: "BCH"},
+                "Borussia Dortmund": {colors: ["232, 202, 0", "0, 0, 0"], abbreviation: "BVB"},
+                "Borussia Mönchengladbach": {colors: ["255, 255, 255", "11, 86, 58"], abbreviation: "MCH"},
+                "Eintracht Frankfurt": {colors: ["0, 0, 0", "190, 30, 41"], abbreviation: "EIN"},
+                "FC Köln": {colors: ["255, 255, 255", "216, 57, 59"], abbreviation: "KOL"},
+                "FC Union Berlin": {colors: ["241, 3, 35"], abbreviation: "BER"},
+                Freiburg: {colors: ["198, 19, 44", "255, 255, 255"], abbreviation: "FRE"},
+                "Hertha Berlin": {colors: ["3, 82, 182", "255, 255, 255"], abbreviation: "HBL"},
+                Hoffenheim: {colors: ["2, 71, 152"], abbreviation: "HFF"},
+                Mainz: {colors: ["186, 10, 22", "255, 255, 255"], abbreviation: "MNZ"},
+                "RB Leipzig": {colors: ["172, 2, 2", "255, 255, 255"], abbreviation: "RBL"},
+                "Schalke 04": {colors: ["16, 73, 143"], abbreviation: "S04"},
+                Stuttgart: {colors: ["255, 255, 255", "231, 30, 57"], abbreviation: "STU"},
+                "Werder Bremen": {colors: ["43, 186, 158", "255, 255, 255"], abbreviation: "WBR"},
+                Wolfsburg: {colors: ["82, 227, 29", "31, 44, 53"], abbreviation: "WLF"}
+            },
+            "English Premier League": {
+                Arsenal: {colors: ["195, 1, 28", "255, 255, 255"], abbreviation: "ARS"},
+                "Aston Villa": {colors: ["137, 58, 98", "163, 197, 235"], abbreviation: "AVL"},
+                Barnsley: {colors: ["213, 24, 48"], abbreviation: "BRN"},
+                "Birmingham City": {colors: ["49, 71, 162", "255, 255, 255"], abbreviation: "BGH"},
+                "Blackburn Rovers": {colors: ["255, 255, 255", "44, 88, 170"], abbreviation: "BRV"},
+                Blackpool: {colors: ["248, 123, 42"], abbreviation: "BPL"},
+                "Bolton Wanderers": {colors: ["255, 255, 255"], abbreviation: "BLW"},
+                Bournemouth: {colors: ["207, 22, 43", "0, 0, 0"], abbreviation: "BOU"},
+                "Bradford City": {colors: ["245, 199, 61", "177, 35, 86"], abbreviation: "BRD"},
+                Brentford: {colors: ["221, 35, 59", "255, 255, 255"], abbreviation: "BFD"},
+                "Brighton and Hove Albion": {colors: ["20, 95, 193", "255, 255, 255"], abbreviation: "BHA"},
+                Burnley: {colors: ["160, 39, 71", "131, 179, 205"], abbreviation: "BRL"},
+                "Cardiff City": {colors: ["51, 64, 169"], abbreviation: "CDF"},
+                "Charlton Athletic": {colors: ["213, 35, 59"], abbreviation: "CHA"},
+                Chelsea: {colors: ["54, 72, 174"], abbreviation: "CHL"},
+                "Coventry City": {colors: ["139, 196, 230", "255, 255, 255"], abbreviation: "CVT"},
+                "Crystal Palace": {colors: ["45, 60, 121", "248, 62, 43"], abbreviation: "CRY"},
+                "Derby County": {colors: ["255, 255, 255"], abbreviation: "DBY"},
+                Everton: {colors: ["38, 85, 162"], abbreviation: "EVE"},
+                Fulham: {colors: ["255, 255, 255"], abbreviation: "FLH"},
+                Huddersfield: {colors: ["0, 95, 193", "255, 255, 255"], abbreviation: "HDD"},
+                "Hull City": {colors: ["244, 178, 76", "0, 0, 0"], abbreviation: "HLL"},
+                "Ipswich Town": {colors: ["36, 94, 172"], abbreviation: "IPS"},
+                "Leeds United": {colors: ["255, 255, 255"], abbreviation: "LEE"},
+                "Leicester City": {colors: ["28, 90, 208"], abbreviation: "LCS"},
+                Liverpool: {colors: ["194, 34, 50"], abbreviation: "LVP"},
+                "Manchester City": {colors: ["134, 192, 238"], abbreviation: "MCI"},
+                "Manchester United": {colors: ["218, 26, 45"], abbreviation: "MAN"},
+                Middlesbrough: {colors: ["212, 32, 54"], abbreviation: "MBR"},
+                Newcastle: {colors: ["0, 0, 0", "255, 255, 255"], abbreviation: "NWU"},
+                "Norwich City": {colors: ["255, 243, 20", "22, 129, 61"], abbreviation: "NOR"},
+                "Nottingham Forest": {colors: ["233, 31, 65"], abbreviation: "NFO"},
+                "Oldham Athletic": {colors: ["31, 80, 157"], abbreviation: "OLD"},
+                Portsmouth: {colors: ["17, 98, 168"], abbreviation: "PRM"},
+                "Queens Park Rangers": {colors: ["45, 115, 176", "255, 255, 255"], abbreviation: "QPR"},
+                Reading: {colors: ["0, 74, 174", "255, 255, 255"], abbreviation: "RDG"},
+                "Sheffield United": {colors: ["236, 48, 49", "255, 255, 255"], abbreviation: "SHU"},
+                "Sheffield Wednesday": {colors: ["35, 77, 176", "255, 255, 255"], abbreviation: "SHW"},
+                Southampton: {colors: ["255, 255, 255", "222, 19, 51"], abbreviation: "STH"},
+                "Stoke City": {colors: ["204, 12, 14", "255, 255, 255"], abbreviation: "STK"},
+                Sunderland: {colors: ["230, 38, 55", "255, 255, 255"], abbreviation: "SUN"},
+                "Swansea City": {colors: ["255, 255, 255"], abbreviation: "SWS"},
+                "Swindon Town": {colors: ["226, 40, 60"], abbreviation: "SWT"},
+                "Tottenham Hotspur": {colors: ["255, 255, 255"], abbreviation: "TOT"},
+                Watford: {colors: ["253, 229, 14", "0, 0, 0"], abbreviation: "WAT"},
+                "West Bromwich Albion": {colors: ["32, 52, 84", "255, 255, 255"], abbreviation: "WBA"},
+                "West Ham": {colors: ["133, 42, 66", "165, 183, 199"], abbreviation: "WHA"},
+                "Wigan Athletic": {colors: ["51, 94, 176", "255, 255, 255"], abbreviation: "WIG"},
+                Wimbledon: {colors: ["34, 38, 82"], abbreviation: "WIM"},
+                Wolverhampton: {colors: ["249, 160, 27", "0, 0, 0"], abbreviation: "WVH"}
+            },
+            // "Eredivise": {
+
+            // },
+            // "Greek Super League": {
+
+            // },
+            "La Liga": {
+                "Almería": {colors: ["234, 59, 61", "255, 255, 255"], abbreviation: "ALM"},
+                "Athletic Club": {colors: ["217, 7, 27", "255, 255, 255"], abbreviation: "ATH"},
+                "Atlético de Madrid": {colors: ["206, 0, 12", "255, 255, 255"], abbreviation: "ATM"},
+                Barcelona: {colors: ["0, 71, 148", "158, 3, 66", "228, 182, 0"], abbreviation: "FCB"},
+                Betis: {colors: ["0, 143, 73", "255, 255, 255"], abbreviation: "BET"},
+                "Cádiz": {colors: ["240, 223, 22"], abbreviation: "CAD"},
+                "Celta de Vigo": {colors: ["49, 165, 214"], abbreviation: "CEL"},
+                Elche: {colors: ["255, 255, 255", "32, 92, 66"], abbreviation: "ELC"},
+                Espanyol: {colors: ["15, 104, 186", "255, 255, 255"], abbreviation: "ESP"},
+                Getafe: {colors: ["7, 86, 144"], abbreviation: "GET"},
+                Girona: {colors: ["188, 42, 49", "255, 255, 255"], abbreviation: "GIR"},
+                Mallorca: {colors: ["196, 30, 16"], abbreviation: "MLL"},
+                Osasuna: {colors: ["210, 25, 31", "9, 50, 107"], abbreviation: "OSS"},
+                "Rayo Vallecano": {colors: ["255, 255, 255", "242, 50, 41"], abbreviation: "RYV"},
+                "Real Madrid": {colors: ["255, 255, 255"], abbreviation: "RMA"},
+                "Real Sociedad": {colors: ["5, 44, 128", "255, 255, 255"], abbreviation: "RSC"},
+                Sevilla: {colors: ["255, 255, 255", "247, 4, 22"], abbreviation: "SEV"},
+                Valencia: {colors: ["255, 255, 255"], abbreviation: "VAL"},
+                Valladolid: {colors: ["125, 36, 137", "255, 255, 255"], abbreviation: "VLD"},
+                Villareal: {colors: ["246, 213, 82"], abbreviation: "VLL"}
+            },
+            // "Ligue 1": {
+
+            // },
+            // "Primeira Liga": {
+
+            // },
+            // "Russian Premier League":{
+
+            // },
+            "Serie A": {
+                Atalanta: {colors: ["0, 109, 181", "0, 0, 0"], abbreviation: "ATA"},
+                Bologna: {colors: ["154, 45, 37", "14, 47, 88"], abbreviation: "BOL"},
+                Cremonese: {colors: ["194, 6, 29", "85, 95, 86"], abbreviation: "CRE"},
+                Empoli: {colors: ["0, 90, 165"], abbreviation: "EMP"},
+                Fiorentina: {colors: ["64, 9, 141"], abbreviation: "FIO"},
+                "Hellas Verona": {colors: ["247, 229, 0", "21, 40, 127"], abbreviation: "HLV"},
+                Internazionale: {colors: ["1, 29, 155", "0, 0, 0"], abbreviation: "INT"},
+                Juventus: {colors: ["255, 255, 255", "0, 0, 0"], abbreviation: "JUV"},
+                Lazio: {colors: ["131, 209, 239"], abbreviation: "LAZ"},
+                Lecce: {colors: ["247, 214, 32", "219, 37, 34"], abbreviation: "LEC"},
+                Milan: {colors: ["188, 27, 43", "0, 0, 0"], abbreviation: "MIL"},
+                Monza: {colors: ["230, 21, 55"], abbreviation: "MZA"},
+                Napoli: {colors: ["24, 154, 207"], abbreviation: "NAP"},
+                Roma: {colors: ["128, 33, 47", "240, 145, 39"], abbreviation: "ROM"},
+                Salernitana: {colors: ["127, 27, 28"], abbreviation: "SAL"},
+                Sampdoria: {colors: ["59, 82, 247"], abbreviation: "SAM"},
+                Sassuolo: {colors: ["49, 176, 88", "0, 0, 0"], abbreviation: "SAS"},
+                Spezia: {colors: ["255, 255, 255"], abbreviation: "SPZ"},
+                Torino: {colors: ["131, 30, 23", "255, 255, 255"], abbreviation: "TOR"},
+                Udinese: {colors: ["255, 255, 255", "0, 0, 0"], abbreviation: "UDI"}
+            },
+            // "Turkish Super League": {
+
+            // },
+            // "Ukranian Premier League": {
+
+            // }
+        },
+        "North America": {
+            // "Canadian Premier League": {
+
+            // },
+            // "Liga Panameña": {
+
+            // },
+            "Liga MX": {
+                "América": {colors: ["239, 224, 34", "0, 21, 61"], abbreviation: "AME"},
+                Atlas: {colors: ["229, 27, 35", "0, 0, 0"], abbreviation: "ATL"},
+                "Atlético San Luis": {colors: ["182, 1, 26", "255, 255, 255", "2, 38, 118"], abbreviation: "ASL"},
+                Chivas: {colors: ["225, 4, 0", "255, 255, 255", "7, 69, 181"], abbreviation: "CHV"},
+                "Club León": {colors: ["12, 130, 65", "255, 255, 255"], abbreviation: "LEO"},
+                "Cruz Azul": {colors: ["37, 36, 204"], abbreviation: "CRZ"},
+                "Juárez": {colors: ["71, 229, 2", "0, 0, 0"], abbreviation: "JUA"},
+                "Mazatlán": {colors: ["69, 29, 106"], abbreviation: "MZT"},
+                Monterrey: {colors: ["0, 50, 99", "255, 255, 255"], abbreviation: "MTR"},
+                Necaxa: {colors: ["218, 0, 29", "255, 255, 255"], abbreviation: "NCX"},
+                Pachuca: {colors: ["1, 33, 128", "255, 255, 255"], abbreviation: "PCH"},
+                Puebla: {colors: ["0, 42, 86", "255, 255, 255"], abbreviation: "PUE"},
+                Pumas: {colors: ["227, 195, 0", "16, 26, 71"], abbreviation: "PUM"},
+                "Querétaro": {colors: ["0, 77, 159", "0, 0, 0"], abbreviation: "QUE"},
+                "Santos Laguna": {colors: ["21, 120, 96", "255, 255, 255"], abbreviation: "SAN"},
+                Tigres: {colors: ["240, 173, 33", "6, 42, 156"], abbreviation: "TIG"},
+                Toluca: {colors: ["227, 18, 16"], abbreviation: "TOL"},
+                Xolos: {colors: ["221, 3, 21", "0, 0, 0"], abbreviation: "XOL"}
+            },
+            "Major League Soccer": {
+                "Atlanta United": {colors: ["216, 46, 66", "0, 0, 0"], abbreviation: "ATL"},
+                Austin: {colors: ["24, 172, 68", "0, 0, 0"], abbreviation: "AUS"},
+                Charlotte: {colors: ["25, 129, 194", "255, 255, 255"], abbreviation: "CHT"},
+                "Chicago Fire": {colors: ["17, 30, 70", "174, 39, 44"], abbreviation: "CHF"},
+                Cincinnati: {colors: ["247, 78, 0", "3, 44, 139"], abbreviation: "CIN"},
+                "Colorado Rapids": {colors: ["108, 12, 32", "151, 188, 227"], abbreviation: "COL"},
+                "Columbus Crew": {colors: ["245, 234, 2", "0, 0, 0"], abbreviation: "CCW"},
+                Dallas: {colors: ["185, 13, 60", "0, 60, 122"], abbreviation: "DLL"},
+                "DC United": {colors: ["0, 0, 0", "185, 1, 26"], abbreviation: "DCU"},
+                "Houston Dynamo FC": {colors: ["239, 106, 32", "0, 0, 0"], abbreviation: "HOU"},
+                "Inter Miami CF": {colors: ["239, 175, 198", "0, 0, 0"], abbreviation: "MIA"},
+                "LA Galaxy": {colors: ["255, 255, 255", "0, 30, 92", "247, 186, 0"], abbreviation: "LAG"},
+                "Los Angeles FC": {colors: ["0, 0, 0", "192, 160, 99"], abbreviation: "LAN"},
+                "Minnesota United": {colors: ["136, 203, 236", "0, 0, 0"], abbreviation: "MST"},
+                Montreal: {colors: ["0, 58, 194", "0, 0, 0"], abbreviation: "MTR"},
+                "Nashville SC": {colors: ["233, 230, 0", "30, 21, 68"], abbreviation: "NVL"},
+                "New England Revolution": {colors: ["10, 32, 62", "202, 13, 43"], abbreviation: "NER"},
+                "New York City": {colors: ["105, 169, 217", "0, 41, 95"], abbreviation: "NYC"},
+                "New York Red Bulls": {colors: ["255, 255, 255", "230, 29, 52"], abbreviation: "NYR"},
+                "Orlando City": {colors: ["78, 34, 115", "234, 207, 70"], abbreviation: "ORL"},
+                "Philadelphia Union": {colors: ["8, 25, 45", "56, 140, 230", "192, 173, 70"], abbreviation: "PHI"},
+                "Portland Timbers": {colors: ["13, 64, 28", "197, 146, 0"], abbreviation: "POR"},
+                "Real Salt Lake": {colors: ["159, 0, 32", "49, 53, 79", "224, 176, 1"], abbreviation: "RSL"},
+                "San Jose Earthquakes": {colors: ["1, 58, 161", "0, 0, 0"], abbreviation: "SJE"},
+                "Seattle Sounders": {colors: ["112, 177, 87", "0, 82, 144"], abbreviation: "SEA"},
+                "Sporting Kansas City": {colors: ["142, 171, 208", "11, 33, 62"], abbreviation: "SPO"},
+                Toronto: {colors: ["178, 16, 53"], abbreviation: "TOR"},
+                "Vancouver Whitecaps FC": {colors: ["0, 24, 65", "146, 186, 223"], abbreviation: "VCU"}
+            },
+            // "Primera División de Costa Rica": {
+
+            // }
+        },
+        Oceania: {
+            "Australian A League": {
+                "Adelaide United": {colors: ["171, 25, 45"], abbreviation: "ADE"},
+                "Brisbane Roar": {colors: ["255, 88, 0"], abbreviation: "BRI"},
+                "Central Coast Mariners": {colors: ["0, 46, 92", "255, 197, 47"], abbreviation: "CCM"},
+                "Macarthur FC": {colors: ["255, 255, 255", "0, 0, 0", "210, 177, 43"], abbreviation: "MAC"},
+                "Melbourne City": {colors: ["108, 173, 223"], abbreviation: "MEL"},
+                "Melbourne Victory": {colors: ["0, 45, 86", "255, 255, 255"], abbreviation: "VIC"},
+                "Newcastle Jets": {colors: ["2, 76, 145", "184, 33, 51"], abbreviation: "NWJ"},
+                "Perth Glory": {colors: ["71, 10, 104", "244, 128, 32"], abbreviation: "PER"},
+                "Sydney FC": {colors: ["108, 170, 228"], abbreviation: "SYD"},
+                "Wellington Phoenix": {colors: ["255, 221, 0", "0, 0, 0"], abbreviation: "WEL"},
+                "Western Sydney Wanderers": {colors: ["198, 12, 48", "0, 0, 0"], abbreviation: "WSW"},
+                "Western United": {colors: ["0, 0, 0", "0, 191, 111"], abbreviation: "WES"}
+            },
+            // "New Zealand National League": {
+
+            // }
+        },
+        "South America": {
+            "Campeonato Uruguayo": {
+                Albion: {colors: ["214, 35, 41", "0, 43, 108"], abbreviation: "ALB"},
+                "Boston River": {colors: ["31, 91, 48", "236, 29, 40"], abbreviation: "BRV"},
+                Cerrito: {colors: ["247, 234, 2", "7, 69, 32"], abbreviation: "CRR"},
+                "Cerro Largo": {colors: ["0, 0, 145", "255, 255, 255"], abbreviation: "CRL"},
+                "City Torque": {colors: ["105, 169, 216"], abbreviation: "TOR"},
+                Danubio: {colors: ["255, 255, 255", "0, 0, 0"], abbreviation: "DAN"},
+                "Defensor Sporting": {colors: ["90, 44, 143"], abbreviation: "DSC"},
+                "Deportivo Maldonado": {colors: ["1, 110, 0", "201, 2, 0"], abbreviation: "MAL"},
+                Fenix: {colors: ["255, 255, 255", "106, 62, 150"], abbreviation: "FNX"},
+                Liverpool: {colors: ["16, 84, 157", "0, 0, 0"], abbreviation: "LVP"},
+                Nacional: {colors: ["0, 46, 124", "255, 255, 255", "184, 12, 47"], abbreviation: "NAC"},
+                Peñarol: {colors: ["247, 208, 0", "0, 0, 0"], abbreviation: "PEÑ"},
+                "Plaza Colonia": {colors: ["0, 141, 61", "255, 255, 255"], abbreviation: "PLA"},
+                Rentistas: {colors: ["188, 3, 17"], abbreviation: "REN"},
+                "River Plate": {colors: ["233, 23, 13", "255, 255, 255"], abbreviation: "RVP"},
+                Wanderers: {colors: ["255, 255, 255", "0, 0, 0"], abbreviation: "WAN"}
+            },
+            // "Segunda División Uruguaya": {
+
+            // },
+            "Liga Profesional Argentina": {
+                Aldosivi: {colors: ["69, 147, 84", "229, 198, 49"], abbreviation: "ALD"},
+                "Argentinos Juniors": {colors: ["175, 44, 44", "255, 255, 255"], abbreviation: "ARG"},
+                Arsenal: {colors: ["98, 189, 233", "206, 73, 49"], abbreviation: "ARS"},
+                "Atlético Tucumán": {colors: ["106, 190, 241", "255, 255, 255"], abbreviation: "ATU"},
+                Banfield: {colors: ["67, 145, 57", "255, 255, 255"], abbreviation: "BAN"},
+                "Barracas Central": {colors: ["193, 29, 33", "255, 255, 255"], abbreviation: "BCE"},
+                "Boca Juniors": {colors: ["11, 75, 147", "235, 208, 33"], abbreviation: "BOC"},
+                "Central Córdoba": {colors: ["255, 255, 255", "0, 0, 0"], abbreviation: "CCO"},
+                "Colón": {colors: ["169, 43, 43", "0, 0, 0"], abbreviation: "COL"},
+                "Defensa y Justicia": {colors: ["25, 120, 51", "255, 224, 23"], abbreviation: "DYJ"},
+                Estudiantes: {colors: ["193, 21, 20", "255, 255, 255"], abbreviation: "EST"},
+                Gimnasia: {colors: ["255, 255, 255", "17, 42, 84"], abbreviation: "GIM"},
+                "Godoy Cruz": {colors: ["0, 120, 209", "255, 255, 255"], abbreviation: "GCZ"},
+                "Huracán": {colors: ["255, 255, 255", "238, 15, 15"], abbreviation: "HUR"},
+                Independiente: {colors: ["195, 21, 23"], abbreviation: "IND"},
+                "Lanús": {colors: ["102, 40, 47"], abbreviation: "LAN"},
+                "Newell's": {colors: ["196, 19, 16", "0, 0, 0"], abbreviation: "NWL"},
+                Patronato: {colors: ["177, 30, 29", "0, 0, 0"], abbreviation: "PAT"},
+                Platense: {colors: ["255, 255, 255", "79, 51, 20"], abbreviation: "PLA"},
+                Racing: {colors: ["81 162 208", "255, 255, 255"], abbreviation: "RAC"},
+                "River Plate": {colors: ["255, 255, 255", "208, 44, 29"], abbreviation: "RVP"},
+                "Rosario Central": {colors: ["238, 212, 82", "20, 62, 100"], abbreviation: "RCE"},
+                "San Lorenzo": {colors: ["57, 65, 87", "181, 51, 57"], abbreviation: "SLZ"},
+                Sarmiento: {colors: ["22, 95, 38", "255, 255, 255"], abbreviation: "SAR"},
+                Talleres: {colors: ["14, 44, 95", "255, 255, 255"], abbreviation: "TAL"},
+                Tigre: {colors: ["48, 46, 122", "202, 38, 38"], abbreviation: "TIG"},
+                "Unión": {colors: ["193, 21, 20", "255, 255, 255"], abbreviation: "UNI"},
+                "Vélez": {colors: ["255, 255, 255", "56, 100, 165"], abbreviation: "VEL"}
+            },
+            // "Primera Nacional Argentina": {
+
+            // },
+            // "Primera División Boliviana": {
+
+            // },
+            "Brasileirao Serie A": {
+                "América Mineiro": {colors: ["0, 164, 65", "0, 0, 0"], abbreviation: "AMG"},
+                "Atlético Mineiro": {colors: ["0, 0, 0", "255, 255, 255"], abbreviation: "ATM"},
+                "Avaí": {colors: ["0, 99, 171", "255, 255, 255"], abbreviation: "AVA"},
+                Botafogo: {colors: ["0, 0, 0", "255, 255, 255"], abbreviation: "BOT"},
+                "Ceará": {colors: ["0, 0, 0", "255, 255, 255"], abbreviation: "CEA"},
+                Corinthians: {colors: ["255, 255, 255", "0, 0, 0"], abbreviation: "COR"},
+                Coritiba: {colors: ["0, 94, 77", "255, 255, 255"], abbreviation: "CTB"},
+                "Cuiabá": {colors: ["255, 215, 1", "0, 101, 47"], abbreviation: "CUI"},
+                Flamengo: {colors: ["223, 0, 9", "0, 0, 0"], abbreviation: "FLA"},
+                Fluminense: {colors: ["0, 105, 59", "255, 255, 255", "168, 0, 35"], abbreviation: "FLU"},
+                Fortaleza: {colors: ["15, 91, 164", "225, 32, 38"], abbreviation: "FTZ"},
+                Goianiense: {colors: ["255, 0, 0", "0, 0, 0"], abbreviation: "GOI"},
+                "Goiás": {colors: ["20, 60, 47"], abbreviation: "GOI"},
+                Internacional: {colors: ["255, 39, 39"], abbreviation: "INT"},
+                Juventude: {colors: ["255, 255, 255", "0, 143, 93"], abbreviation: "JUV"},
+                Palmeiras: {colors: ["0, 110, 52"], abbreviation: "PAL"},
+                Paranaense: {colors: ["237, 16, 48", "0, 0, 0"], abbreviation: "CAP"},
+                "RB Bragantino": {colors: ["255, 255, 255"], abbreviation: "BRA"},
+                Santos: {colors: ["255, 255, 255"], abbreviation: "SAN"},
+                "São Paulo": {colors: ["255, 0, 0", "255, 255, 255", "0, 0, 0"], abbreviation: "SPA"}
+            },
+            // "Brasileirao Serie B": {
+
+            // },
+            // "Primera División Chilena": {
+
+            // },
+            // "Primera A Colombiana": {
+
+            // },
+            // "Serie A Ecuatoriana": {
+
+            // },
+            // "Primera División Paraguaya": {
+
+            // },
+            // "Liga 1 Peruana": {
+
+            // },
+            // "Primera División Venezolana" : {
+
+            // }
         }
     }
       

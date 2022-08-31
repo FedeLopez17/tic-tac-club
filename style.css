@@ -398,7 +398,7 @@ div.select-team button:hover{
     height: 95vmin;
     margin: 0 0 20px;
     justify-content: center;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     overflow: scroll;
     background-color: rgba(10, 10, 10, 70%);
     border-radius: 10px;
