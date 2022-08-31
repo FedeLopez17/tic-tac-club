@@ -142,7 +142,7 @@ const game = (()=>{
     let _difficulty = "EASY", _sound = false, over = false, timeOut = false;
     let _opponent = null, _currentPlayer = null;
     let currentTimeMinutes = 0, currentTimeSeconds = 0, currentTime;
-    const MAX_TIME = 10;
+    const MAX_TIME = 90;
     const _playerOne = Player("X");
     const _playerTwo = Player("O");
 
