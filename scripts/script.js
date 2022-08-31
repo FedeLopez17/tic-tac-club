@@ -148,7 +148,6 @@ const game = (()=>{
 
     function toggleSound(){
         _sound = !_sound;
-        console.log(_sound);
     }
 
     function soundActivated(){
@@ -185,7 +184,6 @@ const game = (()=>{
     }
 
     function updateTeam(container, team, abbreviation, imagePath, colors){
-        console.log("NEW TEAM UPDATED:");
         const playerOne = container.getAttribute("class") === "left";
         if(playerOne){
             _playerOne.team.name = team;
@@ -193,7 +191,6 @@ const game = (()=>{
             _playerOne.team.imagePath = imagePath;
             _playerOne.team.colors = colors;
             _updateTeamColorsCssVariables(1);
-            console.log(_playerOne.team);
         }
         else{
             _playerTwo.team.name = team;
@@ -201,7 +198,6 @@ const game = (()=>{
             _playerTwo.team.imagePath = imagePath;
             _playerTwo.team.colors = colors;
             _updateTeamColorsCssVariables(2);
-            console.log(_playerTwo.team);
         }      
     }
 
@@ -316,26 +312,22 @@ const game = (()=>{
     }
 
     function _botPlayTurnEasy(){
-        console.log("BOT PLAYS TURN EASY:");
         const emptyCells = gameBoard.getEmptyCells();
         const randomlyChosenCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
         playTurn(randomlyChosenCell);
     }
 
     function _botPlayTurnNormal(){
-        console.log("BOT PLAYS TURN NORMAL");
         const randomDifficulty = Math.floor(Math.random() * 2);
         (randomDifficulty === 0) ? _botPlayTurnEasy() : _botPlayTurnUnbeatable();
     }
 
     function _botPlayTurnHard(){
-        console.log("BOT PLAYS TURN HARD:");
         const randomDifficulty = Math.floor(Math.random() * 4);
         ([0, 1, 2].includes(randomDifficulty)) ? _botPlayTurnUnbeatable() : _botPlayTurnEasy();
     }
 
     function _botPlayTurnUnbeatable(){
-        console.log("BOT PLAYS TURN UNBEATABLE:");
         const board = gameBoard.get();
         for (let cell = 0; cell < 9; cell++){
             if(board[cell] === undefined){
@@ -423,14 +415,11 @@ const game = (()=>{
     }
 
     function botPlayTurn(){
-        console.log("BOT PLAYS TURN");
         if(over) return;
         if(timeOut){
-            console.log("TIME OUT");
             setTimeout(botPlayTurn, 1000);
             return;
         }
-        console.log(_difficulty);
         switch (_difficulty){
             case "EASY":
                 _botPlayTurnEasy();
@@ -511,7 +500,6 @@ const ui = (()=>{
     }
 
     function _removeDifficultyToggle(){
-        console.log("REMOVE DIFFICULTY TOGGLE");
         const difficultyToggle = $("button.difficulty-toggle");
         difficultyToggle.parentElement.removeChild(difficultyToggle);
     }
@@ -611,7 +599,6 @@ const ui = (()=>{
 
     function _goBack(container){
         _removeLastRandom(container);
-        console.log("GO BACK")
         const isContinentSelector = $(`.initial-settings .${container.getAttribute("class")} > .continent-selector`);
         const isNationalTeamsSelector = $(`.initial-settings .${container.getAttribute("class")} > .national-teams-selector`);
         const isNationalTeamChosen = $(`.initial-settings .${container.getAttribute("class")} > .national-team-chosen`);
@@ -658,7 +645,6 @@ const ui = (()=>{
     }
 
     function _removePreviousLabel(container){
-        console.log("REMOVE PREVIOUS LABEL");
         const labelContainer = $(`.initial-settings .${container.getAttribute("class")} > .label-container`);
         if(labelContainer){
             container.removeChild(labelContainer);
@@ -666,7 +652,6 @@ const ui = (()=>{
     }
 
     function _addRandomButton(container){
-        console.log("MAKE RANDOM BUTTON");
         const randomButton = document.createElement("i");
         randomButton.classList.add("random-button", "fa-solid", "fa-dice", "fa-2x");
         randomButton.setAttribute("title", "Random selection");
@@ -678,10 +663,7 @@ const ui = (()=>{
     let lastRandoms = {"left": null, "right": null};
 
     function _updateLastRandom(container, lastRandom){
-        console.log("CONTAINER");
-        console.log(container.getAttribute("class"));
         lastRandoms[container.getAttribute("class")] = lastRandom;
-        console.log(lastRandoms[container.getAttribute("class")]);
     }
 
     function _removeLastRandom(container){
@@ -703,14 +685,11 @@ const ui = (()=>{
     function _chooseRandomNationalTeam(container, continent){
         const player = (container.getAttribute("class") === "left") ? "one" : "two";
         const currentTeams = {"one": game.getPlayerOne().team.name, "two": game.getPlayerTwo().team.name};
-        console.log("RANDOM NATIONAL TEAM");
         if(!continent){continent = _chooseRandomContinent()};
-        console.log(continent);
         const countries = DATA.getCountries(continent);
         let country;
         do{
             country = countries[Math.floor(Math.random() * countries.length)];
-            console.log(country);
         } while(country === currentTeams[player]);
         const countryInfo = DATA.getCountryInfo(continent, country);
         const kebabCaseContinent = helperFunctions.toKebabCase(continent);
@@ -722,17 +701,12 @@ const ui = (()=>{
     function _chooseRandomClub(container, continent, league){
         const player = (container.getAttribute("class") === "left") ? "one" : "two";
         const currentTeams = {"one": game.getPlayerOne().team.name, "two": game.getPlayerTwo().team.name};
-        console.log("RANDOM CLUB");
         if(!continent){continent = _chooseRandomContinent()};
-        console.log("RANDOMIZE");
-        console.log(continent);
-        if(!league){league = _chooseRandomLeague(continent)}
-        console.log(league)
+        if(!league){league = _chooseRandomLeague(continent)};
         const clubs = DATA.getClubs(continent, league);
         let club;
         do{
             club = clubs[Math.floor(Math.random() * clubs.length)];
-            console.log(club);
         } while(club === currentTeams[player]);
         const clubInfo = DATA.getClubInfo(continent, league, club);
         const kebabCaseContinent = helperFunctions.toKebabCase(continent);
@@ -764,7 +738,6 @@ const ui = (()=>{
         }
         if(isContinentSelector){
             const category = isContinentSelector.getAttribute("data-category");
-            console.log(category)
             const isNationalTeams = category === "national-teams";
             const isClubs = !isNationalTeams;
             if(isClubs){
@@ -901,8 +874,6 @@ const ui = (()=>{
             game.updateName(left, name);
             game.updateName(right, opponentName);
             game.setOpponent(opponentType);
-            console.log("OPPONENT TYPE:")
-            console.log(opponentType);
             _flipCoin();
             return;
         }
@@ -1079,7 +1050,6 @@ const ui = (()=>{
     }
 
     function _displayContinentSelector(container, event){
-        console.log("continent-selector");
         _removePreviousSelector(container);
         _removePreviousLabel(container);
         const thereIsNoReturnButton = !$(`.initial-settings .${container.getAttribute("class")} > .return-button`);
@@ -1119,8 +1089,6 @@ const ui = (()=>{
         const continent = (typeof event === "string") ? event : event.target.getAttribute("data-continent");
         const labelContainer = _addLabel();
         const label = labelContainer.firstChild;
-        console.log("LABEL CONTAINER NATIONAL TEAMS:")
-        console.log(labelContainer);
         const continentAsDemonym = (continent === "Europe") ? continent + "an" : continent + "n";
         const initialMessage = `${continentAsDemonym.toUpperCase()} NATIONAL TEAMS`;
         _updateLabel(label, initialMessage);
@@ -1129,8 +1097,6 @@ const ui = (()=>{
         nationalTeamsSelector.setAttribute("data-continent", continent);
         nationalTeamsSelector.addEventListener("mouseleave", ()=>{_updateLabel(label, initialMessage)})
         for (let currentCountry of DATA.getCountries(continent)){
-            console.log(currentCountry);
-            console.log(continent);
             const countryInfo = DATA.getCountryInfo(continent, currentCountry);
             const country = document.createElement("section");
             country.classList.add("national-team");
@@ -1170,13 +1136,10 @@ const ui = (()=>{
 
     function _displayLeaguesSelector(container, event){
         _removePreviousSelector(container);
-        console.log(container);
         const continent = (typeof event === "string") ? event : event.target.getAttribute("data-continent");
         _removePreviousLabel(container);
         const labelContainer = _addLabel();
         const label = labelContainer.firstChild;
-        console.log("LABEL CONTAINER CLUBS:")
-        console.log(labelContainer);
         const continentAsDemonym = (continent === "Europe") ? continent + "an" : continent + "n";
         const initialMessage = `${continentAsDemonym.toUpperCase()} LEAGUES`;
         _updateLabel(label, initialMessage);
@@ -1217,7 +1180,6 @@ const ui = (()=>{
         helperFunctions.setAttributes(clubsSelector, ["data-continent", "data-league"], [continent, league])
         clubsSelector.addEventListener("mouseleave", ()=>{_updateLabel(label, initialMessage)});
         for (let currentClub of DATA.getClubs(continent, league)){
-            console.log(currentClub);
             const clubInfo = DATA.getClubInfo(continent, league, currentClub);
             const club = document.createElement("section");
             club.classList.add("club");
@@ -1428,8 +1390,6 @@ const ui = (()=>{
     }
 
     function displayResult(result){
-        console.log("RESULT");
-        console.log(result);
         if(game.soundActivated()) sounds.gameOver.play();
         helperFunctions.clearPreviousScreen();
         const toggles = $$("i[class*='toggle']");
