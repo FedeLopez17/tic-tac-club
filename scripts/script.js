@@ -143,7 +143,7 @@ const game = (()=>{
     let _difficulty = "EASY", _sound = false, over = false, timeOut = false;
     let _opponent = null, _currentPlayer = null;
     let currentTimeMinutes = 0, currentTimeSeconds = 0, currentTime;
-    const MAX_TIME = 90;
+    const MAX_TIME = 10;
     const _playerOne = Player("X");
     const _playerTwo = Player("O");
 
@@ -1247,13 +1247,13 @@ const ui = (()=>{
         coin.addEventListener("click", ()=>{
             const coinAlreadyFlipped = coin.getAttribute("data-state") == "already-flipped";
             if(coinAlreadyFlipped){return};
+            coin.setAttribute("data-state", "already-flipped");
             if(game.soundActivated()) sounds.coinToss.play();
             const result = ["head", "tail"][Math.floor(Math.random() * 2)];
             coin.style.animation = (result === "head") ? "flip-head 1.3s forwards" : "flip-tail 1.3s forwards";
             coin.addEventListener("animationend", ()=>{
                 const flipWinner = (result === playerOneCoinSide) ? playerOneCoinSideMessage : playerTwoCoinSideMessage;
                 flipWinner.classList.add("flip-winner");
-                coin.setAttribute("data-state", "already-flipped");
             });
             const winner = (result === playerOneCoinSide) ? playerOne.name : playerTwo.name;
             game.setFirstTurn(winner);
