@@ -450,8 +450,10 @@ div.select-team button:hover{
 }
 
 .club-chosen > img, .national-team-chosen > img{
-    width: 80%;
+    width: 70%;
+    height: 70%;
     max-width: 300px;
+    max-height: 300px;
 }
 
 .invalid-message{

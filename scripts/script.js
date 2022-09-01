@@ -78,6 +78,7 @@ const gameBoard = (()=>{
         const cells = _getCells();
         for (const combination of WINNING_COMBINATIONS){
             const firstCellHasAMark = ["X", "O"].includes(_gameBoard[combination[0]]);
+            if (!firstCellHasAMark) continue;
             const allCellsHaveTheSameMark = _gameBoard[combination[0]] === _gameBoard[combination[1]] && _gameBoard[combination[0]] === _gameBoard[combination[2]];
             const someoneWon = firstCellHasAMark && allCellsHaveTheSameMark;
             if(someoneWon){
@@ -113,7 +114,7 @@ const gameBoard = (()=>{
             return 1;
         }
         else{
-            return false;
+            return 0;
         }
     }
 
