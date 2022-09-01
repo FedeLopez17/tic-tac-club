@@ -416,6 +416,7 @@ div.select-team button:hover{
     display: flex;
     height: 150px;
     margin: 5%;
+    overflow: hidden;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -439,14 +440,21 @@ div.select-team button:hover{
     cursor: pointer;
 }
 
+.national-team img, .league img, .club img{
+    width: 100%;
+    height: 100%;
+}
+
 .club-chosen, .national-team-chosen{
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     overflow: hidden;
     width: 95vmin;
     height: 95vmin;
     margin: 0 0 20px;
+    background-color: rgba(10, 10, 10, 70%);
+    border-radius: 10px;
 }
 
 .club-chosen > img, .national-team-chosen > img{
