@@ -221,8 +221,8 @@ DATA = (()=>{
         "South America": {
             Argentina: {colors: ["116, 172, 223", "255, 255, 255"], abbreviation: "ARG"},
             Bolivia: {colors: ["0, 122, 49"], abbreviation: "BOL"},
-            Brazil: {colors: ["254, 223, 0", "0, 155, 58"], abbreviation: "BRZ"},
-            Chile: {colors: ["216, 39, 25"], abbreviation: "CHL"},
+            Brazil: {colors: ["254, 223, 0", "0, 155, 58"], abbreviation: "BRA"},
+            Chile: {colors: ["216, 39, 25"], abbreviation: "CHI"},
             Colombia: {colors: ["255, 205, 0"], abbreviation: "COL"},
             Ecuador: {colors: ["255, 222, 0", "0, 77, 163"], abbreviation: "ECU"},
             Paraguay: {colors: ["214, 39, 24", "255, 255, 255"], abbreviation: "PAR"},

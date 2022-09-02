@@ -134,7 +134,7 @@ const gameBoard = (()=>{
 
 const Player = (mark)=>{
     let name = null;
-    let team = {name: null, abbreviation: null, colors: null, imagePath: null};
+    let team = {name: null, abbreviation: null, colors: null, alteredColors: [], imagePath: null};
     let score = 0;
     return {mark, name, team, score};
 }
@@ -143,7 +143,7 @@ const game = (()=>{
     let _difficulty = "EASY", _sound = false, over = false, timeOut = false;
     let _opponent = null, _currentPlayer = null;
     let currentTimeMinutes = 0, currentTimeSeconds = 0, currentTime;
-    const MAX_TIME = 10;
+    const MAX_TIME = 1000;
     const _playerOne = Player("X");
     const _playerTwo = Player("O");
 
@@ -155,35 +155,6 @@ const game = (()=>{
         return _sound;
     }
 
-    function _updateTeamColorsCssVariables(player){
-        const root = $(":root");
-        const isPlayerOne = player == 1;
-        if(isPlayerOne){
-            for(let colorNumber in _playerOne.team.colors){
-                root.style.setProperty(`--player-one-color${colorNumber}`, `rgb(${_playerOne.team.colors[colorNumber]})`);
-            }
-        }
-        else{
-            for(let colorNumber in _playerTwo.team.colors){
-                root.style.setProperty(`--player-two-color${colorNumber}`, `rgb(${_playerTwo.team.colors[colorNumber]})`);
-            }
-        }
-    }
-
-    function _updateCurrentPlayerColors(player){
-        const root = $(":root");
-        const isPlayerOne = player == 1;
-        if(isPlayerOne){
-            for(let colorNumber in _playerOne.team.colors){
-                root.style.setProperty(`--current-player-color${colorNumber}-low-opacity`, `rgba(${_playerOne.team.colors[colorNumber]}, 50%)`);
-            }
-            return;
-        }
-        for(let colorNumber in _playerTwo.team.colors){
-            root.style.setProperty(`--current-player-color${colorNumber}-low-opacity`, `rgba(${_playerTwo.team.colors[colorNumber]}, 50%)`);
-        }
-    }
-
     function updateTeam(container, team, abbreviation, imagePath, colors){
         const playerOne = container.getAttribute("class") === "left";
         if(playerOne){
@@ -191,14 +162,14 @@ const game = (()=>{
             _playerOne.team.abbreviation = abbreviation;
             _playerOne.team.imagePath = imagePath;
             _playerOne.team.colors = colors;
-            _updateTeamColorsCssVariables(1);
+            ui.updateTeamColorsCssVariables(1);
         }
         else{
             _playerTwo.team.name = team;
             _playerTwo.team.abbreviation = abbreviation;
             _playerTwo.team.imagePath = imagePath;
             _playerTwo.team.colors = colors;
-            _updateTeamColorsCssVariables(2);
+            ui.updateTeamColorsCssVariables(2);
         }      
     }
 
@@ -285,12 +256,8 @@ const game = (()=>{
         _playerTwo.score = 0;
     }
 
-    function getPlayerOne(){
-        return _playerOne;
-    }
-
-    function getPlayerTwo(){
-        return _playerTwo;
+    function getPlayer(player){
+        return (player === 1) ? _playerOne : _playerTwo;
     }
 
     function _switchTurns(){
@@ -299,7 +266,7 @@ const game = (()=>{
         if(_currentPlayer === _playerOne){
             _currentPlayer = _playerTwo;
             ui.updateCurrentPlayer(2);
-            _updateCurrentPlayerColors(2);
+            ui.updateCurrentPlayerColors(2);
             if(_opponent === "AI"){
                 //This is just to make it look like the bot is thinking
                 const botThinkingTime = helperFunctions.randomIntFromRangeInclusive(400, 800);
@@ -309,7 +276,7 @@ const game = (()=>{
         }
         _currentPlayer = _playerOne;
         ui.updateCurrentPlayer(1);
-        _updateCurrentPlayerColors(1);
+        ui.updateCurrentPlayerColors(1);
     }
 
     function _botPlayTurnEasy(){
@@ -458,7 +425,7 @@ const game = (()=>{
         }
     }
 
-    return {playTurn, toggleSound, updateTeam, updateName, getPlayerOne, getPlayerTwo, setFirstTurn, startTime, 
+    return {playTurn, toggleSound, updateTeam, updateName, getPlayer, setFirstTurn, startTime, 
             resetScores, resetTeams, soundActivated, setOpponent, setDifficulty, getDifficulty, botsTurn};
 })();
 
@@ -685,7 +652,7 @@ const ui = (()=>{
 
     function _chooseRandomNationalTeam(container, continent){
         const player = (container.getAttribute("class") === "left") ? "one" : "two";
-        const currentTeams = {"one": game.getPlayerOne().team.name, "two": game.getPlayerTwo().team.name};
+        const currentTeams = {"one": game.getPlayer(1).team.name, "two": game.getPlayer(2).team.name};
         if(!continent){continent = _chooseRandomContinent()};
         const countries = DATA.getCountries(continent);
         let country;
@@ -701,7 +668,7 @@ const ui = (()=>{
 
     function _chooseRandomClub(container, continent, league){
         const player = (container.getAttribute("class") === "left") ? "one" : "two";
-        const currentTeams = {"one": game.getPlayerOne().team.name, "two": game.getPlayerTwo().team.name};
+        const currentTeams = {"one": game.getPlayer(1).team.name, "two": game.getPlayer(2).team.name};
         if(!continent){continent = _chooseRandomContinent()};
         if(!league){league = _chooseRandomLeague(continent)};
         const clubs = DATA.getClubs(continent, league);
@@ -798,8 +765,8 @@ const ui = (()=>{
         const opponentType = $(".initial-settings .right > select").value;
         const opponentInput = $(".right input");
         const opponentName = opponentInput.value;
-        const playerOne = game.getPlayerOne();
-        const playerTwo = game.getPlayerTwo();
+        const playerOne = game.getPlayer(1);
+        const playerTwo = game.getPlayer(2);
         if(playerOne.team.name === null){
             window.scrollTo(0, 0);
             alreadyScrolled = true;
@@ -891,6 +858,58 @@ const ui = (()=>{
             ball.style.top = `${e.clientY - 32}px`;
         });
         container.appendChild(ball);
+    }
+
+    function updateCurrentPlayerColors(player){
+        const root = $(":root");
+        const playerAlteredColors = game.getPlayer(player).team.alteredColors;
+        for(let colorNumber in playerAlteredColors){
+            root.style.setProperty(`--current-player-color${colorNumber}-low-opacity`, `rgba(${playerAlteredColors[colorNumber]}, 50%)`);
+        }
+    }
+
+    function _changeSaturation(rgbColor, saturationLevel){
+        console.log("original color")
+        console.log(rgbColor);
+        rgbColorArray = rgbColor.split(",");
+        const sameColorDifferentSaturation = [];
+        let hasToIncrement;
+        for (let value of rgbColorArray){
+            newValue = parseInt(value);
+            if(hasToIncrement === undefined) {hasToIncrement = (newValue >= 127) ? false : true};
+            if(hasToIncrement && newValue <= 255 - saturationLevel){
+                newValue += saturationLevel;
+            }
+            else if(!hasToIncrement && newValue >= saturationLevel){
+                newValue -= saturationLevel;
+            }
+            sameColorDifferentSaturation.push(newValue);
+        }
+        return sameColorDifferentSaturation.toString();
+    }   
+
+    function updateTeamColorsCssVariables(player){
+        const root = $(":root");
+        const playerNumber = (player === 1) ? "one" : "two";
+        const playerAlteredColors = game.getPlayer(player).team.alteredColors;
+        const playerColors = game.getPlayer(player).team.colors.slice(0);
+        const playerColorsLength = playerColors.length;
+
+        if(playerColorsLength === 1){
+            const firstColorDifferentSaturationV1 = _changeSaturation(playerColors[0], 20);
+            const firstColorDifferentSaturationV2 = _changeSaturation(playerColors[0], 10);
+            playerColors.push(firstColorDifferentSaturationV1, firstColorDifferentSaturationV2);
+        }
+
+        else if(playerColorsLength === 2){
+            const firstColorDifferentSaturation = _changeSaturation(playerColors[0], 10);
+            playerColors.push(firstColorDifferentSaturation);
+        }
+
+        for(let colorNumber in playerColors){
+            playerAlteredColors.push(playerColors[colorNumber]);
+            root.style.setProperty(`--player-${playerNumber}-color${colorNumber}`, `rgb(${playerColors[colorNumber]})`);
+        }
     }
 
     function _displayFirstScreen(){
@@ -1227,8 +1246,8 @@ const ui = (()=>{
         const instructions = document.createElement("p");
         instructions.classList.add("coin-flip-instructions");
         instructions.innerText = "FLIP THE COIN TO SEE WHO STARTS";
-        const playerOne = game.getPlayerOne();
-        const playerTwo = game.getPlayerTwo();
+        const playerOne = game.getPlayer(1);
+        const playerTwo = game.getPlayer(2);
         const playerOneCoinSide = ["head", "tail"][Math.floor(Math.random() * 2)];
         const playerTwoCoinSide = (playerOneCoinSide === "head") ? "tail" : "head";
         const playerOneCoinSideMessage = document.createElement("p");
@@ -1293,11 +1312,11 @@ const ui = (()=>{
         gameScreen.classList.add("game-screen");
         const localTeamBadge = document.createElement("img");
         localTeamBadge.classList.add("local-team-badge");
-        const localTeam = game.getPlayerOne().team;
+        const localTeam = game.getPlayer(1).team;
         helperFunctions.setAttributes(localTeamBadge, ["src", "alt"], [localTeam.imagePath, localTeam.name]);
         const visitorTeamBadge = document.createElement("img");
         visitorTeamBadge.classList.add("visitor-team-badge");
-        const visitorTeam = game.getPlayerTwo().team;
+        const visitorTeam = game.getPlayer(2).team;
         helperFunctions.setAttributes(visitorTeamBadge, ["src", "alt"], [visitorTeam.imagePath, visitorTeam.name]);
         helperFunctions.appendChildren(gameScreen, [localTeamBadge, visitorTeamBadge]);
         _displayScoreBoard(gameScreen);
@@ -1316,13 +1335,13 @@ const ui = (()=>{
         localAbbreviationAndColors.classList.add("local-abbreviation-and-colors");
         const localAbbreviation = document.createElement("p");
         localAbbreviation.classList.add("local-abbreviation");
-        localAbbreviation.innerText = game.getPlayerOne().team.abbreviation;
+        localAbbreviation.innerText = game.getPlayer(1).team.abbreviation;
         const localColors = document.createElement("section");
         localColors.classList.add("local-colors");
-        for(const colorNumber in game.getPlayerOne().team.colors){
-            const color = document.createElement("section");
-            color.classList.add(`local-color${colorNumber}`);
-            localColors.appendChild(color);
+        for(const color in game.getPlayer(1).team.colors){
+            const colorSection = document.createElement("section");
+            colorSection.classList.add(`local-color-${color}`);
+            localColors.appendChild(colorSection);
         }
         helperFunctions.appendChildren(localAbbreviationAndColors, [localAbbreviation, localColors]);
         const localScore = document.createElement("p");
@@ -1335,13 +1354,13 @@ const ui = (()=>{
         visitorAbbreviationAndColors.classList.add("visitor-abbreviation-and-colors");
         const visitorAbbreviation = document.createElement("p");
         visitorAbbreviation.classList.add("visitor-abbreviation");
-        visitorAbbreviation.innerText = game.getPlayerTwo().team.abbreviation;
+        visitorAbbreviation.innerText = game.getPlayer(2).team.abbreviation;
         const visitorColors = document.createElement("section");
         visitorColors.classList.add("visitor-colors");
-        for(const colorNumber in game.getPlayerTwo().team.colors){
-            const color = document.createElement("section");
-            color.classList.add(`visitor-color${colorNumber}`);
-            visitorColors.appendChild(color);
+        for(const color in game.getPlayer(2).team.colors){
+            const colorSection = document.createElement("section");
+            colorSection.classList.add(`visitor-color-${color}`);
+            visitorColors.appendChild(colorSection);
         }
         helperFunctions.appendChildren(visitorAbbreviationAndColors, [visitorAbbreviation, visitorColors]);
         const visitorScore = document.createElement("p");
@@ -1362,8 +1381,8 @@ const ui = (()=>{
     function updateScore(){
         const localScore = $(".scoreboard .local-score");
         const visitorScore = $(".scoreboard .visitor-score");
-        localScore.innerText = game.getPlayerOne().score;
-        visitorScore.innerText = game.getPlayerTwo().score;
+        localScore.innerText = game.getPlayer(1).score;
+        visitorScore.innerText = game.getPlayer(2).score;
     }
 
     function updateTime(currentTime){
@@ -1395,8 +1414,8 @@ const ui = (()=>{
         helperFunctions.clearPreviousScreen();
         const toggles = $$("i[class*='toggle']");
         toggles.forEach(toggle => {if(toggle.classList.contains("bottom-left"))toggle.classList.remove("bottom-left")});
-        const playerOne = game.getPlayerOne();
-        const playerTwo = game.getPlayerTwo();
+        const playerOne = game.getPlayer(1);
+        const playerTwo = game.getPlayer(2);
         const resultOuterContainer = document.createElement("section");
         resultOuterContainer.classList.add("game-result-container");
         const resultContainer = document.createElement("section");
@@ -1458,5 +1477,5 @@ const ui = (()=>{
         _body.appendChild(resultOuterContainer);
     }
 
-    return {updateScore, updateTime, updateCurrentPlayer, displayResult, displaySong, toggleTieAnimation}
+    return {updateScore, updateTime, updateCurrentPlayer, updateCurrentPlayerColors, updateTeamColorsCssVariables, displayResult, displaySong, toggleTieAnimation}
 })()

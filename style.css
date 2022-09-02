@@ -785,35 +785,26 @@ section[class*='abbreviation-and-colors']{
     outline: solid lightslategray 1px;
 }
 
-.local-color0{
+[class*= "local-color-"], [class*= "visitor-color-"]{
     flex: 1;
-    background-color: var(--player-one-color0);
 }
 
-.local-color1{
-    flex: 1;
-    background-color: var(--player-one-color1);
-}
+.local-color-0{background-color: var(--player-one-color0);}
 
-.local-color2{
-    flex: 1;
-    background-color: var(--player-one-color2);
-}
+.local-color-1{background-color: var(--player-one-color1)}
 
-.visitor-color0{
-    flex: 1;
-    background-color: var(--player-two-color0);
-}
+.local-color-2{background-color: var(--player-one-color2)}
 
-.visitor-color1{
-    flex: 1;
-    background-color: var(--player-two-color1);
-}
+.local-color-3{background-color: var(--player-one-color3)}
 
-.visitor-color2{
-    flex: 1;
-    background-color: var(--player-two-color2);
-}
+.visitor-color-0{background-color: var(--player-two-color0)}
+
+.visitor-color-1{background-color: var(--player-two-color1)}
+
+.visitor-color-2{background-color: var(--player-two-color2)}
+
+.visitor-color-3{background-color: var(--player-two-color3)}
+
 
 .scoreboard > .score-container{
     display: flex;
@@ -886,11 +877,13 @@ section[class*='abbreviation-and-colors']{
 }
 
 .cell[data-mark = "X"]{
-    text-shadow: -2px 6px 2px var(--player-one-color0);
+    color: var(--player-one-color0);
+    text-shadow: -2px 6px 2px var(--player-one-color1);
 }
 
 .cell[data-mark = "O"]{
-    text-shadow: -2px 6px 2px var(--player-two-color0);
+    color: var(--player-two-color0);
+    text-shadow: -2px 6px 2px var(--player-two-color1);
 }
 
 .cell:hover{
