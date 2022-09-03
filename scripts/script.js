@@ -143,7 +143,7 @@ const game = (()=>{
     let _difficulty = "EASY", _sound = false, over = false, timeOut = false;
     let _opponent = null, _currentPlayer = null;
     let currentTimeMinutes = 0, currentTimeSeconds = 0, currentTime;
-    const MAX_TIME = 1000;
+    const MAX_TIME = 40;
     const _playerOne = Player("X");
     const _playerTwo = Player("O");
 
@@ -178,10 +178,12 @@ const game = (()=>{
         _playerOne.team.abbreviation = null;
         _playerOne.team.imagePath = null;
         _playerOne.team.colors = null;
+        _playerOne.team.alteredColors = [];
         _playerTwo.team.name = null;
         _playerTwo.team.abbreviation = null;
         _playerTwo.team.imagePath = null;
         _playerTwo.team.colors = null;
+        _playerTwo.team.alteredColors = [];
     }
 
     function startTime(){
@@ -863,6 +865,7 @@ const ui = (()=>{
     function updateCurrentPlayerColors(player){
         const root = $(":root");
         const playerAlteredColors = game.getPlayer(player).team.alteredColors;
+        console.log(playerAlteredColors);
         for(let colorNumber in playerAlteredColors){
             root.style.setProperty(`--current-player-color${colorNumber}-low-opacity`, `rgba(${playerAlteredColors[colorNumber]}, 50%)`);
         }

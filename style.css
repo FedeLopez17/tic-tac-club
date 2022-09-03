@@ -18,7 +18,7 @@ body{
     --ball-x: 0;
     --ball-y: 0;
 
-    --color-primary: rgb(85, 107, 47); /*darkolivegreen*/
+    --color-primary: rgb(110 125 42);
     --color-secondary: white;
 
     --color-warning: red;
@@ -91,14 +91,16 @@ body{
     color: var(--color-secondary);
     font-size: 3rem;
     margin-top: 140px;
+    text-shadow: -4px 1px 0 var(--color-secondary);
 }
 
 .title-container > .title-left{
     color: var(--color-primary);
 }
 
-.title-left span{
+.title-left span, .title-container > .title-right{
     color: var(--color-secondary);
+    text-shadow: -4px 1px 0 var(--color-primary);
 }
 
 .title-container > .title-mid{
@@ -174,7 +176,7 @@ body{
     .first-screen > .play-button:hover{
         color: var(--color-primary);
         transform: scale(1.01);
-        -webkit-text-stroke: 1px var(--color-secondary);
+        -webkit-text-stroke: 2px var(--color-secondary);
     }
     
     .first-screen > .ball-cursor{
@@ -252,17 +254,16 @@ body.scroll{
     outline: none;
     color: var(--color-secondary);
     font-weight: 900;
-    text-shadow: -3px 3px var(--color-primary);
 }
 
 .versus.v{
     bottom: calc(0px - 2rem);
-    left: calc(50vw - 2rem);
+    left: calc(50vw - 2.5rem);
 }
 
 .versus.s{
     top: calc(0px - 2rem);
-    right: calc(50vw - 2rem);
+    right: calc(50vw - 2.5rem);
 }
 
 select{
@@ -525,17 +526,19 @@ div.select-team button:hover{
         height: 100%;
     }
 
-    .versus.v{
+    .versus{
+        text-shadow: -3px 3px var(--color-primary);
         top: 50px;
-        right: 0;
         bottom: initial;
+    }
+
+    .versus.v{
+        right: 0;
         left: initial;
     }
     
     .versus.s{
-        top: 50px;
         left: 0;
-        bottom: initial;
         right: initial;
     }
 
@@ -879,11 +882,13 @@ section[class*='abbreviation-and-colors']{
 .cell[data-mark = "X"]{
     color: var(--player-one-color0);
     text-shadow: -2px 6px 2px var(--player-one-color1);
+    cursor: not-allowed;
 }
 
 .cell[data-mark = "O"]{
     color: var(--player-two-color0);
     text-shadow: -2px 6px 2px var(--player-two-color1);
+    cursor: not-allowed;
 }
 
 .cell:hover{
@@ -940,7 +945,7 @@ section[class*='abbreviation-and-colors']{
 }
 
 .player-one-team-badge, .player-two-team-badge{
-    max-width: 300px;
+    width: 100%;
 }
 
 .game-result-mid .winner-award{
