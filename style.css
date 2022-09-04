@@ -538,6 +538,7 @@ div.select-team button:hover{
     }
     
     .versus.s{
+        top: 50px;
         left: 0;
         right: initial;
     }
