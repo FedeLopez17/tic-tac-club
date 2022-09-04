@@ -235,12 +235,12 @@ const game = (()=>{
     function setFirstTurn(playerName){
         if(playerName === _playerOne.name){
             _currentPlayer = _playerOne;
-            setTimeout(()=>{ui.updateCurrentPlayer(1)}, 4500); 
+            setTimeout(()=>{ui.updateCurrentPlayer(1)}, 5700);
             return;
         }
         _currentPlayer = _playerTwo;
-        setTimeout(()=>{ui.updateCurrentPlayer(2)}, 4500); 
-        if(_opponent === "AI"){setTimeout(()=>{botPlayTurn()}, 5000)};
+        setTimeout(()=>{ui.updateCurrentPlayer(2)}, 5700);
+        if(_opponent === "AI"){setTimeout(()=>{botPlayTurn()},6100)};
     }
 
     function updateName(container, name){
@@ -1279,6 +1279,7 @@ const ui = (()=>{
             });
             const winner = (result === playerOneCoinSide) ? playerOne.name : playerTwo.name;
             game.setFirstTurn(winner);
+
             setTimeout(()=>{
                 const winnerMessageContainer = document.createElement("section");
                 winnerMessageContainer.classList.add("first-turn-message-container");
@@ -1289,7 +1290,13 @@ const ui = (()=>{
                 helperFunctions.clearPreviousScreen();
                 _body.appendChild(winnerMessageContainer);
             }, 2500);
-            setTimeout(_displayGameBoardScreen, 4000);
+
+            const transition = _makeTransition();
+            setTimeout(()=>{
+                helperFunctions.clearPreviousScreen();
+                _body.appendChild(transition);
+                setTimeout(_displayGameBoardScreen, 1600);
+            }, 4000); 
         })
         coinContainer.appendChild(coin);
         coinHead = document.createElement("section");
@@ -1305,6 +1312,23 @@ const ui = (()=>{
         helperFunctions.appendChildren(coin, [coinHead, coinTail]);
         helperFunctions.appendChildren(coinFlipScreen, [instructions, coinContainer, coinMessagesContainer]);
         _body.appendChild(coinFlipScreen);
+    }
+
+    function _makeTransition(){
+        const transitionContainer = document.createElement("section");
+        transitionContainer.classList.add("transition-container");
+        const top = document.createElement("section");
+        top.classList.add("transition-top");
+        const upperBadge = document.createElement("img");
+        helperFunctions.setAttributes(upperBadge, ["class", "src", "alt"], ["upper-badge", "./images/misc/ttc-top.svg", "Tic Tac Club logo's upper half"]);
+        top.appendChild(upperBadge);
+        const bottom = document.createElement("section");
+        bottom.classList.add("transition-bottom");
+        const lowerBadge = document.createElement("img");
+        helperFunctions.setAttributes(lowerBadge, ["class", "src", "alt"], ["lower-badge", "./images/misc/ttc-bottom.svg", "Tic Tac Club logo's lower half"]);
+        bottom.appendChild(lowerBadge);
+        helperFunctions.appendChildren(transitionContainer, [top, bottom]);
+        return transitionContainer;
     }
 
     function _displayGameBoardScreen(){

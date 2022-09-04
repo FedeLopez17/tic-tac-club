@@ -92,6 +92,18 @@ body{
     font-size: 3rem;
     margin-top: 140px;
     text-shadow: -4px 1px 0 var(--color-secondary);
+    animation: tilt-in 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes tilt-in{
+    0% {
+      transform: rotateY(20deg) rotateX(35deg) translate(300px, -300px) skew(-35deg, 10deg);
+      opacity: 0;
+    }
+    100% {
+      transform: rotateY(0) rotateX(0deg) translate(0, 0) skew(0deg, 0deg);
+      opacity: 1;
+    }
 }
 
 .title-container > .title-left{
@@ -119,6 +131,20 @@ body{
     color: var(--color-secondary);
     border: solid 4px var(--color-secondary);
     font-weight: 900;
+    animation: swing-in 1s cubic-bezier(0.175, 0.885, 0.320, 1.275) 0.5s both;
+}
+
+@keyframes swing-in{
+    0% {
+      transform: rotateX(100deg);
+      transform-origin: bottom;
+      opacity: 0;
+    }
+    100% {
+      transform: rotateX(0);
+      transform-origin: bottom;
+      opacity: 1;
+    }
 }
 
 @media (orientation: landscape) and (min-width: 1000px){
@@ -734,12 +760,63 @@ div.select-team button:hover{
     }
 }
 
-/* game screen */
+
+/* Transition */
+.transition-top, .transition-bottom{
+    background-color: rgba(10, 10, 10, 70%);
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    animation: slide-in 1.5s ease-out forwards;
+}
+
+.transition-top{
+    top: 0;
+}
+
+.transition-bottom{
+    bottom: 0;
+}
+
+.transition-container img{
+    position: absolute;
+    left: 37.5%;
+    width: 25%;
+    z-index: 1;
+    animation: rotate 1.2s ease-in 0.15s;
+}
+
+.transition-top > img{
+    bottom: 0;
+    filter: drop-shadow(0px -2px 2px var(--color-secondary));
+    transform-origin: bottom;
+}
+
+
+.transition-bottom > img{
+    top: 0;
+    filter: drop-shadow(0px 2px 2px var(--color-secondary));
+    transform-origin: top;
+}
+
+@keyframes slide-in {
+    0%, 100% {height: 0%}
+    10% {height: 50%}
+    90% {height: 50%}
+}
+
+@keyframes rotate {
+    0% {transform: rotateZ(0deg)}
+    100% {transform: rotateZ(360deg)}
+}
+
+/* Game screen */
 
 .game-screen{
     display: flex;
     justify-content: center;
     height:100%;
+    animation: increase-opacity 0.5s;
 }
 
 .local-team-badge, .visitor-team-badge{
@@ -773,9 +850,6 @@ div.select-team button:hover{
     gap: 10%;
     border-radius: 0.2rem;
 }
-
-/* .scoreboard > .time-container{
-} */
 
 section[class*='abbreviation-and-colors']{
     display: flex;
@@ -915,6 +989,7 @@ section[class*='abbreviation-and-colors']{
     display: flex;
     justify-content: center;
     align-items: center;
+    animation: increase-opacity 0.5s;
 }
 
 .game-result{
@@ -993,6 +1068,11 @@ section[class*='abbreviation-and-colors']{
     15% {opacity: 1}
     85% {opacity: 1}
     100% {opacity: 0}
+}
+
+@keyframes increase-opacity {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
 }
 
 .song-title-container{
