@@ -187,6 +187,10 @@ const game = (()=>{
     }
 
     function startTime(){
+        if(game.soundActivated()) {
+            sounds.refereeWhistle.play();
+            sounds.stadiumAtmosphere.play();
+        };
         over = false;
         function _updateMinutes(){
             currentTimeMinutes++;
@@ -195,6 +199,7 @@ const game = (()=>{
             if(currentTimeSeconds === 60){currentTimeSeconds = 0};
             if(currentTimeMinutes === MAX_TIME) {
                 over = true;
+                if(game.soundActivated()) {sounds.refereeWhistle.play()};
                 clearInterval(keepTimeMinutes);
                 clearInterval(keepTimeSeconds);
                 currentTime = `${MAX_TIME}:00`;
@@ -1437,7 +1442,6 @@ const ui = (()=>{
     }
 
     function displayResult(result){
-        if(game.soundActivated()) sounds.gameOver.play();
         helperFunctions.clearPreviousScreen();
         const toggles = $$("i[class*='toggle']");
         toggles.forEach(toggle => {if(toggle.classList.contains("bottom-left"))toggle.classList.remove("bottom-left")});
