@@ -215,8 +215,8 @@ const game = (()=>{
             ui.updateTime(currentTime);
             currentTimeSeconds++;
         }
-        const keepTimeMinutes = setInterval(_updateMinutes, 1000);
-        const keepTimeSeconds = setInterval(_updateSeconds, 16.5);
+        const keepTimeMinutes = setInterval(_updateMinutes, 660);
+        const keepTimeSeconds = setInterval(_updateSeconds, 11);
     }
 
     function resetTime(){
