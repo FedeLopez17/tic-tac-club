@@ -489,6 +489,7 @@ div.select-team button:hover{
     height: 70%;
     max-width: 300px;
     max-height: 300px;
+    filter: drop-shadow(0px 0px 1px white);
 }
 
 .invalid-message{
