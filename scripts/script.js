@@ -518,6 +518,14 @@ const ui = (()=>{
 
     function _toggleSound(e){
         if(!game.soundActivated()) sounds.selectionTwo.play();
+        if(game.soundActivated()) {
+            sounds.stadiumAtmosphere.pause();
+            sounds.goal.pause();
+            sounds.goal.currentTime = 0;
+            sounds.tie.pause();
+            sounds.tie.currentTime = 0;
+        };
+        if(!game.soundActivated() && $(".game-screen")) sounds.stadiumAtmosphere.play();
         game.toggleSound();
         e.target.classList.toggle("fa-volume-xmark");
         e.target.classList.toggle("fa-volume-high");
