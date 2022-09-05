@@ -500,6 +500,10 @@ div.select-team button:hover{
     text-shadow: 0px 0px 1px white;
 }
 
+.invalid-message.shake{
+    animation: shake 0.3s;
+}
+
 .invalid-name{
     margin-bottom: -18px;
 }
@@ -1074,6 +1078,11 @@ section[class*='abbreviation-and-colors']{
 @keyframes increase-opacity {
     0% {opacity: 0;}
     100% {opacity: 1;}
+}
+
+@keyframes shake {
+    0%, 40%, 70%, 90% {transform: translateX(-4px);}
+    20%, 60%, 80%, 100% {transform: translateX(4px);}
 }
 
 .song-title-container{

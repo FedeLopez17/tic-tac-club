@@ -782,6 +782,13 @@ const ui = (()=>{
         const opponentName = opponentInput.value;
         const playerOne = game.getPlayer(1);
         const playerTwo = game.getPlayer(2);
+        if($(".invalid-message")){
+            const invalidMessages = $$(".invalid-message");
+            invalidMessages.forEach((message)=>{
+                message.classList.toggle("shake");
+                setTimeout(()=>{message.classList.toggle("shake")}, 50);
+            })
+        }
         if(playerOne.team.name === null){
             window.scrollTo(0, 0);
             alreadyScrolled = true;
@@ -789,7 +796,7 @@ const ui = (()=>{
             if(!invalidMessage){
                 const selector = $(".initial-settings .left > [class*='select']");
                 const message = _makeInvalidMessage("Please select a team!");
-                message.classList.add("invalid-team");
+                message.classList.add("invalid-team", "shake");
                 selector.before(message);
             }
         }
@@ -805,7 +812,7 @@ const ui = (()=>{
             if(!invalidMessage){
                 const selector = $(".initial-settings .right > [class*='select']");
                 const message = _makeInvalidMessage("Please select a team!");
-                message.classList.add("invalid-team");
+                message.classList.add("invalid-team", "shake");
                 selector.before(message);
             }
         }
@@ -822,7 +829,7 @@ const ui = (()=>{
             if(!invalidMessage){
                 nameInput.classList.toggle("invalid");
                 const message = _makeInvalidMessage("Required field!");
-                message.classList.add("invalid-name");
+                message.classList.add("invalid-name", "shake");
                 nameInput.nextElementSibling.before(message);
             }
         }
@@ -837,7 +844,7 @@ const ui = (()=>{
                 if(!invalidMessage){
                     opponentInput.classList.toggle("invalid");
                     const message = _makeInvalidMessage("Required field!");
-                    message.classList.add("invalid-name");
+                    message.classList.add("invalid-name", "shake");
                     opponentInput.nextElementSibling.before(message);  
                 }
             }
