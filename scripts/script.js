@@ -158,6 +158,7 @@ const game = (()=>{
     function updateTeam(container, team, abbreviation, imagePath, colors){
         const playerOne = container.getAttribute("class") === "left";
         if(playerOne){
+            _resetTeam(1);
             _playerOne.team.name = team;
             _playerOne.team.abbreviation = abbreviation;
             _playerOne.team.imagePath = imagePath;
@@ -165,12 +166,22 @@ const game = (()=>{
             ui.updateTeamColorsCssVariables(1);
         }
         else{
+            _resetTeam(2);
             _playerTwo.team.name = team;
             _playerTwo.team.abbreviation = abbreviation;
             _playerTwo.team.imagePath = imagePath;
             _playerTwo.team.colors = colors;
             ui.updateTeamColorsCssVariables(2);
         }      
+    }
+
+    function _resetTeam(player){
+        const playerTeam = (player === 1) ? _playerOne.team : _playerTwo.team;
+        playerTeam.name = null;
+        playerTeam.abbreviation = null;
+        playerTeam.imagePath = null;
+        playerTeam.colors = null;
+        playerTeam.alteredColors = [];
     }
 
     function resetTeams(){
