@@ -140,7 +140,7 @@ const Player = (mark)=>{
 }
 
 const game = (()=>{
-    let _difficulty = "EASY", _sound = false, over = false, timeOut = false;
+    let _difficulty = "HARD", _sound = false, over = false, timeOut = false;
     let _opponent = null, _currentPlayer = null;
     let currentTimeMinutes = 0, currentTimeSeconds = 0, currentTime;
     const MAX_TIME = 90;
