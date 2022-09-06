@@ -496,7 +496,19 @@ const ui = (()=>{
         }
     }
 
+    function _displayIntroAnimation(){
+        const introContainer = document.createElement("section");
+        introContainer.classList.add("intro-container");
+        const logoImage = document.createElement("img");
+        helperFunctions.setAttributes(logoImage, ["class", "src", "alt"], ["logo-image", "./images/misc/logo.png", "Tic Tac Club's logo"]);
+        introContainer.appendChild(logoImage);
+        _body.appendChild(introContainer);
+        setTimeout(_displayFirstScreen, 1600);
+    }
+    window.addEventListener("load", _displayIntroAnimation);
+
     function _displayFirstScreen(){
+        helperFunctions.clearPreviousScreen();
         const firstScreenContainer = document.createElement("section");
         firstScreenContainer.classList.add("first-screen");
         const titleContainer = document.createElement("section");
@@ -535,7 +547,6 @@ const ui = (()=>{
         _addBallCursor(firstScreenContainer);
         _body.appendChild(firstScreenContainer);
     }
-    window.addEventListener("load", _displayFirstScreen);
 
     function _displayInitialSetup(nameOne, nameTwo){
         _body.classList.add("mobile-scroll");
