@@ -105,11 +105,17 @@ const gameBoard = (()=>{
         const goalOrFull = full || threeInLine;
         if(goalOrFull){setTimeout(reset, 1000)};
         if(threeInLine){
-            if(game.soundActivated()) sounds.goal.play();
+            if(game.soundActivated()){
+                sounds.goal.currentTime = 0;
+                sounds.goal.play();
+            }
             return 2;
         }
         else if(full){
-            if(game.soundActivated()) sounds.tie.play();
+            if(game.soundActivated()){
+                sounds.tie.currentTime = 0;
+                sounds.tie.play();
+            };
             ui.toggleTieAnimation();
             return 1;
         }
