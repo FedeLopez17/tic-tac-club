@@ -72,6 +72,291 @@ body{
     opacity: 100%;
 }
 
+/* Loading Screen */
+
+.loading-screen{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(10, 10, 10, 60%);
+}
+
+.loading-screen #ball{
+    opacity: 0;
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    background-image: url("./images/misc/rotating-ball-sprite.png");
+    background-position-y: center;
+}
+
+.loading-screen #ball.line-0{
+    animation: rotate-ball-from-left 0.1s steps(12) 15, move-from-left 1.5s linear forwards;
+}
+
+.loading-screen #ball.line-1{
+    animation: rotate-ball-from-right 0.1s steps(12) 15, move-from-right 1.5s linear forwards;
+}
+
+.loading-screen #ball.line-2{
+    animation: rotate-ball-from-above 0.1s steps(12) 15, move-from-above 1.5s linear forwards;
+}
+
+.loading-screen #ball.line-3{
+    animation: rotate-ball-from-below 0.1s steps(12) 15, move-from-below 1.5s linear forwards;
+}
+
+@keyframes move-from-left{
+    0% {
+        top: 25.5%;
+        left: -50%;
+        opacity: 0;
+    }
+    30%{
+        opacity: 1;
+    }
+    50%{
+        top: 25.5%;
+        left: 50%;
+        opacity: 1;
+    }
+    70%{
+        opacity: 1;
+    }
+    100%{
+        top: 25.5%;
+        left: 150%;
+        opacity: 0;
+    }
+}
+
+@keyframes move-from-right{
+    0% {
+        bottom: 25.5%;
+        right: -50%;
+        opacity: 0;
+    }
+    30%{
+        opacity: 1;
+    }
+    50%{
+        bottom: 25.5%;
+        right: 50%;
+        opacity: 1;
+    }
+    70%{
+        opacity: 1;
+    }
+    100%{
+        bottom: 25.5%;
+        right: 150%;
+        opacity: 0;
+    }
+}
+
+@keyframes move-from-above{
+    0% {
+        left: 25.5%;
+        top: -50%;
+        opacity: 0;
+    }
+    30%{
+        opacity: 1;
+    }
+    50%{
+        left: 25.5%;
+        top: 50%;
+        opacity: 1;
+    }
+    70%{
+        opacity: 1;
+    }
+    100%{
+        left: 25.5%;
+        top: 150%;
+        opacity: 0;
+    }
+}
+
+@keyframes move-from-below {
+    0% {
+        right: 25.5%;
+        bottom: -50%;
+        opacity: 0;
+    }
+    30%{
+        opacity: 1;
+    }
+    50%{
+        right: 25.5%;
+        bottom: 50%;
+        opacity: 1;
+    }
+    70%{
+        opacity: 1;
+    }
+    100%{
+        right: 25.5%;
+        bottom: 150%;
+        opacity: 0;
+    }
+}
+
+@keyframes rotate-ball-from-left {
+    0% {background-position-x: 0px;}
+    100% {background-position-x: 768px;}
+}
+
+@keyframes rotate-ball-from-right {
+    0% {background-position-x: 0px;}
+    100% {background-position-x: -768px;}
+}
+
+@keyframes rotate-ball-from-above {
+    0% {
+        transform: rotate(90deg);
+        background-position-x: 0px;
+    }
+    100% {
+        transform: rotate(90deg);
+        background-position-x: 768px;
+    }
+}
+
+@keyframes rotate-ball-from-below {
+    0% {
+        transform: rotate(90deg);
+        background-position-x: 0px;
+    }
+    100% {
+        transform: rotate(90deg);
+        background-position-x: -768px;
+    }
+}
+
+.loading-screen > .reference-square{
+    position: relative;
+    margin-top: -4%;
+    aspect-ratio: 1/1;
+    width: 50vmin;
+}
+
+.loading-screen .line{
+    position: absolute;
+    border-radius: 10px;
+    opacity: 1;
+    transition: opacity 0.25s;
+}
+
+.loading-screen .line.loading-animation-fade-out{
+    opacity: 0;
+}
+
+.loading-screen .line.grow-wider{
+    animation: grow-wider 1.5s linear forwards;
+}
+
+.loading-screen .line.grow-taller{
+    animation: grow-taller 1.5s linear forwards;
+}
+
+@keyframes grow-wider{
+    0%, 29%{
+        width: 0%;
+    }
+    30%{
+        width: 10%;
+    }
+    74%, 100% {width: 100%}
+}
+
+@keyframes grow-taller{
+    0%, 29% {
+        height: 0%;
+    }
+    30%{
+        height: 10%;
+    }
+    74%, 100% {height: 100%}
+}
+
+.first.line{
+    width: 0%;
+    height: 3%;
+    top: 31.5%;
+    background-color: var(--color-secondary);
+}
+
+.second.line{
+    width: 0%;
+    height: 3%;
+    bottom: 31.5%;
+    right: 0;
+    background-color: var(--color-primary);
+}
+
+.third.line{
+    left: 31.5%;
+    width: 3%;
+    height: 0%;
+    background-color: var(--color-secondary);
+}
+
+.fourth.line{
+    right: 31.5%;
+    bottom: 0;
+    width: 3%;
+    height: 0%;
+    background-color: var(--color-primary);
+}
+
+.loading-text-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    color: var(--color-secondary);
+    bottom: 2%;
+    right: 2%;
+    gap: 8px;
+}
+
+.loading-text-container .dots-container{
+    display: flex;
+    gap: 6px;
+}
+
+.loading-text-container .dot{
+    aspect-ratio: 1/1;
+    width: 8px;
+    border-radius: 50%;
+    animation: jump 0.8s infinite;
+}
+
+.loading-text-container .dot.one{
+    box-shadow: 0 0 0 1px var(--color-secondary) inset;
+    background-color: var(--color-primary);
+    animation-delay: 0.1s;
+}
+
+.loading-text-container .dot.two{
+    background-color: var(--color-secondary);
+    animation-delay: 0.2s;
+}
+
+.loading-text-container .dot.three{
+    background-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-secondary) inset;
+    animation-delay: 0.3s;
+}
+
+@keyframes jump {
+    0% {transform: translateY(0)}
+    50% {transform: translateY(-4px)}
+    100% {transform: translateY(0)}
+}
+
 /* Intro Animation */
 
 .intro-container{

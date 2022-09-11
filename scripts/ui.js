@@ -496,16 +496,108 @@ const ui = (()=>{
         }
     }
 
+    function _displayLoadingScreen(){
+        const loadingScreen = document.createElement("section");
+        loadingScreen.classList.add("loading-screen");
+        const ball = document.createElement("span");
+        ball.setAttribute("id", "ball");
+        const referenceSquare = document.createElement("section");
+        referenceSquare.classList.add("reference-square");
+        const firstLine = document.createElement("section");
+        firstLine.classList.add("first", "line");
+        const secondLine = document.createElement("section");
+        secondLine.classList.add("second", "line");
+        const thirdLine = document.createElement("section");
+        thirdLine.classList.add("third", "line");
+        const fourthLine = document.createElement("section");
+        fourthLine.classList.add("fourth", "line");
+        helperFunctions.appendChildren(referenceSquare, [ball, firstLine, secondLine, thirdLine, fourthLine]);
+        const loadingTextContainer = document.createElement("section");
+        loadingTextContainer.classList.add("loading-text-container");
+        const loadingText = document.createElement("p");
+        loadingText.classList.add("loading-text");
+        loadingText.innerText = "LOADING";
+        loadingTextContainer.appendChild(loadingText);
+        const dotsContainer = document.createElement("section");
+        dotsContainer.classList.add("dots-container");
+        const dotOne = document.createElement("div");
+        dotOne.classList.add("dot", "one");
+        const dotTwo = document.createElement("div");
+        dotTwo.classList.add("dot", "two");
+        const dotThree = document.createElement("div");
+        dotThree.classList.add("dot", "three");
+        helperFunctions.appendChildren(dotsContainer, [dotOne, dotTwo, dotThree]);
+        loadingTextContainer.appendChild(dotsContainer);
+        helperFunctions.appendChildren(loadingScreen, [referenceSquare, loadingTextContainer]);
+    
+        function _manageAnimationClasses(){
+            const LINES = [firstLine, secondLine, thirdLine, fourthLine];
+            const GROW_DIRECTIONS = ["grow-wider", "grow-wider", "grow-taller", "grow-taller"];
+            const ANIMATION_DURATION = 1500;
+            let delay = 0;
+            for (let line in LINES){
+                setTimeout(()=>{
+                    LINES[line].classList.add(GROW_DIRECTIONS[line]);
+                    const previousLine = `line-${line - 1}`;
+                    if(ball.classList.contains(previousLine)) ball.classList.remove(previousLine);
+                    ball.classList.add(`line-${line}`);
+                }, delay);
+                if(line != 3) delay += ANIMATION_DURATION;
+                
+                setTimeout(()=>{
+                    LINES[line].classList.add("loading-animation-fade-out");
+                }, ANIMATION_DURATION * LINES.length);
+
+                setTimeout(()=>{
+                    LINES[line].classList.remove(GROW_DIRECTIONS[line]);
+                    LINES[line].classList.remove("loading-animation-fade-out");
+                    ball.classList.remove("line-3");
+                }, (ANIMATION_DURATION * LINES.length) + 375);
+            }
+        }
+        _manageAnimationClasses();
+
+        //Only loads essential images. The rest load on demand if there's a need to use them.
+        const ESSENTIAL_IMAGES = ["./images/misc/goal.png", "./images/misc/important-clubs.png", "./images/misc/logo.png", "./images/misc/ttc-top.svg", "./images/misc/ttc-bottom.svg", 
+                                "./images/misc/cups/club-world-cup.svg", "./images/misc/cups/world-cup.svg", "./images/misc/cups/winner-award.svg", "./images/misc/coin/head.png", 
+                                "./images/misc/coin/tail.png", "./images/continents/africa/africa.svg", "./images/continents/asia/asia.svg", "./images/continents/europe/europe.svg", 
+                                "./images/continents/north-america/north-america.svg", "./images/continents/oceania/oceania.svg", "./images/continents/south-america/south-america.svg"];
+
+        let imagesLoaded = 0;
+        let allImagesLoaded = false;
+
+        for(const imageSource of ESSENTIAL_IMAGES){
+            const image = document.createElement("img");
+            image.addEventListener("load", ()=>{
+                imagesLoaded++;
+                if(imagesLoaded === ESSENTIAL_IMAGES.length) allImagesLoaded = true;
+            })
+            image.src = imageSource;
+        }
+        
+        const repeteLoadingAnimation = setInterval(()=>{
+            if(allImagesLoaded){
+                clearInterval(repeteLoadingAnimation);
+                _displayIntroAnimation();
+                return;
+            }
+            _manageAnimationClasses();
+        }, 6750);
+
+        _body.appendChild(loadingScreen);
+    }
+    window.addEventListener("load", _displayLoadingScreen);
+
     function _displayIntroAnimation(){
         const introContainer = document.createElement("section");
         introContainer.classList.add("intro-container");
         const logoImage = document.createElement("img");
         helperFunctions.setAttributes(logoImage, ["class", "src", "alt"], ["logo-image", "./images/misc/logo.png", "Tic Tac Club's logo"]);
         introContainer.appendChild(logoImage);
+        helperFunctions.clearPreviousScreen();
         _body.appendChild(introContainer);
         setTimeout(_displayFirstScreen, 1600);
     }
-    window.addEventListener("load", _displayIntroAnimation);
 
     function _displayFirstScreen(){
         helperFunctions.clearPreviousScreen();
