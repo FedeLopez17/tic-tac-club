@@ -757,10 +757,18 @@ div.select-team button:hover{
     overflow: scroll;
     background-color: rgba(10, 10, 10, 70%);
     border-radius: 10px;
+    /* hide scrollbar but allow scrolling */
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    overflow-y: scroll; 
 }
 
 .continent-selector{
     margin-top: 18px;
+}
+
+.continent-selector::-webkit-scrollbar, .national-teams-selector::-webkit-scrollbar, .leagues-selector::-webkit-scrollbar, .clubs-selector::-webkit-scrollbar{
+    display: none; /* for Chrome, Safari, and Opera */
 }
 
 .continent, .national-team, .league, .club{
