@@ -533,7 +533,7 @@ const ui = (()=>{
         function _manageAnimationClasses(){
             const LINES = [firstLine, secondLine, thirdLine, fourthLine];
             const GROW_DIRECTIONS = ["grow-wider", "grow-wider", "grow-taller", "grow-taller"];
-            const ANIMATION_DURATION = 1500;
+            const ANIMATION_DURATION = 1000;
             let delay = 0;
             for (let line in LINES){
                 setTimeout(()=>{
@@ -552,7 +552,7 @@ const ui = (()=>{
                     LINES[line].classList.remove(GROW_DIRECTIONS[line]);
                     LINES[line].classList.remove("loading-animation-fade-out");
                     ball.classList.remove("line-3");
-                }, (ANIMATION_DURATION * LINES.length) + 375);
+                }, (ANIMATION_DURATION * LINES.length) + 250);
             }
         }
         _manageAnimationClasses();
@@ -575,14 +575,14 @@ const ui = (()=>{
             image.src = imageSource;
         }
         
-        const repeteLoadingAnimation = setInterval(()=>{
+        const repeatLoadingAnimation = setInterval(()=>{
             if(allImagesLoaded){
-                clearInterval(repeteLoadingAnimation);
+                clearInterval(repeatLoadingAnimation);
                 _displayIntroAnimation();
                 return;
             }
             _manageAnimationClasses();
-        }, 6750);
+        }, 4500);
 
         _body.appendChild(loadingScreen);
     }
