@@ -1169,7 +1169,11 @@ const ui = (()=>{
         selectTeam.classList.add("fa-solid", "fa-shirt");
         selectTeam.setAttribute("title", "SELECT TEAM");
         selectTeam.addEventListener("click", ()=> {
-            if(game.soundActivated()) sounds.selectionOne.play();
+            if(game.soundActivated()){
+                sounds.selectionOne.play();
+                sounds.stadiumAtmosphere.pause();
+                sounds.stadiumAtmosphere.currentTime = 0;
+            }
             const nameOne = playerOne.name;
             const nameTwo = playerTwo.name;
             game.resetTeams();
@@ -1179,7 +1183,11 @@ const ui = (()=>{
         playAgain.classList.add("fa-solid", "fa-arrow-rotate-left");
         playAgain.setAttribute("title", "PLAY AGAIN");
         playAgain.addEventListener("click", ()=>{
-            if(game.soundActivated()) sounds.selectionOne.play();
+            if(game.soundActivated()){
+                sounds.selectionOne.play();
+                sounds.stadiumAtmosphere.pause();
+                sounds.stadiumAtmosphere.currentTime = 0;
+            }
             _flipCoin();
         });
         helperFunctions.appendChildren(bottom, [selectTeam, playAgain]);
