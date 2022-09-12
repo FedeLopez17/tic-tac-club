@@ -230,8 +230,8 @@ body{
         background-position-x: 0px;
     }
     100% {
-        transform: rotate(-90deg);
-        background-position-x: 768px;
+        transform: rotate(90deg);
+        background-position-x: -768px;
     }
 }
 
