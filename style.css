@@ -92,19 +92,19 @@ body{
 }
 
 .loading-screen #ball.line-0{
-    animation: rotate-ball-from-left 0.1s steps(12) 10, move-from-left 1s linear forwards;
+    animation: rotate-ball-from-left 0.1s steps(12) 15, move-from-left 1.5s linear forwards;
 }
 
 .loading-screen #ball.line-1{
-    animation: rotate-ball-from-right 0.1s steps(12) 10, move-from-right 1s linear forwards;
+    animation: rotate-ball-from-right 0.1s steps(12) 15, move-from-right 1.5s linear forwards;
 }
 
 .loading-screen #ball.line-2{
-    animation: rotate-ball-from-above 0.1s steps(12) 10, move-from-above 1s linear forwards;
+    animation: rotate-ball-from-above 0.1s steps(12) 15, move-from-above 1.5s linear forwards;
 }
 
 .loading-screen #ball.line-3{
-    animation: rotate-ball-from-below 0.1s steps(12) 10, move-from-below 1s linear forwards;
+    animation: rotate-ball-from-below 0.1s steps(12) 15, move-from-below 1.5s linear forwards;
 }
 
 @keyframes move-from-left{
@@ -230,8 +230,8 @@ body{
         background-position-x: 0px;
     }
     100% {
-        transform: rotate(90deg);
-        background-position-x: -768px;
+        transform: rotate(-90deg);
+        background-position-x: 768px;
     }
 }
 
@@ -254,11 +254,11 @@ body{
 }
 
 .loading-screen .line.grow-wider{
-    animation: grow-wider 1s linear forwards;
+    animation: grow-wider 1.5s linear forwards;
 }
 
 .loading-screen .line.grow-taller{
-    animation: grow-taller 1s linear forwards;
+    animation: grow-taller 1.5s linear forwards;
 }
 
 @keyframes grow-wider{
