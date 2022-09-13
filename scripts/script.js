@@ -232,8 +232,9 @@ const game = (()=>{
             ui.updateTime(currentTime);
             currentTimeSeconds++;
         }
-        const keepTimeMinutes = setInterval(_updateMinutes, 660);
-        const keepTimeSeconds = setInterval(_updateSeconds, 11);
+        // With these intervals set to 480 and 8 the game duration is roughly 45 seconds.
+        const keepTimeMinutes = setInterval(_updateMinutes, 480);
+        const keepTimeSeconds = setInterval(_updateSeconds, 8);
     }
 
     function resetTime(){
