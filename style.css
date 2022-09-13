@@ -950,6 +950,12 @@ div.select-team button:hover{
     }
 }
 
+@media (orientation: landscape) and (max-height: 750px){
+    .first-screen > .title-container{
+        margin-top: 10px;
+    } 
+}
+
 
 /* Coin flip screen */
 
