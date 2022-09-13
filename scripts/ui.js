@@ -663,6 +663,12 @@ const ui = (()=>{
         nameInput.autocomplete = "off";
         if(nameOne && typeof nameOne === "string"){nameInput.value = nameOne};
         helperFunctions.setAttributes(nameInput, ["id", "type","placeholder"], ["player-one-name", "text", "What's your name?"]);
+        nameInput.addEventListener("input", ()=>{
+            if(nameInput.value){
+                const inavalidNameWarning = $(".initial-settings .left .invalid-name");
+                if(inavalidNameWarning) inavalidNameWarning.parentElement.removeChild(inavalidNameWarning);
+            }
+        });
         helperFunctions.appendChildren(left, [versusV, playerOneLabel, nameInput]);
         const right = document.createElement("section");
         right.classList.add("right");
@@ -913,6 +919,8 @@ const ui = (()=>{
         game.updateTeam(container, club, abbreviation, imagePath, colors);
         const thereIsNoReturnButton = !$(`.initial-settings .${container.getAttribute("class")} > .return-button`);
         if(thereIsNoReturnButton){_addReturnButton(container)};
+        const invalidTeamMessage = $(`.initial-settings .${container.getAttribute("class")}  .invalid-team`);
+        if(invalidTeamMessage) invalidTeamMessage.parentElement.removeChild(invalidTeamMessage);
         const labelContainer = _addLabel();
         const label = labelContainer.firstChild;
         _updateLabel(label, club.toUpperCase());
