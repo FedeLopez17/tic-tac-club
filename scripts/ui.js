@@ -1142,8 +1142,8 @@ const ui = (()=>{
         const top = document.createElement("section");
         top.classList.add("game-result-top");
         const outcome = document.createElement("p");
-        const RESULT_MESSAGES = ["IT'S A TIE!", `${playerOne.name.toUpperCase()} WON!`, `${playerTwo.name.toUpperCase()} WON!`];
-        outcome.innerText = RESULT_MESSAGES[result];
+        const RESULT_MESSAGES = ["IT'S A TIE!", `<span>${playerOne.name.toUpperCase()}</span> WON!`, `<span>${playerTwo.name.toUpperCase()}</span> WON!`];
+        outcome.innerHTML = RESULT_MESSAGES[result];
         top.appendChild(outcome);
         const mid = document.createElement("section");
         mid.classList.add("game-result-mid");

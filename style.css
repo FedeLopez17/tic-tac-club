@@ -1357,6 +1357,11 @@ section[class*='abbreviation-and-colors']{
     text-shadow: -2px 2px var(--color-primary);
 }
 
+.game-result-top span{
+    color: var(--color-primary);
+    text-shadow: -2px 2px var(--color-secondary);
+}
+
 .player-one-badge-container, .player-two-badge-container{
     width: 20%;
     display: flex;
