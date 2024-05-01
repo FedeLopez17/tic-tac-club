@@ -1,5 +1,5 @@
 # Tic Tac Club
-###  [Check out the live demo](https://fedelopez17.github.io/tic-tac-toe/)! :smile: :soccer: :trophy:
+###  [Check out the live demo](https://fedelopez17.github.io/tic-tac-club/)! :smile: :soccer: :trophy:
 
 ## Description:
 This project is part of [The Odin Project's curriculum](https://www.theodinproject.com/paths).<br>
